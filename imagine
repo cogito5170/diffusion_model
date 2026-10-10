@@ -1,0 +1,5 @@
+#!/bin/bash
+# Terminal entry point: `imagine` (installed as a zsh alias by install_mac.sh).
+cd "$(dirname "$0")" || exit 1
+export DIFFUSERS_VERBOSITY=error TRANSFORMERS_VERBOSITY=error PYTHONWARNINGS=ignore
+exec .venv/bin/python scripts/imagine.py "$@"

@@ -64,3 +64,5 @@ class InstallerScriptTests(unittest.TestCase):
                           if not l.strip().startswith("#"))
         self.assertNotIn("/usr/bin/python3", code, "never invoke Apple's python3 stub (it pops up a developer-tools dialog)")
         self.assertIn("/Library/Frameworks/Python.framework", code)
+        self.assertIn("alias imagine='noglob", text)
+        self.assertTrue(os.access(ROOT / "imagine", os.X_OK), "the imagine wrapper must be executable")

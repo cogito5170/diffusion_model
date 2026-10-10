@@ -186,6 +186,13 @@
   <p>Finder → 홈 폴더 → <code>diffusion_model</code> → <code>runs</code>. 작업마다 <code>run_studio-날짜-시간</code> 폴더가 생기고, 그 안의 <code>images</code>에 그림, <code>job.json</code>에 문장과 시드가 저장됩니다. 스튜디오의 <b>저장</b> 버튼으로 바로 받아도 됩니다.</p>
   <h3>업데이트</h3>
   <p>설치할 때와 <b>같은 한 줄</b>을 다시 실행하면 최신 버전으로 바뀝니다. 만든 그림(<code>runs</code>)은 그대로 남습니다.</p>
+  <h3>터미널에서 바로 만들기: <code>imagine</code></h3>
+  <p>미드저니의 /imagine처럼 터미널에서도 만들 수 있습니다. 설치 후 <b>새 터미널 창</b>에서:</p>
+  <ol class="steps">
+    <li><span class="t"><code>imagine</code> 입력 후 <kbd>Enter</kbd></span>"프롬프트를 붙여 넣고 Enter"라는 안내가 나옵니다.</li>
+    <li><span class="t">프롬프트 붙여 넣기 → 빈 줄에서 <kbd>Enter</kbd> 한 번 더</span>끝에 <code>--hq</code>를 붙이면 고화질(SDXL). 결과는 미리보기로 열리고 스튜디오 기록에도 남습니다.</li>
+  </ol>
+  <div class="warn">프롬프트를 터미널에 <b>바로</b> 붙여 넣으면 <code>zsh: command not found: (첫 단어)</code> 오류가 납니다. 반드시 <code>imagine</code>을 먼저 입력하세요.</div>
   <h3>메뉴 프로그램 (이미지 만들기)</h3>
   <p>바탕화면의 <b>이미지 만들기</b>는 같은 기능을 질문-대답 방식으로 쓰는 메뉴입니다. 미리 설계해 둔 작품(스틸 조각 · 흰 폼 의자 · Memory of Space)도 여기서 번호만 골라 만들 수 있습니다.</p>
   <h3>완전히 지우려면</h3>
@@ -202,7 +209,7 @@
   <h2>7. 문제가 생겼을 때</h2>
   <table>
     <tr><th style="width:40%">증상</th><th>해결</th></tr>
-    <tr><td><code>command not found</code></td><td>문장(프롬프트)을 터미널에 직접 붙여 넣은 경우입니다. 문장은 <b>스튜디오 화면</b>이나 메뉴 안에 입력하세요.</td></tr>
+    <tr><td><code>zsh: command not found:</code> (문장의 첫 단어)</td><td>프롬프트를 터미널에 바로 붙여 넣은 경우입니다. <b>스튜디오 화면 맨 위 칸</b>에 넣거나, 터미널에서 <code>imagine</code>을 먼저 입력한 뒤 붙여 넣으세요.</td></tr>
     <tr><td><code>zsh: parse error</code></td><td>설명 글까지 같이 붙여 넣은 경우입니다. 명령 한 줄만 붙여 넣으세요.</td></tr>
     <tr><td>설치 명령이 두 줄로 들어감</td><td>지우고, 한 줄로 다시 붙여 넣으세요.</td></tr>
     <tr><td>"확인되지 않은 개발자" 경고</td><td>아이콘을 <b>우클릭 → 열기 → 열기</b>. (시스템 설정 → 개인정보 보호 및 보안 → "그래도 열기"가 나올 수도 있습니다)</td></tr>

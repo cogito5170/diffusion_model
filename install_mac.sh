@@ -112,8 +112,21 @@ make_icon() {
 make_icon "이미지 스튜디오" studio.py
 make_icon "이미지 만들기" easy.py
 
+# `imagine` in new terminal windows (zsh is the macOS default). noglob keeps * and ? in prompts literal.
+chmod +x "$DEST/imagine"
+ZRC="$HOME/.zshrc"
+if ! grep -q ">>> atelier imagine >>>" "$ZRC" 2>/dev/null; then
+  {
+    echo ""
+    echo "# >>> atelier imagine >>>"
+    echo "alias imagine='noglob \"\$HOME/diffusion_model/imagine\"'"
+    echo "# <<< atelier imagine <<<"
+  } >> "$ZRC"
+fi
+
 printf "\n\033[32m설치 완료!\033[0m\n"
 printf "바탕화면의 '이미지 스튜디오'를 더블클릭하면 브라우저에서 바로 쓸 수 있습니다.\n"
+printf "터미널에서는 새 창을 열고 imagine 을 입력하세요 (프롬프트를 붙여 넣는 칸이 나옵니다).\n"
 printf "업데이트가 필요할 때는 같은 설치 명령을 다시 실행하면 됩니다.\n"
 if [ "$WITH_SDXL" != "1" ]; then
   printf "고화질 모델(SDXL)이 필요하면 설명서의 '고화질 모델 받기' 한 줄을 실행하세요.\n"
