@@ -42,6 +42,7 @@ class ModelProfile:
     negative_prompt_min_guidance: float | None
     approx_download_gb: str
     license_note: str
+    preferred_pixels: int = 0  # pixel count the model was trained around; 0 = native_side ** 2
 
 
 PROFILES: dict[str, ModelProfile] = {
@@ -52,6 +53,7 @@ PROFILES: dict[str, ModelProfile] = {
         guidance_default=0.0, guidance_range=(0.0, 0.0),
         negative_prompt_min_guidance=1.0,
         approx_download_gb="~2.5 GB (fp16 variant) to ~5 GB (fp32); approximate, unverified here",
+        preferred_pixels=768 * 432,
         license_note="Check the current license on the model card (Stability AI licenses for turbo models "
                      "have restricted commercial use). Unresolved for this project.",
     ),
@@ -63,6 +65,17 @@ PROFILES: dict[str, ModelProfile] = {
         negative_prompt_min_guidance=1.0,
         approx_download_gb="~7 GB (fp16 variant); approximate, unverified here",
         license_note="Check the current license on the model card. Unresolved for this project.",
+    ),
+    "stabilityai/stable-diffusion-xl-base-1.0": ModelProfile(
+        model_id="stabilityai/stable-diffusion-xl-base-1.0",
+        native_side=1024, max_side=1536,
+        steps_default=25, steps_range=(10, 50),
+        guidance_default=6.0, guidance_range=(1.0, 12.0),
+        negative_prompt_min_guidance=1.0,
+        approx_download_gb="~7 GB (fp16 diffusers files only); approximate, unverified here",
+        license_note="CreativeML Open RAIL++-M (use-based restrictions; commercial use allowed within them). "
+                     "Verify on the model card.",
+        preferred_pixels=1024 * 1024,
     ),
     "stable-diffusion-v1-5/stable-diffusion-v1-5": ModelProfile(
         model_id="stable-diffusion-v1-5/stable-diffusion-v1-5",
@@ -90,8 +103,9 @@ def profile_capabilities(profile: ModelProfile, engine_id: str, model_id: str | 
         size_multiple_of=8,
         min_side=256,
         max_side=profile.max_side,
-        max_pixels=profile.max_side * profile.max_side,
+        max_pixels=max(profile.max_side * profile.native_side, profile.preferred_pixels),
         native_side=profile.native_side,
+        preferred_pixels=profile.preferred_pixels or profile.native_side ** 2,
         params={
             "num_inference_steps": ParamSpec("int", profile.steps_default, *profile.steps_range,
                                              description="denoising steps"),
@@ -200,8 +214,27 @@ class DiffusersLocalEngine(ImageEngine):
         pipe = pipe.to(device)
         if hasattr(pipe, "set_progress_bar_config"):
             pipe.set_progress_bar_config(disable=True)
+        if device == "mps" and hasattr(pipe, "enable_attention_slicing"):
+            pipe.enable_attention_slicing()  # lowers peak memory on Apple GPUs (diffusers' advice below 64 GB)
+            self._resolved["attention_slicing"] = "on"
         self._pipe = pipe
         return pipe
+
+    def close(self) -> None:
+        """Release the loaded pipeline so another model can use the memory."""
+        self._pipe = None
+        import gc
+
+        gc.collect()
+        torch = self._torch
+        try:
+            if torch is not None and getattr(getattr(torch, "backends", None), "mps", None) is not None \
+                    and torch.backends.mps.is_available():
+                torch.mps.empty_cache()
+            elif torch is not None and getattr(torch, "cuda", None) is not None and torch.cuda.is_available():
+                torch.cuda.empty_cache()
+        except Exception:  # noqa: BLE001 - best effort
+            pass
 
     def generate(self, request: dict[str, Any], out_dir: Path, cancel: CancelToken) -> EngineOutput:
         cancel.raise_if_cancelled()
@@ -247,6 +280,7 @@ class DiffusersLocalEngine(ImageEngine):
             "guidance_scale": call["guidance_scale"],
             "negative_prompt_sent": "negative_prompt" in call,
             "local_files_only": not self.allow_download,
+            "attention_slicing": self._resolved.get("attention_slicing", "off"),
         }
         for mod in ("torch", "diffusers"):
             try:

@@ -32,6 +32,8 @@
   .chips { display: flex; gap: 6px; flex-wrap: wrap; }
   .chip { padding: 4px 10px; border-radius: 999px; font-size: 13px; }
   .chip[aria-pressed="true"] { background: var(--accent); color: #111; border-color: var(--accent); }
+  .chip.off { opacity: .45; }
+  #models { padding-right: 10px; border-right: 1px solid var(--line); }
   .opts input { width: 110px; background: var(--panel); color: var(--text); border: 1px solid var(--line);
                 border-radius: 8px; padding: 5px 8px; font: inherit; font-size: 13px; }
   .tip { color: var(--muted); font-size: 12.5px; margin-top: 8px; }
@@ -73,18 +75,19 @@
 <body>
 <header>
   <div class="wrap">
-    <div class="brand"><b>이미지 스튜디오</b><span>atelier · sd-turbo · 내 맥에서만 실행</span></div>
+    <div class="brand"><b>이미지 스튜디오</b><span>atelier · 내 맥에서만 실행</span></div>
     <div class="bar">
       <textarea id="prompt" rows="1" placeholder="만들고 싶은 장면을 영어로 적고 Enter  (예: a brushed steel arch sculpture under a glowing ceiling --ar 16:9)"></textarea>
       <button class="go" id="go">만들기</button>
     </div>
     <div class="opts">
+      <div class="chips" id="models" aria-label="모델"></div>
       <div class="chips" id="ars" aria-label="비율"></div>
       <label>장수 <input id="n" type="number" min="1" max="4" value="4" style="width:60px"></label>
       <label>시드 <input id="seed" placeholder="비우면 랜덤"></label>
       <label>자르기 <input id="crop" placeholder="예: 574x172"></label>
     </div>
-    <div class="tip">영어로, 가장 중요한 것을 맨 앞에. 앞쪽 약 60단어만 읽습니다. "no ~"는 오히려 그것을 불러옵니다. Shift+Enter는 줄바꿈.</div>
+    <div class="tip">영어로, 가장 중요한 것을 맨 앞에. 앞쪽 약 60단어만 읽습니다. 빼고 싶은 것은 문장 끝에 <b>--no text, people</b> (고화질 모델에서만 작동). Shift+Enter는 줄바꿈.</div>
   </div>
 </header>
 <main><div class="wrap" id="feed"><div class="empty" id="empty">아직 만든 이미지가 없습니다. 위에 문장을 적어 보세요.</div></div></main>
@@ -93,6 +96,8 @@
 <script>
 const RATIOS = ["1:1", "4:3", "3:2", "16:9", "21:9", "3:4", "9:16"];
 let ar = "1:1";
+let model = "fast";
+const modelInfo = {};
 const $ = (id) => document.getElementById(id);
 const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
 
@@ -102,6 +107,23 @@ for (const r of RATIOS) {
   b.onclick = () => { ar = r; for (const c of $("ars").children) c.setAttribute("aria-pressed", c.textContent === r); };
   $("ars").appendChild(b);
 }
+
+function renderModels(list) {
+  $("models").innerHTML = "";
+  for (const m of list) {
+    modelInfo[m.key] = m;
+    const b = el("button", "chip" + (m.available ? "" : " off"), m.label + (m.available ? "" : " (설치 필요)"));
+    b.setAttribute("aria-pressed", m.key === model);
+    if (!m.available) b.title = m.reason;
+    b.onclick = () => {
+      if (!m.available) { toast(m.reason); return; }
+      model = m.key;
+      for (const c of $("models").children) c.setAttribute("aria-pressed", c === b);
+    };
+    $("models").appendChild(b);
+  }
+}
+fetch("/api/models").then(r => r.json()).then(renderModels).catch(() => {});
 
 function toast(msg) { const t = $("toast"); t.textContent = msg; t.style.display = "block"; clearTimeout(t._h); t._h = setTimeout(() => t.style.display = "none", 6000); }
 function lightbox(src) { const l = $("lightbox"); l.querySelector("img").src = src; l.style.display = "flex"; }
@@ -114,11 +136,13 @@ function renderJob(job, prepend) {
   const left = el("div");
   left.appendChild(el("div", "job-prompt", job.prompt_text));
   const seeds = job.images.map(i => i.seed).join(", ");
-  left.appendChild(el("div", "job-meta", `${job.ar} · ${job.width}×${job.height} · 시드 ${seeds} · ${job.created_at.replace("T", " ")}`));
+  left.appendChild(el("div", "job-meta", `${job.model_label || "빠르게 · sd-turbo"} · ${job.ar} · ${job.width}×${job.height} · 시드 ${seeds} · ${job.created_at.replace("T", " ")}`));
+  if (job.negative) left.appendChild(el("div", "job-meta", "--no " + job.negative + (job.negative_sent ? "" : "  (이 모델은 무시함)")));
   for (const w of job.warnings || []) left.appendChild(el("div", "job-warn", "⚠ " + w));
   const again = el("button", null, "다시 뽑기");
   again.title = "같은 문장, 새 시드";
-  again.onclick = () => generate({ prompt: job.prompt_text, ar: job.ar, n: job.images.length, seed: "", crop: job.crop ? job.crop.join("x") : "" });
+  again.onclick = () => generate({ prompt: job.prompt_text, ar: job.ar, n: job.images.length, seed: "", crop: job.crop ? job.crop.join("x") : "",
+                                    negative: job.negative || "", model: job.model || "fast" });
   head.append(left, again);
   card.appendChild(head);
   const grid = el("div", "grid" + (job.width / job.height > 2 || job.images.length === 1 ? " wide" : ""));
@@ -132,7 +156,13 @@ function renderJob(job, prepend) {
       over.appendChild(el("span", "seed", `seed ${img.seed} · ${img.runtime_s.toFixed(1)}s`));
       const reuse = el("button", null, "이 시드로");
       reuse.title = "구도를 유지하고 문장만 바꿔 보기";
-      reuse.onclick = () => { $("prompt").value = job.prompt_text; $("seed").value = img.seed; $("n").value = 1; $("prompt").focus(); window.scrollTo({ top: 0, behavior: "smooth" }); };
+      reuse.onclick = () => {
+        $("prompt").value = job.prompt_text + (job.negative ? " --no " + job.negative : "");
+        $("seed").value = img.seed; $("n").value = 1;
+        const want = job.model || "fast";
+        if (modelInfo[want] && modelInfo[want].available) { model = want; for (const c of $("models").children) c.setAttribute("aria-pressed", c.textContent.startsWith(modelInfo[want].label)); }
+        $("prompt").focus(); window.scrollTo({ top: 0, behavior: "smooth" });
+      };
       const big = el("button", null, "크게"); big.onclick = () => lightbox(img.url);
       const save = el("a", null, "저장"); save.href = img.url; save.download = `atelier_${img.seed}.png`;
       over.append(reuse, big, save);
@@ -156,7 +186,7 @@ function renderJob(job, prepend) {
 }
 
 async function generate(req) {
-  const body = req || { prompt: $("prompt").value.trim(), ar, n: Number($("n").value) || 4, seed: $("seed").value.trim(), crop: $("crop").value.trim() };
+  const body = req || { prompt: $("prompt").value.trim(), ar, n: Number($("n").value) || 4, seed: $("seed").value.trim(), crop: $("crop").value.trim(), model };
   if (!body.prompt) { toast("문장을 먼저 적어 주세요."); return; }
   $("go").disabled = true;
   $("empty").style.display = "none";
@@ -165,7 +195,7 @@ async function generate(req) {
   wait.appendChild(row);
   $("feed").insertBefore(wait, $("feed").children[1] || null);
   const t0 = Date.now();
-  const timer = setInterval(() => row.lastChild.textContent = `만드는 중… ${Math.round((Date.now() - t0) / 1000)}초 (처음 한 번은 모델을 불러오느라 더 걸립니다)`, 500);
+  const timer = setInterval(() => row.lastChild.textContent = `만드는 중… ${Math.round((Date.now() - t0) / 1000)}초 ` + (body.model === "quality" ? "(고화질: 장당 수십 초, 처음엔 모델을 불러오느라 1–2분 더)" : "(처음 한 번은 모델을 불러오느라 더 걸립니다)"), 500);
   try {
     const res = await fetch("/api/generate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
     const data = await res.json();

@@ -270,3 +270,34 @@ class EngineFactoryTests(unittest.TestCase):
         with mock.patch.dict(os.environ, {"ATELIER_DTYPE": "float32"}):
             self.assertEqual(create_engine(cfg).dtype, "float32")
         self.assertEqual(cfg["options"]["dtype"], "auto", "the config itself is not modified")
+
+
+class SDXLProfileTests(TempDirTest):
+    def test_sdxl_capabilities(self):
+        c = DiffusersLocalEngine(model_id="stabilityai/stable-diffusion-xl-base-1.0").capabilities()
+        self.assertEqual(c.native_side, 1024)
+        self.assertTrue(c.negative_prompt_effective({"guidance_scale": c.params["guidance_scale"].default}))
+        self.assertEqual(c.params["num_inference_steps"].default, 25)
+
+    def test_attention_slicing_on_apple_gpu_and_close(self):
+        import types
+
+        torch = fake_torch()
+        torch.backends = types.SimpleNamespace(mps=types.SimpleNamespace(is_available=lambda: True))
+        emptied = []
+        torch.mps = types.SimpleNamespace(empty_cache=lambda: emptied.append(True))
+        pipe = _FakePipe()
+        sliced = []
+        pipe.enable_attention_slicing = lambda: sliced.append(True)
+        eng = DiffusersLocalEngine(model_id="stabilityai/stable-diffusion-xl-base-1.0",
+                                   _pipeline_factory=lambda model_id, **kw: pipe, _torch=torch)
+        store = ArtifactStore(self.tmp / "run_x")
+        res = execute_request(eng, make_request(eng), store, Budget(LIMITS, Budget.empty_ledger()), CancelToken())
+        self.assertEqual(res["status"], "succeeded", res["errors"])
+        self.assertEqual((pipe.device, res["engine_metadata"]["dtype"], res["engine_metadata"]["attention_slicing"]),
+                         ("mps", "float16", "on"))
+        self.assertTrue(sliced)
+        self.assertIn("negative_prompt", pipe.calls[0], "SDXL runs with CFG, so the compiled negative is sent")
+        eng.close()
+        self.assertIsNone(eng._pipe)
+        self.assertTrue(emptied)

@@ -68,6 +68,7 @@ class EngineCapabilities:
     max_side: int
     max_pixels: int
     native_side: int
+    preferred_pixels: int = 0  # pixel count the model was trained around (0 = native_side ** 2)
     params: Mapping[str, ParamSpec] = field(default_factory=dict)
     cost_usd_per_image: float = 0.0
     cost_basis: str = "unspecified"
@@ -90,7 +91,8 @@ class EngineCapabilities:
             "supports_seed": self.supports_seed,
             "max_reference_images": self.max_reference_images,
             "size": {"multiple_of": self.size_multiple_of, "min_side": self.min_side, "max_side": self.max_side,
-                     "max_pixels": self.max_pixels, "native_side": self.native_side},
+                     "max_pixels": self.max_pixels, "native_side": self.native_side,
+                     "preferred_pixels": self.preferred_pixels or self.native_side ** 2},
             "params": {k: vars(v) for k, v in self.params.items()},
             "cost_usd_per_image": self.cost_usd_per_image,
             "cost_basis": self.cost_basis,

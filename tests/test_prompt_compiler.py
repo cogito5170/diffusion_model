@@ -98,6 +98,23 @@ class CompilerTests(unittest.TestCase):
         self.assertTrue(r["compilation"]["size_adjusted"])
         self.assertIn("size_adjusted", {x["code"] for x in r["compilation"]["warnings"]})
 
+    def test_size_negotiation_never_breaks_limits(self):
+        import itertools
+
+        from atelier.engines.diffusers_local import DiffusersLocalEngine
+
+        for c in (caps(), DiffusersLocalEngine(model_id="stabilityai/stable-diffusion-xl-base-1.0").capabilities()):
+            for w, h in itertools.product(range(64, 2049, 56), repeat=2):
+                try:
+                    nw, nh, _ = negotiate_size(w, h, c)
+                except CompilationError:
+                    self.assertGreater(max(w, h) / min(w, h), 0.97 * c.max_side / c.min_side, (w, h))
+                    continue
+                self.assertLessEqual(nw * nh, c.max_pixels, (w, h))
+                self.assertLessEqual(max(nw, nh), c.max_side, (w, h))
+                self.assertGreaterEqual(min(nw, nh), c.min_side, (w, h))
+                self.assertEqual((nw % 8, nh % 8), (0, 0))
+
     def test_required_reference_image_unsupported_is_error(self):
         b = brief()
         b["constraints"]["reference_images"] = [{"path": "ref.png", "role": "composition", "required": True}]

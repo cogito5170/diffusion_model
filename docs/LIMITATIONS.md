@@ -6,7 +6,9 @@
 | Offline test suite (mock engine, offline agents) | **executed, passing** (see README for the exact command) |
 | Reproducible mock end-to-end run (`scripts/mock_e2e.sh`) | **executed**; images and decisions byte-identical across two runs |
 | diffusers adapter code path | **unit-tested with an injected fake pipeline only** |
-| Real diffusers inference (any model) | **NOT executed**: no GPU, torch/diffusers not installed, no weights cached |
+| Real diffusers inference, sd-turbo | executed by the user on an Apple-silicon Mac (MPS, float16): 2.4–4.1 s per image after a 10.3 s first image |
+| Real diffusers inference, SDXL | **NOT executed** anywhere yet; profile and memory settings are untested on a 16 GB Mac |
+| Mac installer, studio | tested here only with the mock engine and syntax checks; **not yet run on a clean Mac** |
 | Claude Code subagents producing artifacts | protocol tested end to end with stub answers; **no real agent run recorded yet** |
 | Image-quality improvement from the agent workflow | **unverified**; no human ratings collected |
 

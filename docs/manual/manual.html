@@ -22,6 +22,7 @@
   .toc { margin-top: 14mm; font-size: 11pt; }
   .toc div { display: flex; gap: 6mm; padding: 1.6mm 0; border-bottom: 1px dotted var(--line); }
   .toc b { width: 8mm; color: var(--accent); }
+  .cmd.small { font-size: 7.2pt; margin-left: 0 !important; }
   .cmd { margin-left: -11mm !important; font: 8.2pt/1.4 "DejaVu Sans Mono", Menlo, monospace; background: #111214; color: #f1f1f1; padding: 4mm 4.5mm;
          border-radius: 2.5mm; white-space: nowrap; margin: 2mm 0 3mm; }
   .note { background: var(--soft); border-left: 3px solid var(--ink); padding: 3mm 4mm; margin: 3mm 0; font-size: 9.6pt; }
@@ -37,7 +38,7 @@
   code { font: 9pt "DejaVu Sans Mono", Menlo, monospace; background: var(--soft); padding: 0.3mm 1.2mm; border-radius: 1mm; }
   kbd { font: 8.8pt "DejaVu Sans Mono", monospace; border: 1px solid #b9bcc1; border-bottom-width: 2px; border-radius: 1.2mm; padding: 0 1.4mm; background: #fff; }
   figure { margin: 3mm 0 4mm; }
-  figure img { width: 66%; margin: 0 auto; border: 1px solid var(--line); border-radius: 2mm; display: block; }
+  figure img { width: 58%; margin: 0 auto; border: 1px solid var(--line); border-radius: 2mm; display: block; }
   figcaption { font-size: 8.6pt; color: var(--muted); margin-top: 1.5mm; }
   .two { display: grid; grid-template-columns: 1fr 1fr; gap: 6mm; }
   .tag { display: inline-block; font-size: 8pt; border: 1px solid var(--line); border-radius: 1mm; padding: 0 1.5mm; color: var(--muted); }
@@ -56,6 +57,7 @@
       <div><b>2</b>준비물</div>
       <div><b>3</b>설치하기 (처음 한 번)</div>
       <div><b>4</b>이미지 스튜디오 쓰기</div>
+      <div><b>4+</b>고화질 모드 (SDXL)</div>
       <div><b>5</b>좋은 문장(프롬프트) 쓰는 법</div>
       <div><b>6</b>결과물 · 업데이트 · 삭제</div>
       <div><b>7</b>문제가 생겼을 때</div>
@@ -132,7 +134,33 @@
     <tr><td><code>--n</code></td><td>몇 장 (1–4)</td><td><code>--n 2</code></td></tr>
     <tr><td><code>--seed</code></td><td>출발점 번호. 같은 문장 + 같은 시드 = 같은 그림</td><td><code>--seed 1234</code></td></tr>
     <tr><td><code>--crop</code></td><td>지면 칸 크기로 가운데를 잘라 따로 저장</td><td><code>--crop 574x172</code></td></tr>
+    <tr><td><code>--no</code></td><td>빼고 싶은 것 (고화질 모델에서만 작동)</td><td><code>--no text, people</code></td></tr>
   </table>
+</section>
+
+<section class="page">
+  <h2>4+. 고화질 모드 (SDXL)</h2>
+  <p>기본 모델(빠르게 · sd-turbo)은 장당 몇 초로 빠르지만 작은 그림(768×432)에 세부가 부족합니다. <b>고화질 · SDXL</b>은 1024px급으로 그리고(16:9는 1368×768), <code>--no</code>로 빼고 싶은 것을 지정할 수 있습니다.</p>
+  <table>
+    <tr><th style="width:24%"></th><th>빠르게 · sd-turbo</th><th>고화질 · SDXL</th></tr>
+    <tr><td>크기 (16:9)</td><td>768×432</td><td>1368×768</td></tr>
+    <tr><td>속도</td><td>장당 2–4초 (실측)</td><td>장당 수십 초 (예상, 아직 측정 전)</td></tr>
+    <tr><td>처음 불러오기</td><td>약 10초</td><td>1–2분 (예상)</td></tr>
+    <tr><td><code>--no</code></td><td>무시됨</td><td>작동</td></tr>
+    <tr><td>모델 크기</td><td>약 2.6GB (기본 설치)</td><td>약 7GB (따로 받기)</td></tr>
+    <tr><td>권장 메모리</td><td>8GB 이상</td><td>16GB 이상</td></tr>
+  </table>
+  <h3>고화질 모델 받기 (한 번만, 약 7GB)</h3>
+  <p>터미널에 아래 한 줄을 붙여 넣고 <kbd>Enter</kbd>. 설치 때와 같은 명령에 끝부분만 다릅니다.</p>
+  <div class="cmd small">curl -fsSL https://raw.githubusercontent.com/cogito5170/diffusion_model/HEAD/install_mac.sh | bash -s -- --sdxl</div>
+  <h3>쓰는 법</h3>
+  <ol class="steps">
+    <li><span class="t">스튜디오 왼쪽 위에서 고화질 · SDXL 선택</span>모델을 받기 전에는 "(설치 필요)"라고 흐리게 보입니다.</li>
+    <li><span class="t">문장을 쓰고 Enter</span>빼고 싶은 것은 끝에 <code>--no text, people, logo</code>처럼 씁니다.</li>
+    <li><span class="t">기다리기</span>처음엔 모델을 불러오느라 1–2분, 그다음부터 장당 수십 초입니다. 4장이면 몇 분이 걸릴 수 있으니 <code>--n 1</code>이나 <code>--n 2</code>로 먼저 시험해 보세요.</li>
+  </ol>
+  <div class="note">빠르게 ↔ 고화질을 바꾸면 이전 모델을 메모리에서 내리고 새 모델을 불러옵니다. 그래서 바꾼 직후 첫 장은 오래 걸립니다. 메모리 16GB 맥에서 두 모델을 동시에 올려 두지 않기 위한 것입니다.</div>
+  <div class="ex">a single brushed stainless steel arch sculpture under a glowing white ceiling, empty gallery, soft even light --ar 16:9 --n 2 --no people, text, chairs</div>
 </section>
 
 <section class="page">
@@ -182,6 +210,8 @@
     <tr><td>그림이 까맣게 나옴</td><td>터미널에서 한 줄 실행:<br><code>cd ~/diffusion_model &amp;&amp; ATELIER_DTYPE=float32 .venv/bin/python studio.py</code></td></tr>
     <tr><td><code>engine unavailable ... not in the local Hugging Face cache</code></td><td>그림 모델이 아직 없습니다. 설치 한 줄을 다시 실행하세요.</td></tr>
     <tr><td><code>Address already in use</code></td><td>스튜디오가 이미 켜져 있습니다. 열려 있는 터미널 창을 모두 닫고 다시 더블클릭하세요.</td></tr>
+    <tr><td>"고화질 · SDXL (설치 필요)"</td><td>4+장의 "고화질 모델 받기" 한 줄을 실행하세요.</td></tr>
+    <tr><td>고화질에서 멈춘 것처럼 보임</td><td>첫 장은 1–2분 걸릴 수 있습니다. 5분 넘게 그대로면 터미널 창의 메시지를 보내 주세요.</td></tr>
     <tr><td>그 밖의 오류</td><td>터미널의 빨간 메시지와 <code>diffusion_model_install.log</code>를 보내 주세요.</td></tr>
   </table>
 
@@ -189,11 +219,11 @@
   <div class="two">
     <div>
       <h3 style="margin-top:0">화질</h3>
-      <p>이 모델(sd-turbo)은 속도를 위해 작게 만든 모델입니다. 원래 512px 크기로 학습되었고, 결과는 768×432 정도입니다. 화면에서 보기에는 괜찮지만 크게 확대하거나 인쇄하면 흐릿합니다. 고화질이 필요하면 더 큰 모델이나 업스케일이 필요합니다 (별도 작업).</p>
+      <p>빠른 모델(sd-turbo)은 속도를 위해 작게 만든 모델이라 768×432 정도에 세부가 부족합니다. 고화질 모드(SDXL)는 1368×768까지 그립니다. 인쇄용(300dpi)으로 크게 쓰려면 이것도 부족할 수 있어, 업스케일이 따로 필요합니다.</p>
     </div>
     <div>
       <h3 style="margin-top:0">라이선스 · 안전</h3>
-      <p>이 모델에는 유해 이미지 필터가 없습니다. 개인 작업용으로는 괜찮지만, 걸러지지 않은 결과를 공개 서비스에 그대로 올리지 마세요. 상업적으로 쓰기 전에는 모델(Stability AI) 라이선스 조건을 확인하세요.</p>
+      <p>두 모델 모두 유해 이미지 필터가 없습니다. 개인 작업용으로는 괜찮지만, 걸러지지 않은 결과를 공개 서비스에 그대로 올리지 마세요. 상업적으로 쓰기 전에는 각 모델(Stability AI) 라이선스 조건을 확인하세요. sd-turbo는 상업 이용에 제한이 있고, SDXL은 CreativeML Open RAIL++-M입니다.</p>
     </div>
   </div>
 </section>

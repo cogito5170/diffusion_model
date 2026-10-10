@@ -54,7 +54,11 @@ class InstallerScriptTests(unittest.TestCase):
         self.assertEqual(subprocess.call(["bash", "-n", str(ROOT / "install_mac.sh")]), 0)
         text = (ROOT / "install_mac.sh").read_text()
         self.assertIn("easy.py", text)
-        self.assertIn("download_sd_turbo.py", text)
+        self.assertIn("download_model.py sd-turbo", text)
+        self.assertIn("download_model.py sdxl", text)
         self.assertIn("studio.py", text)
         self.assertIn("pkgutil --check-signature", text, "the downloaded Python installer must be signature-checked")
         self.assertNotIn("brew install", text, "must not depend on Homebrew")
+        self.assertNotIn("rsync -", text, "macOS 15 ships openrsync; the update step uses plain mv instead")
+        self.assertNotIn("/usr/bin/python3", text.split("pick_python()")[1].split("}")[0],
+                         "never invoke Apple's python3 stub (it pops up a developer-tools dialog)")

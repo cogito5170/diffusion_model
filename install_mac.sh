@@ -10,6 +10,11 @@ LOG="$HOME/diffusion_model_install.log"
 PY_VERSION="3.12.10"
 PY_PKG_URL="https://www.python.org/ftp/python/${PY_VERSION}/python-${PY_VERSION}-macos11.pkg"
 
+WITH_SDXL=0
+for arg in "$@"; do
+  [ "$arg" = "--sdxl" ] && WITH_SDXL=1
+done
+
 exec > >(tee -a "$LOG") 2>&1
 echo "=== $(date) ==="
 
@@ -17,6 +22,7 @@ step() { printf "\n\033[1m[%s] %s\033[0m\n" "$1" "$2"; }
 fail() { printf "\n\033[31m%s\033[0m\n문제가 계속되면 이 파일을 보내 주세요: %s\n" "$1" "$LOG"; exit 1; }
 
 [ "$(uname)" = "Darwin" ] || fail "이 설치 프로그램은 맥(macOS) 전용입니다."
+[ -n "$HOME" ] && [ -d "$HOME" ] || fail "홈 폴더를 찾지 못했습니다."
 if [ "$(uname -m)" != "arm64" ]; then
   echo "참고: Apple 실리콘(M1 이후) 맥이 아닙니다. 인텔 맥은 확인하지 않았고, 된다고 해도 많이 느립니다."
 fi
@@ -60,12 +66,22 @@ else
   TMP="$(mktemp -d)"
   curl -fL --progress-bar -o "$TMP/code.zip" "https://codeload.github.com/${REPO}/zip/refs/heads/${BRANCH}" \
     || fail "프로그램을 받지 못했습니다. 인터넷 연결을 확인해 주세요."
-  unzip -q "$TMP/code.zip" -d "$TMP"
-  SRC="$(find "$TMP" -mindepth 1 -maxdepth 1 -type d | head -1)"
-  mkdir -p "$DEST"
-  # Keep the user's results, environment and reference images; replace everything else.
-  rsync -a --delete --exclude ".git" --exclude "runs" --exclude ".venv" --exclude "examples/references" "$SRC/" "$DEST/"
-  rm -rf "$TMP"
+  unzip -q "$TMP/code.zip" -d "$TMP/unzipped"
+  SRC="$(find "$TMP/unzipped" -mindepth 1 -maxdepth 1 -type d | head -1)"
+  [ -n "$SRC" ] && [ -f "$SRC/studio.py" ] || fail "받은 프로그램 파일이 올바르지 않습니다. 다시 실행해 주세요."
+  # Fresh code, but keep the user's results, environment and reference images (plain mv: no rsync needed).
+  for keep in runs .venv examples/references .git; do
+    if [ -e "$DEST/$keep" ]; then
+      rm -rf "${SRC:?}/$keep"
+      mkdir -p "$(dirname "$SRC/$keep")"
+      mv "$DEST/$keep" "$SRC/$keep"
+    fi
+  done
+  if [ -e "$DEST" ]; then
+    mv "$DEST" "$TMP/previous"
+  fi
+  mv "$SRC" "$DEST"
+  rm -rf "${TMP:?}"
 fi
 cd "$DEST"
 
@@ -79,8 +95,12 @@ fi
 .venv/bin/python -m pip install -q -r requirements-live.txt || fail "프로그램 설치 중 오류가 났습니다."
 
 # ---------------------------------------------------------------- 4. model
-step 4/5 "그림 모델 받기 (sd-turbo, 약 2.6GB, 처음 한 번만)"
-.venv/bin/python scripts/download_sd_turbo.py || fail "그림 모델을 받지 못했습니다. 인터넷 연결을 확인하고 다시 실행해 주세요."
+step 4/5 "그림 모델 받기 (빠른 모델 sd-turbo 약 2.6GB, 처음 한 번만)"
+.venv/bin/python scripts/download_model.py sd-turbo || fail "그림 모델을 받지 못했습니다. 인터넷 연결을 확인하고 다시 실행해 주세요."
+if [ "$WITH_SDXL" = "1" ]; then
+  echo "고화질 모델(SDXL, 약 7GB)도 받습니다. 시간이 꽤 걸립니다."
+  .venv/bin/python scripts/download_model.py sdxl || fail "고화질 모델을 받지 못했습니다. 인터넷 연결을 확인하고 다시 실행해 주세요."
+fi
 
 # ---------------------------------------------------------------- 5. icons
 step 5/5 "바탕화면에 아이콘 만들기"
@@ -95,3 +115,6 @@ make_icon "이미지 만들기" easy.py
 printf "\n\033[32m설치 완료!\033[0m\n"
 printf "바탕화면의 '이미지 스튜디오'를 더블클릭하면 브라우저에서 바로 쓸 수 있습니다.\n"
 printf "업데이트가 필요할 때는 같은 설치 명령을 다시 실행하면 됩니다.\n"
+if [ "$WITH_SDXL" != "1" ]; then
+  printf "고화질 모델(SDXL)이 필요하면 설명서의 '고화질 모델 받기' 한 줄을 실행하세요.\n"
+fi

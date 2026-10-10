@@ -206,6 +206,8 @@ def negotiate_size(width: int, height: int, caps: EngineCapabilities) -> tuple[i
     m = caps.size_multiple_of
     nw, nh = max(m, int(round(w / m)) * m), max(m, int(round(h / m)) * m)
     if max(nw, nh) > caps.max_side or nw * nh > caps.max_pixels:
+        nw, nh = max(m, int(w // m) * m), max(m, int(h // m) * m)  # rounding up overshot a limit: round down
+    if max(nw, nh) > caps.max_side or nw * nh > caps.max_pixels or min(nw, nh) < caps.min_side:
         raise CompilationError(f"cannot fit {width}x{height} within engine size limits")
     return nw, nh, (nw, nh) != (width, height)
 
@@ -348,11 +350,20 @@ def compile_baseline_request(
     engine_params: dict[str, Any],
     timeout_s: float,
     max_retries: int,
+    negative: str | None = None,
 ) -> dict[str, Any]:
-    """Condition A of the experiment: the user's raw intent text as the only prompt."""
+    """The text as the only prompt (experiment condition A, and direct-prompt tools such as the studio).
+    ``negative`` is used only where the engine actually honours negative prompts."""
     params = resolve_params(caps, engine_params)
     positive, warnings, dropped = _fit([_Segment("original_intent", " ".join(text.split()), 0, required=True)],
                                        caps.max_prompt_tokens)
+    if negative and not caps.negative_prompt_effective(params):
+        dropped.append({"field": "prompt.negative",
+                        "reason": f"negative prompts have no effect on {caps.model_id} at "
+                                  f"guidance_scale={params.get('guidance_scale')}"})
+        warnings.append({"code": "negative_prompt_unavailable",
+                         "message": "this model ignores negative prompts (--no); use the high-quality model"})
+        negative = None
     w, h, adjusted = negotiate_size(width, height, caps)
     ids = _ids(run_id, 0, slot)
     return {
@@ -365,7 +376,7 @@ def compile_baseline_request(
         "art_direction_id": None,
         "engine": {"engine_id": caps.engine_id, "model_id": caps.model_id},
         "prompt_source": "baseline_raw",
-        "prompt": {"positive": positive, "negative": None},
+        "prompt": {"positive": positive, "negative": " ".join(negative.split()) if negative else None},
         "reference_images": [],
         "width": w,
         "height": h,

@@ -11,8 +11,11 @@ deliberate, manual opt-ins.
 | `stabilityai/sd-turbo` (default) | 1–4 | guidance 0 → negative prompt has **no effect** | ~2.5–5 GB | Stability AI license; commercial use restricted, verify |
 | `stabilityai/sdxl-turbo` | 1–4 | guidance 0 → no effect | ~7 GB | as above |
 | `stable-diffusion-v1-5/stable-diffusion-v1-5` | 5–50 | 1–15 → negative prompts work | ~2–4 GB | CreativeML OpenRAIL-M |
+| `stabilityai/stable-diffusion-xl-base-1.0` (`configs/live_sdxl_mac.json`) | 10–50 (25) | 1–12 (6.0) → negative prompts work | ~7 GB (fp16 files) | CreativeML Open RAIL++-M |
 
 \* Approximations, **not measured** in the environment this was built in (no GPU, packages not installed).
+
+SDXL is trained around 1024×1024 (the studio uses ~1 megapixel, e.g. 1368×768 for 16:9) and is enabled with attention slicing on Apple GPUs. Download: `python scripts/download_model.py sdxl` or the installer's `--sdxl` flag. Its speed on a 16 GB Apple-silicon Mac has **not been measured** yet.
 
 All profiles use a CLIP text encoder: about 75 usable prompt tokens. The compiler drops lower-priority
 sections and records each drop in `generation_request.compilation.dropped`.
