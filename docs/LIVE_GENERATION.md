@@ -15,7 +15,7 @@ deliberate, manual opt-ins.
 
 \* Approximations, **not measured** in the environment this was built in (no GPU, packages not installed).
 
-SDXL is trained around 1024×1024 (the studio uses ~1 megapixel, e.g. 1368×768 for 16:9) and is enabled with attention slicing on Apple GPUs. Download: `python scripts/download_model.py sdxl` or the installer's `--sdxl` flag. Its speed on a 16 GB Apple-silicon Mac has **not been measured** yet.
+SDXL is trained around 1024×1024 (on the Mac config the studio uses ~0.8 megapixel to fit 16 GB, e.g. 1192×672 for 16:9 and 896×896 for 1:1; set `preferred_pixels` in `configs/live_sdxl_mac.json` to change it) and runs with attention slicing and VAE tiling on Apple GPUs, inside an isolated worker process (`"isolate": true`) so a crash or an out-of-memory kill does not take the studio down. Download: `python scripts/download_model.py sdxl` or the installer's `--sdxl` flag. Its speed on a 16 GB Apple-silicon Mac has **not been measured** yet.
 
 All profiles use a CLIP text encoder: about 75 usable prompt tokens. The compiler drops lower-priority
 sections and records each drop in `generation_request.compilation.dropped`.

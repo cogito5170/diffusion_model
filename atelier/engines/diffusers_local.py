@@ -132,6 +132,7 @@ class DiffusersLocalEngine(ImageEngine):
         allow_download: bool = False,
         cache_dir: str | None = None,
         cost_usd_per_image: float = 0.0,
+        preferred_pixels: int | None = None,
         _pipeline_factory: Callable[..., Any] | None = None,
         _torch: Any = None,
     ):
@@ -145,6 +146,7 @@ class DiffusersLocalEngine(ImageEngine):
         self.allow_download = bool(allow_download)
         self.cache_dir = cache_dir
         self.cost_usd_per_image = cost_usd_per_image
+        self.preferred_pixels = preferred_pixels  # e.g. lower for SDXL on a 16 GB Mac
         self._pipeline_factory = _pipeline_factory
         self._torch = _torch
         self._pipe = None
@@ -152,7 +154,12 @@ class DiffusersLocalEngine(ImageEngine):
 
     # ------------------------------------------------------------ capability
     def capabilities(self) -> EngineCapabilities:
-        return profile_capabilities(self.profile, self.engine_id, self.model_id, self.cost_usd_per_image)
+        caps = profile_capabilities(self.profile, self.engine_id, self.model_id, self.cost_usd_per_image)
+        if self.preferred_pixels:
+            import dataclasses
+
+            caps = dataclasses.replace(caps, preferred_pixels=int(self.preferred_pixels))
+        return caps
 
     def availability(self) -> Availability:
         if self._pipeline_factory is not None:
@@ -224,6 +231,15 @@ class DiffusersLocalEngine(ImageEngine):
         if device == "mps" and hasattr(pipe, "enable_attention_slicing"):
             pipe.enable_attention_slicing()  # lowers peak memory on Apple GPUs (diffusers' advice below 64 GB)
             self._resolved["attention_slicing"] = "on"
+        if device == "mps":
+            # The SDXL VAE upcasts to float32 to decode; tiling bounds that memory spike on 16 GB machines.
+            vae = getattr(pipe, "vae", None)
+            if vae is not None and hasattr(vae, "enable_tiling"):
+                vae.enable_tiling()
+                self._resolved["vae_tiling"] = "on"
+            elif hasattr(pipe, "enable_vae_tiling"):
+                pipe.enable_vae_tiling()
+                self._resolved["vae_tiling"] = "on"
         self._pipe = pipe
         return pipe
 
@@ -288,6 +304,7 @@ class DiffusersLocalEngine(ImageEngine):
             "negative_prompt_sent": "negative_prompt" in call,
             "local_files_only": not self.allow_download,
             "attention_slicing": self._resolved.get("attention_slicing", "off"),
+            "vae_tiling": self._resolved.get("vae_tiling", "off"),
         }
         for mod in ("torch", "diffusers"):
             try:

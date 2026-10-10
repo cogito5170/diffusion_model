@@ -177,6 +177,11 @@ class MockEngine(ImageEngine):
             time.sleep(self.latency_s)
         if mode == "crash":
             raise SimulatedCrash("simulated process interruption")
+        if mode == "sigkill":  # the OS killing the process (e.g. out of memory); only use inside an isolated worker
+            import os
+            import signal
+
+            os.kill(os.getpid(), signal.SIGKILL)
         if mode == "transient":
             raise EngineError("transient_backend_error", "simulated transient failure", retryable=True)
         if mode == "error":

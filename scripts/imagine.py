@@ -58,7 +58,7 @@ def main(argv: list[str]) -> int:
         configs = {"fast": os.environ["ATELIER_IMAGINE_CONFIG"], "quality": os.environ["ATELIER_IMAGINE_CONFIG"]}
     s = studio.Studio(configs)
     label = studio.MODELS.get(model, {}).get("label", model)
-    print(f"\n{label} 로 만드는 중... (처음엔 모델을 불러오느라 " + ("1–2분" if model == "quality" else "10초쯤") + " 더 걸립니다)")
+    print(f"\n{label} 로 만드는 중... (처음엔 모델을 불러오느라 " + ("1–2분" if model == "quality" else "15–20초") + " 더 걸립니다)")
     try:
         job = s.generate(text, {}, model=model)
     except studio.PromptError as exc:

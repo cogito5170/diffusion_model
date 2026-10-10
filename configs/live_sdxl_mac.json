@@ -8,7 +8,9 @@
       "device": "auto",
       "dtype": "auto",
       "variant": "fp16",
-      "allow_download": false
+      "allow_download": false,
+      "isolate": true,
+      "preferred_pixels": 802816
     }
   },
   "engine_params": {

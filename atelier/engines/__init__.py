@@ -10,6 +10,10 @@ from atelier.engines.base import ImageEngine
 def create_engine(engine_cfg: dict[str, Any]) -> ImageEngine:
     engine_id = engine_cfg["engine_id"]
     options = dict(engine_cfg.get("options", {}))
+    if options.pop("isolate", False):
+        from atelier.engines.isolated import IsolatedEngine
+
+        return IsolatedEngine(dict(engine_cfg, options=options))
     if engine_id == "mock":
         from atelier.engines.mock import MockEngine
 

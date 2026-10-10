@@ -199,6 +199,14 @@ class Studio:
                         item["crop_url"] = "/runs/" + crop_to_slot(img, *opts["crop"]).relative_to(RUNS).as_posix()
                 job["images"].append(item)
                 codes = {e["code"] for e in res["errors"]}
+                if res["status"] != "succeeded" and "engine_process_crashed" in codes:
+                    code = next((e.get("details", {}).get("exit_code") for e in res["errors"]
+                                 if e["code"] == "engine_process_crashed"), None)
+                    why = ("메모리가 부족했을 가능성이 큽니다" if code == -9 else
+                           "Apple GPU(MPS) 내부 오류일 가능성이 큽니다" if code == -6 else "원인은 터미널 창의 메시지를 확인해 주세요")
+                    job["error"] = (f"그림 엔진이 비정상 종료되어 나머지는 만들지 않았습니다 ({why}; 종료 코드 {code}). "
+                                    "스튜디오는 계속 쓸 수 있습니다. 다른 앱을 닫고 --n 1 로, 또는 비율을 1:1로 다시 시도해 보세요.")
+                    break
                 if res["status"] != "succeeded" and codes & {"model_files_incomplete", "model_load_failed", "engine_unavailable"}:
                     fix = next((e.get("details", {}).get("fix") for e in res["errors"] if e.get("details", {}).get("fix")), None)
                     job["error"] = ("모델을 불러오지 못해 나머지는 만들지 않았습니다. "
