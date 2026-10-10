@@ -17,7 +17,8 @@ _ENGINE_SYNTAX = [
     (re.compile(r"\bBREAK\b"), "prompt BREAK keyword"),
 ]
 
-_NEGATION = re.compile(r"\b(no|not|without|never|avoid|free of|absence of)\b[\w\s-]*$")
+# The negation may govern a list: "no text, logos, signage or watermark".
+_NEGATION = re.compile(r"\b(no|not|without|never|avoid|free of|absence of)\b[\w\s,/&-]*$")
 
 _SPECULAR_TYPES = {"liquid_chrome", "polished_chrome", "mirror_steel", "polished_titanium"}
 _BRUSHED_TYPES = {"brushed_steel", "brushed_aluminum"}

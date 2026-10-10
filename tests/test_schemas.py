@@ -6,6 +6,19 @@ from atelier import schemas
 from tests.helpers import ROOT, brief, clone, config, example, load
 
 
+class SpecCheckTests(unittest.TestCase):
+    def test_negated_list_is_not_a_conflict(self):
+        from atelier.spec_checks import check_art_direction
+
+        ad = example("art_direction")
+        ad["semantic_constraints"].append({"constraint": "no text, logos, signage or robot", "priority": "must"})
+        errs, _ = check_art_direction(ad, brief())
+        self.assertEqual(errs, [])
+        ad["semantic_constraints"].append({"constraint": "a robot assembles the frame", "priority": "must"})
+        errs, _ = check_art_direction(ad, brief())
+        self.assertTrue(any("robot" in e for e in errs), "an affirmative mention still conflicts")
+
+
 class SchemaTests(unittest.TestCase):
     def test_all_schemas_are_valid_draft_2020_12(self):
         checked = schemas.check_all_schemas()
