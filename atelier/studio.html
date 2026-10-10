@@ -138,7 +138,12 @@ function renderJob(job, prepend) {
   const seeds = job.images.map(i => i.seed).join(", ");
   left.appendChild(el("div", "job-meta", `${job.model_label || "빠르게 · sd-turbo"} · ${job.ar} · ${job.width}×${job.height} · 시드 ${seeds} · ${job.created_at.replace("T", " ")}`));
   if (job.negative) left.appendChild(el("div", "job-meta", "--no " + job.negative + (job.negative_sent ? "" : "  (이 모델은 무시함)")));
-  for (const w of job.warnings || []) left.appendChild(el("div", "job-warn", "⚠ " + w));
+  if (job.error) left.appendChild(el("div", "job-warn", "⚠ " + job.error));
+  if (job.truncated) {
+    left.appendChild(el("div", "job-warn", "⚠ 문장이 길어서 앞부분만 사용했습니다 (약 60단어). 실제로 사용된 문장:"));
+    left.appendChild(el("div", "job-meta", job.prompt_sent));
+  }
+  for (const w of job.warnings || []) if (!/only the beginning was used/.test(w)) left.appendChild(el("div", "job-warn", "⚠ " + w));
   const again = el("button", null, "다시 뽑기");
   again.title = "같은 문장, 새 시드";
   again.onclick = () => generate({ prompt: job.prompt_text, ar: job.ar, n: job.images.length, seed: "", crop: job.crop ? job.crop.join("x") : "",

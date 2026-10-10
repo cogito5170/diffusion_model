@@ -151,3 +151,34 @@ class ModelSwitchTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class StudioFailureTests(unittest.TestCase):
+    def setUp(self):
+        self.before = set(studio.RUNS.glob("run_studio-*")) if studio.RUNS.exists() else set()
+
+    def tearDown(self):
+        for d in set(studio.RUNS.glob("run_studio-*")) - self.before:
+            shutil.rmtree(d, ignore_errors=True)
+
+    def test_model_load_failure_stops_after_first_image(self):
+        from atelier.engines.base import EngineError
+
+        s = studio.Studio({"fast": "configs/mock_offline.json"})
+        engine = s._use("fast")
+
+        def broken(request, out_dir, cancel):
+            raise EngineError("model_files_incomplete", "missing vae_1_0 file", retryable=False,
+                              details={"fix": "python scripts/download_model.py sdxl"})
+
+        engine.generate = broken
+        job = s.generate("a steel arch --n 4", {}, model="fast")
+        self.assertEqual(len(job["images"]), 1, "no point trying three more images with a broken model")
+        self.assertIn("download_model.py sdxl", job["error"])
+
+    def test_long_prompt_is_flagged_and_used_part_is_shown(self):
+        s = studio.Studio({"fast": "configs/mock_offline.json"})
+        long_prompt = " ".join(["monumental brushed steel sculpture bursting with white plaster"] * 20)
+        job = s.generate(long_prompt + " --n 1", {}, model="fast")
+        self.assertTrue(job["truncated"])
+        self.assertLess(len(job["prompt_sent"].split()), len(long_prompt.split()))

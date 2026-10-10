@@ -301,3 +301,17 @@ class SDXLProfileTests(TempDirTest):
         eng.close()
         self.assertIsNone(eng._pipe)
         self.assertTrue(emptied)
+
+
+class IncompleteDownloadTests(TempDirTest):
+    def test_incomplete_snapshot_gives_a_concrete_fix(self):
+        def factory(model_id, **kw):
+            raise OSError("The cached snapshot is incomplete: 1 file(s) are missing (vae_1_0/x.fp16.safetensors). "
+                          "Outgoing traffic is disabled ('local_files_only=True').")
+
+        eng = DiffusersLocalEngine(model_id="stabilityai/stable-diffusion-xl-base-1.0", _pipeline_factory=factory,
+                                   _torch=fake_torch())
+        res = execute_request(eng, make_request(eng), ArtifactStore(self.tmp / "run_i"),
+                              Budget(LIMITS, Budget.empty_ledger()), CancelToken())
+        self.assertEqual(res["errors"][0]["code"], "model_files_incomplete")
+        self.assertEqual(res["errors"][0]["details"]["fix"], "python scripts/download_model.py sdxl")

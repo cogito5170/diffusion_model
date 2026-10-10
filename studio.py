@@ -182,6 +182,7 @@ class Studio:
                     job["negative_sent"] = req["prompt"]["negative"]
                     job["width"], job["height"] = req["width"], req["height"]
                     job["warnings"] = [w["message"] for w in req["compilation"]["warnings"]]
+                    job["truncated"] = any(w["code"] == "prompt_truncated" for w in req["compilation"]["warnings"])
                 store.put(req)
                 res = execute_request(engine, req, store, budget, CancelToken())
                 store.put(res)
@@ -197,6 +198,12 @@ class Studio:
                     if opts["crop"]:
                         item["crop_url"] = "/runs/" + crop_to_slot(img, *opts["crop"]).relative_to(RUNS).as_posix()
                 job["images"].append(item)
+                codes = {e["code"] for e in res["errors"]}
+                if res["status"] != "succeeded" and codes & {"model_files_incomplete", "model_load_failed", "engine_unavailable"}:
+                    fix = next((e.get("details", {}).get("fix") for e in res["errors"] if e.get("details", {}).get("fix")), None)
+                    job["error"] = ("모델을 불러오지 못해 나머지는 만들지 않았습니다. "
+                                    + (f"터미널에서 실행: cd ~/diffusion_model && .venv/bin/{fix}" if fix else item["error"]))
+                    break
             (store.root / "job.json").write_text(json.dumps(job, indent=2, ensure_ascii=False), encoding="utf-8")
             return job
 

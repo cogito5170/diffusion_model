@@ -189,7 +189,8 @@ def _fit(segments: list[_Segment], budget: int | None) -> tuple[str, list[dict[s
         while words and estimate_tokens(" ".join(words)) > budget:
             words.pop()
         text = " ".join(words).rstrip(",")
-        warnings.append({"code": "prompt_truncated", "message": f"required segments exceeded {budget} tokens; truncated"})
+        warnings.append({"code": "prompt_truncated",
+                         "message": f"the prompt is longer than the model reads (~{budget} tokens); only the beginning was used"})
     if dropped:
         warnings.append({"code": "prompt_segments_dropped",
                          "message": "lower-priority segments dropped: " + ", ".join(d["field"] for d in dropped)})

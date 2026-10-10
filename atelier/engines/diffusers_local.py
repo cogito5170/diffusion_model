@@ -210,7 +210,14 @@ class DiffusersLocalEngine(ImageEngine):
 
                 pipe = AutoPipelineForText2Image.from_pretrained(self.model_id, **kwargs)
         except OSError as exc:
-            raise EngineError("model_load_failed", f"could not load {self.model_id}: {exc}", retryable=False) from exc
+            msg = str(exc)
+            if "incomplete" in msg or "missing" in msg or "local_files_only" in msg:
+                key = {"stabilityai/stable-diffusion-xl-base-1.0": "sdxl", "stabilityai/sd-turbo": "sd-turbo"}.get(self.model_id)
+                fix = f"python scripts/download_model.py {key}" if key else "re-download the model"
+                raise EngineError("model_files_incomplete",
+                                  f"{self.model_id} is not fully downloaded ({msg}). Fix: {fix}",
+                                  retryable=False, details={"fix": fix}) from exc
+            raise EngineError("model_load_failed", f"could not load {self.model_id}: {msg}", retryable=False) from exc
         pipe = pipe.to(device)
         if hasattr(pipe, "set_progress_bar_config"):
             pipe.set_progress_bar_config(disable=True)
