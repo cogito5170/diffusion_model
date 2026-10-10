@@ -1,0 +1,63 @@
+{
+  "art_direction_id": "ad_mock-demo-v1",
+  "candidate_id": "cand_mock-demo-i0-s1",
+  "confidence": 0.15,
+  "critic": {
+    "kind": "heuristic",
+    "name": "heuristic-critic-v1"
+  },
+  "critique_id": "crit_mock-demo-i0-s1",
+  "evidence_types": [
+    "batch_comparison",
+    "heuristic_proxy",
+    "spec_comparison",
+    "technical_measurement"
+  ],
+  "next_experiment": {
+    "expected_effect": "Higher intent_alignment proxy rating with other ratings stable.",
+    "hypothesis": "intent_alignment is the weakest proxy rating (3).",
+    "proposed_change": "Change the single art-direction section most tied to intent_alignment.",
+    "variable": "intent_alignment"
+  },
+  "observations": [
+    {
+      "dimension": "technical_quality",
+      "evidence_type": "technical_measurement",
+      "observation": "clipping 0.005, Laplacian variance 0.00283, QA passed=True."
+    },
+    {
+      "dimension": "material_plausibility",
+      "evidence_type": "heuristic_proxy",
+      "observation": "specular-highlight fraction 0.0093, mean saturation 0.044; proxy for 'reads as metal', not a judgement of realism."
+    },
+    {
+      "dimension": "composition",
+      "evidence_type": "heuristic_proxy",
+      "observation": "subject occupancy 0.45 vs target 0.32 for 'balanced' negative space; centroid (0.49, 0.74)."
+    },
+    {
+      "dimension": "visual_coherence",
+      "evidence_type": "heuristic_proxy",
+      "observation": "circular hue spread 0.00 rad over saturated pixels."
+    },
+    {
+      "dimension": "originality",
+      "evidence_type": "batch_comparison",
+      "observation": "mean feature distance to 3 batch peers 0.337; measures within-batch novelty only, not originality in the world."
+    },
+    {
+      "dimension": "intent_alignment",
+      "evidence_type": "spec_comparison",
+      "observation": "palette distance 0.297 between image shadows/highlights and the specified darkest/lightest colours. Says nothing about whether the concept reads."
+    }
+  ],
+  "ratings": {
+    "composition": 4,
+    "intent_alignment": 3,
+    "material_plausibility": 4,
+    "originality": 4,
+    "technical_quality": 5,
+    "visual_coherence": 5
+  },
+  "schema_version": "atelier.critique.v1"
+}

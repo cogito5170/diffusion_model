@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://atelier.invalid/schemas/art_direction_draft.v1.json",
+  "title": "Art Direction Draft v1 (art-director output, before material-specialist)",
+  "description": "Uses the same section definitions as art_direction.v1. Materials and lighting are deliberately absent; material-specialist adds them.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "draft_id", "brief_id", "concept_id", "produced_by", "concept_thesis", "visual_hypothesis",
+               "subject", "composition", "palette", "mood", "semantic_constraints", "avoidance_constraints", "output",
+               "notes_for_material_specialist"],
+  "properties": {
+    "schema_version": {"const": "atelier.art_direction_draft.v1"},
+    "draft_id": {"$ref": "common.v1.json#/$defs/identifier"},
+    "brief_id": {"$ref": "common.v1.json#/$defs/identifier"},
+    "concept_id": {"$ref": "common.v1.json#/$defs/identifier"},
+    "produced_by": {"$ref": "common.v1.json#/$defs/producer"},
+    "concept_thesis": {"$ref": "common.v1.json#/$defs/long_text"},
+    "visual_hypothesis": {"$ref": "common.v1.json#/$defs/long_text"},
+    "subject": {"$ref": "art_direction.v1.json#/$defs/subject"},
+    "composition": {"$ref": "art_direction.v1.json#/$defs/composition"},
+    "palette": {"$ref": "art_direction.v1.json#/$defs/palette"},
+    "mood": {"$ref": "art_direction.v1.json#/$defs/mood"},
+    "semantic_constraints": {"$ref": "art_direction.v1.json#/$defs/semantic_constraints"},
+    "avoidance_constraints": {"$ref": "art_direction.v1.json#/$defs/avoidance_constraints"},
+    "output": {"$ref": "art_direction.v1.json#/$defs/output"},
+    "notes_for_material_specialist": {"$ref": "common.v1.json#/$defs/long_text"}
+  }
+}

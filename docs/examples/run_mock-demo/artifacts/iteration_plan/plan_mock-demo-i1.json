@@ -1,0 +1,46 @@
+{
+  "base_art_direction_id": "ad_mock-demo-v1",
+  "based_on_selection_id": "sel_mock-demo-i0",
+  "improvement_criterion": {
+    "aggregate": "mean",
+    "comparator": ">",
+    "metric": "material_plausibility",
+    "threshold": 4.0
+  },
+  "iteration": 1,
+  "keep_seeds": true,
+  "plan_id": "plan_mock-demo-i1",
+  "schema_version": "atelier.iteration_plan.v1",
+  "what_failed": [
+    {
+      "dimension": "material_plausibility",
+      "evidence": "batch mean 4.00/5 (largest weighted deficit)"
+    }
+  ],
+  "what_remains_fixed": [
+    "avoidance_constraints",
+    "composition",
+    "concept_thesis",
+    "engine and model",
+    "engine params",
+    "lighting",
+    "mood",
+    "output size",
+    "palette",
+    "seeds per slot",
+    "semantic_constraints",
+    "subject",
+    "visual_hypothesis"
+  ],
+  "what_will_change": [
+    {
+      "from": [],
+      "path": "/materials/0/imperfections",
+      "rationale": "Perfect surfaces read as CG; sparse micro-scratches are a physical cue of real metal.",
+      "to": [
+        "fine micro-scratches"
+      ]
+    }
+  ],
+  "why_it_should_help": "Perfect surfaces read as CG; sparse micro-scratches are a physical cue of real metal."
+}

@@ -1,0 +1,54 @@
+{
+  "brief_id": "brief_metallic-identity-01.interpreted",
+  "constraints": {
+    "aspect_ratio": "4:5",
+    "must_avoid": [
+      "visible face",
+      "robot",
+      "science fiction"
+    ],
+    "must_include": [
+      "industrial space"
+    ],
+    "reference_images": []
+  },
+  "domain": "metallic_fine_art_editorial",
+  "original_intent": {
+    "author": "project-owner",
+    "language": "en",
+    "submitted_at": "2026-10-10T09:00:00Z",
+    "text": "A fine-art editorial image about identity dissolving into material. A human presence that exists only as a reflection or contour on liquid chrome or brushed steel, in a cold industrial space under hard directional light. It should feel like the metal remembers a person who is no longer there: sculptural curvature, reflective titanium, quiet tension between the body and the surface. No faces, no robots, no sci-fi."
+  },
+  "schema_version": "atelier.creative_brief.v1",
+  "system_interpretation": {
+    "interpreted_at": "2026-10-10T08:44:31.061588Z",
+    "interpreted_by": {
+      "kind": "offline_stub",
+      "name": "offline-stub"
+    },
+    "open_questions": [
+      "Should the human figure be visible, partial, or only implied?"
+    ],
+    "source_artifact_id": "research_mock-demo",
+    "summary": "Offline keyword interpretation of the brief: engineered permanence; facelessness; identity as surface; industrial endurance; industrial perfection; industrial space; instability and flux; reflection and self-recognition; the body as material.",
+    "tensions": [
+      {
+        "description": "Default tension of the metallic editorial domain.",
+        "pole_a": "human identity",
+        "pole_b": "material surface"
+      }
+    ],
+    "themes": [
+      "engineered permanence",
+      "facelessness",
+      "identity as surface",
+      "industrial endurance",
+      "industrial perfection",
+      "industrial space",
+      "instability and flux",
+      "reflection and self-recognition",
+      "the body as material"
+    ]
+  },
+  "title": "The Self as Reflective Surface"
+}

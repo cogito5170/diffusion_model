@@ -1,0 +1,74 @@
+{
+  "brief_id": "brief_metallic-identity-01",
+  "concept_set_id": "concepts_mock-demo",
+  "concepts": [
+    {
+      "concept_id": "concept_metallic-identity-01-mirror",
+      "key_motifs": [
+        "liquid chrome mass",
+        "implied human contour",
+        "reflected girders"
+      ],
+      "risks": [
+        "can read as a generic 3D render",
+        "reflection detail may turn to noise"
+      ],
+      "tension": {
+        "description": "The viewer looks for a self in the metal and finds only the environment.",
+        "pole_a": "self-recognition",
+        "pole_b": "impersonal reflection"
+      },
+      "thesis": "A perfectly reflective form returns the whole industrial room to the viewer but withholds the face: identity appears only as the distortion it causes in a surface.",
+      "title": "The Mirror That Refuses",
+      "visual_hypothesis": "A single liquid-chrome sculptural mass, implied human contour, hard key light; the reflection carries more information than the object."
+    },
+    {
+      "concept_id": "concept_metallic-identity-01-brushed",
+      "key_motifs": [
+        "directional grain",
+        "polished seam",
+        "raking light"
+      ],
+      "risks": [
+        "low drama",
+        "grain may alias at small sizes"
+      ],
+      "tension": {
+        "description": "Marks of touch are indistinguishable from marks of manufacture.",
+        "pole_a": "personal history",
+        "pole_b": "industrial process"
+      },
+      "thesis": "Brushed steel keeps the direction of every abrasion; identity is the accumulated record of contact rather than a likeness.",
+      "title": "Brushed Memory",
+      "visual_hypothesis": "A torso-scaled brushed-steel plane with directional grain and one polished seam."
+    },
+    {
+      "concept_id": "concept_metallic-identity-01-molten",
+      "key_motifs": [
+        "drips",
+        "shoulder line",
+        "black ground"
+      ],
+      "risks": [
+        "melting clichés",
+        "surreal kitsch"
+      ],
+      "tension": {
+        "description": "The figure is legible only while the metal holds; the image is the moment before collapse.",
+        "pole_a": "form",
+        "pole_b": "dissolution"
+      },
+      "thesis": "Identity as surface tension: a body-shaped chrome volume caught between solid and liquid.",
+      "title": "Molten Self",
+      "visual_hypothesis": "Fluid chrome with drips and a stable shoulder line, cool light, black ground."
+    }
+  ],
+  "distinctness_rationale": "Concepts differ in material state (mirror, brushed, molten) and in where identity is located (reflection, abrasion, surface tension).",
+  "produced_by": {
+    "kind": "offline_stub",
+    "name": "offline-stub"
+  },
+  "recommended_concept_id": "concept_metallic-identity-01-mirror",
+  "research_id": "research_mock-demo",
+  "schema_version": "atelier.concept_set.v1"
+}

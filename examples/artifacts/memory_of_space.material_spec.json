@@ -1,0 +1,65 @@
+{
+  "schema_version": "atelier.material_spec.v1",
+  "material_spec_id": "matspec_memory-of-space-01",
+  "draft_id": "draft_memory-of-space-01",
+  "produced_by": {
+    "name": "claude-main-session",
+    "kind": "agent"
+  },
+  "materials": [
+    {
+      "material_id": "arm",
+      "type": "polished_chrome",
+      "finish": "black chrome",
+      "reflectivity": 0.7,
+      "roughness": 0.12,
+      "anisotropy": 0.0,
+      "curvature": "sculptural",
+      "imperfections": [
+        "faint handling marks"
+      ],
+      "role": "robotic arm shell"
+    },
+    {
+      "material_id": "joints",
+      "type": "other_metal",
+      "finish": "brushed titanium",
+      "reflectivity": 0.5,
+      "roughness": 0.4,
+      "anisotropy": 0.7,
+      "curvature": "gentle",
+      "imperfections": [],
+      "role": "arm joints and tool head"
+    },
+    {
+      "material_id": "connectors",
+      "type": "other_metal",
+      "finish": "oxidized silver",
+      "reflectivity": 0.6,
+      "roughness": 0.3,
+      "anisotropy": 0.0,
+      "curvature": "sculptural",
+      "imperfections": [
+        "uneven tarnish"
+      ],
+      "role": "polyhedron sphere connectors"
+    }
+  ],
+  "lighting": {
+    "setup": "skylight shaft plus one narrow cold spotlight on the sculpture",
+    "key": {
+      "direction": "from above through a skylight",
+      "hardness": "hard",
+      "color_temperature_k": 7500
+    },
+    "fill": "low",
+    "rim": true,
+    "environment": "brutalist board-formed concrete hall, wet polished concrete floor, thin volumetric haze",
+    "contrast_ratio": "8:1"
+  },
+  "rationale": "Black chrome needs a structured environment to read as metal: the concrete hall and skylight give it something to reflect. Titanium and tarnished silver add two lower-gloss steps so the arm does not read as plastic. 7500 K keeps the light cold but near-neutral, so the red joint stays the only saturated color.",
+  "plausibility_notes": [
+    "black chrome: high specular reflectance with low albedo, so its highlights are cold white, not grey",
+    "glass and acrylic are not metals; they are specified in the subject text (schema covers metals only)"
+  ]
+}

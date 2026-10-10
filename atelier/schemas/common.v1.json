@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://atelier.invalid/schemas/common.v1.json",
+  "title": "Shared definitions (v1)",
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]*_[A-Za-z0-9][A-Za-z0-9._-]{0,95}$"
+    },
+    "timestamp": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$"
+    },
+    "short_text": {"type": "string", "minLength": 1, "maxLength": 300},
+    "long_text": {"type": "string", "minLength": 1, "maxLength": 4000},
+    "short_text_list": {"type": "array", "items": {"$ref": "#/$defs/short_text"}, "maxItems": 40},
+    "hex_color": {"type": "string", "pattern": "^#[0-9A-Fa-f]{6}$"},
+    "unit_interval": {"type": "number", "minimum": 0, "maximum": 1},
+    "rating": {"type": "integer", "minimum": 1, "maximum": 5},
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "path": {"type": "string", "minLength": 1, "maxLength": 1024},
+    "dimension": {
+      "enum": ["intent_alignment", "material_plausibility", "composition",
+               "visual_coherence", "originality", "technical_quality"]
+    },
+    "engine_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["engine_id", "model_id"],
+      "properties": {
+        "engine_id": {"$ref": "#/$defs/short_text"},
+        "model_id": {"$ref": "#/$defs/short_text"}
+      }
+    },
+    "producer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "kind"],
+      "properties": {
+        "name": {"$ref": "#/$defs/short_text"},
+        "kind": {"enum": ["agent", "offline_stub", "heuristic", "human", "system"]}
+      }
+    },
+    "error": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "message", "retryable"],
+      "properties": {
+        "code": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+        "message": {"type": "string", "maxLength": 4000},
+        "retryable": {"type": "boolean"},
+        "attempt": {"type": ["integer", "null"], "minimum": 1},
+        "details": {"type": "object"}
+      }
+    },
+    "tension": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pole_a", "pole_b", "description"],
+      "properties": {
+        "pole_a": {"$ref": "#/$defs/short_text"},
+        "pole_b": {"$ref": "#/$defs/short_text"},
+        "description": {"$ref": "#/$defs/long_text"}
+      }
+    }
+  }
+}

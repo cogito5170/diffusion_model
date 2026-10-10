@@ -1,0 +1,75 @@
+{"at": "2026-10-10T08:44:30.976889Z", "event": "artifact_stored", "artifact_id": "brief_metallic-identity-01", "kind": "creative_brief"}
+{"at": "2026-10-10T08:44:31.021161Z", "event": "run_created", "run_id": "run_mock-demo", "engine": {"engine_id": "mock", "model_id": "mock-procedural-v1", "options": {}}, "agent_backend": "offline"}
+{"at": "2026-10-10T08:44:31.031491Z", "event": "transition", "to": "BRIEF_ACCEPTED", "note": "original intent hash recorded"}
+{"at": "2026-10-10T08:44:31.061240Z", "event": "artifact_stored", "artifact_id": "research_mock-demo", "kind": "research_notes"}
+{"at": "2026-10-10T08:44:31.066408Z", "event": "artifact_stored", "artifact_id": "brief_metallic-identity-01.interpreted", "kind": "creative_brief"}
+{"at": "2026-10-10T08:44:31.071517Z", "event": "transition", "to": "RESEARCHED", "note": ""}
+{"at": "2026-10-10T08:44:31.087835Z", "event": "artifact_stored", "artifact_id": "concepts_mock-demo", "kind": "concept_set"}
+{"at": "2026-10-10T08:44:31.091389Z", "event": "transition", "to": "CONCEPTS_READY", "note": ""}
+{"at": "2026-10-10T08:44:31.106579Z", "event": "artifact_stored", "artifact_id": "draft_mock-demo", "kind": "art_direction_draft"}
+{"at": "2026-10-10T08:44:31.109689Z", "event": "transition", "to": "ART_DIRECTION_DRAFTED", "note": ""}
+{"at": "2026-10-10T08:44:31.151970Z", "event": "artifact_stored", "artifact_id": "matspec_mock-demo", "kind": "material_spec"}
+{"at": "2026-10-10T08:44:31.156986Z", "event": "artifact_stored", "artifact_id": "ad_mock-demo-v1", "kind": "art_direction"}
+{"at": "2026-10-10T08:44:31.159858Z", "event": "transition", "to": "SPEC_VALIDATED", "note": "schema + semantic checks passed"}
+{"at": "2026-10-10T08:44:31.182708Z", "event": "artifact_stored", "artifact_id": "req_mock-demo-i0-s0", "kind": "generation_request"}
+{"at": "2026-10-10T08:44:31.187253Z", "event": "artifact_stored", "artifact_id": "req_mock-demo-i0-s1", "kind": "generation_request"}
+{"at": "2026-10-10T08:44:31.191301Z", "event": "artifact_stored", "artifact_id": "req_mock-demo-i0-s2", "kind": "generation_request"}
+{"at": "2026-10-10T08:44:31.196104Z", "event": "artifact_stored", "artifact_id": "req_mock-demo-i0-s3", "kind": "generation_request"}
+{"at": "2026-10-10T08:44:31.206560Z", "event": "transition", "to": "PROMPTS_COMPILED", "note": "4 requests for ad_mock-demo-v1"}
+{"at": "2026-10-10T08:44:31.612395Z", "event": "artifact_stored", "artifact_id": "result_mock-demo-i0-s0", "kind": "generation_result"}
+{"at": "2026-10-10T08:44:31.616979Z", "event": "generation_result", "candidate_id": "cand_mock-demo-i0-s0", "status": "succeeded", "runtime_s": 0.385}
+{"at": "2026-10-10T08:44:31.769836Z", "event": "artifact_stored", "artifact_id": "result_mock-demo-i0-s1", "kind": "generation_result"}
+{"at": "2026-10-10T08:44:31.775082Z", "event": "generation_result", "candidate_id": "cand_mock-demo-i0-s1", "status": "succeeded", "runtime_s": 0.1461}
+{"at": "2026-10-10T08:44:32.143336Z", "event": "artifact_stored", "artifact_id": "result_mock-demo-i0-s2", "kind": "generation_result"}
+{"at": "2026-10-10T08:44:32.151769Z", "event": "generation_result", "candidate_id": "cand_mock-demo-i0-s2", "status": "succeeded", "runtime_s": 0.3595}
+{"at": "2026-10-10T08:44:32.405190Z", "event": "artifact_stored", "artifact_id": "result_mock-demo-i0-s3", "kind": "generation_result"}
+{"at": "2026-10-10T08:44:32.413487Z", "event": "generation_result", "candidate_id": "cand_mock-demo-i0-s3", "status": "succeeded", "runtime_s": 0.2458}
+{"at": "2026-10-10T08:44:32.422305Z", "event": "transition", "to": "GENERATED", "note": ""}
+{"at": "2026-10-10T08:44:32.514026Z", "event": "artifact_stored", "artifact_id": "qa_mock-demo-i0-s0", "kind": "qa_report"}
+{"at": "2026-10-10T08:44:32.586804Z", "event": "artifact_stored", "artifact_id": "qa_mock-demo-i0-s1", "kind": "qa_report"}
+{"at": "2026-10-10T08:44:32.649726Z", "event": "artifact_stored", "artifact_id": "qa_mock-demo-i0-s2", "kind": "qa_report"}
+{"at": "2026-10-10T08:44:32.712051Z", "event": "artifact_stored", "artifact_id": "qa_mock-demo-i0-s3", "kind": "qa_report"}
+{"at": "2026-10-10T08:44:32.723759Z", "event": "transition", "to": "QA_DONE", "note": ""}
+{"at": "2026-10-10T08:44:32.865674Z", "event": "artifact_stored", "artifact_id": "crit_mock-demo-i0-s0", "kind": "critique"}
+{"at": "2026-10-10T08:44:32.969107Z", "event": "artifact_stored", "artifact_id": "crit_mock-demo-i0-s1", "kind": "critique"}
+{"at": "2026-10-10T08:44:33.099330Z", "event": "artifact_stored", "artifact_id": "crit_mock-demo-i0-s2", "kind": "critique"}
+{"at": "2026-10-10T08:44:33.206009Z", "event": "artifact_stored", "artifact_id": "crit_mock-demo-i0-s3", "kind": "critique"}
+{"at": "2026-10-10T08:44:33.219648Z", "event": "transition", "to": "CRITIQUED", "note": ""}
+{"at": "2026-10-10T08:44:33.252488Z", "event": "artifact_stored", "artifact_id": "sel_mock-demo-i0", "kind": "selection"}
+{"at": "2026-10-10T08:44:33.304281Z", "event": "artifact_stored", "artifact_id": "cur_mock-demo-i0", "kind": "curation"}
+{"at": "2026-10-10T08:44:33.309536Z", "event": "artifact_stored", "artifact_id": "plan_mock-demo-i1", "kind": "iteration_plan"}
+{"at": "2026-10-10T08:44:33.317163Z", "event": "transition", "to": "SELECTED", "note": ""}
+{"at": "2026-10-10T08:44:33.330537Z", "event": "artifact_stored", "artifact_id": "ad_mock-demo-v2", "kind": "art_direction"}
+{"at": "2026-10-10T08:44:33.336101Z", "event": "transition", "to": "SPEC_VALIDATED", "note": "bounded iteration 1: plan_mock-demo-i1"}
+{"at": "2026-10-10T08:44:33.342216Z", "event": "artifact_stored", "artifact_id": "req_mock-demo-i1-s0", "kind": "generation_request"}
+{"at": "2026-10-10T08:44:33.346217Z", "event": "artifact_stored", "artifact_id": "req_mock-demo-i1-s1", "kind": "generation_request"}
+{"at": "2026-10-10T08:44:33.350165Z", "event": "artifact_stored", "artifact_id": "req_mock-demo-i1-s2", "kind": "generation_request"}
+{"at": "2026-10-10T08:44:33.354567Z", "event": "artifact_stored", "artifact_id": "req_mock-demo-i1-s3", "kind": "generation_request"}
+{"at": "2026-10-10T08:44:33.367884Z", "event": "transition", "to": "PROMPTS_COMPILED", "note": "4 requests for ad_mock-demo-v2"}
+{"at": "2026-10-10T08:44:33.528948Z", "event": "artifact_stored", "artifact_id": "result_mock-demo-i1-s0", "kind": "generation_result"}
+{"at": "2026-10-10T08:44:33.535424Z", "event": "generation_result", "candidate_id": "cand_mock-demo-i1-s0", "status": "succeeded", "runtime_s": 0.1551}
+{"at": "2026-10-10T08:44:33.914302Z", "event": "artifact_stored", "artifact_id": "result_mock-demo-i1-s1", "kind": "generation_result"}
+{"at": "2026-10-10T08:44:33.925400Z", "event": "generation_result", "candidate_id": "cand_mock-demo-i1-s1", "status": "succeeded", "runtime_s": 0.3706}
+{"at": "2026-10-10T08:44:34.118494Z", "event": "artifact_stored", "artifact_id": "result_mock-demo-i1-s2", "kind": "generation_result"}
+{"at": "2026-10-10T08:44:34.127702Z", "event": "generation_result", "candidate_id": "cand_mock-demo-i1-s2", "status": "succeeded", "runtime_s": 0.1852}
+{"at": "2026-10-10T08:44:34.318207Z", "event": "artifact_stored", "artifact_id": "result_mock-demo-i1-s3", "kind": "generation_result"}
+{"at": "2026-10-10T08:44:34.325437Z", "event": "generation_result", "candidate_id": "cand_mock-demo-i1-s3", "status": "succeeded", "runtime_s": 0.1846}
+{"at": "2026-10-10T08:44:34.332974Z", "event": "transition", "to": "GENERATED", "note": ""}
+{"at": "2026-10-10T08:44:34.389237Z", "event": "artifact_stored", "artifact_id": "qa_mock-demo-i1-s0", "kind": "qa_report"}
+{"at": "2026-10-10T08:44:34.454755Z", "event": "artifact_stored", "artifact_id": "qa_mock-demo-i1-s1", "kind": "qa_report"}
+{"at": "2026-10-10T08:44:34.517907Z", "event": "artifact_stored", "artifact_id": "qa_mock-demo-i1-s2", "kind": "qa_report"}
+{"at": "2026-10-10T08:44:34.581506Z", "event": "artifact_stored", "artifact_id": "qa_mock-demo-i1-s3", "kind": "qa_report"}
+{"at": "2026-10-10T08:44:34.596851Z", "event": "transition", "to": "QA_DONE", "note": ""}
+{"at": "2026-10-10T08:44:34.744455Z", "event": "artifact_stored", "artifact_id": "crit_mock-demo-i1-s0", "kind": "critique"}
+{"at": "2026-10-10T08:44:34.846308Z", "event": "artifact_stored", "artifact_id": "crit_mock-demo-i1-s1", "kind": "critique"}
+{"at": "2026-10-10T08:44:34.956549Z", "event": "artifact_stored", "artifact_id": "crit_mock-demo-i1-s2", "kind": "critique"}
+{"at": "2026-10-10T08:44:35.064213Z", "event": "artifact_stored", "artifact_id": "crit_mock-demo-i1-s3", "kind": "critique"}
+{"at": "2026-10-10T08:44:35.080480Z", "event": "transition", "to": "CRITIQUED", "note": ""}
+{"at": "2026-10-10T08:44:35.093121Z", "event": "artifact_stored", "artifact_id": "sel_mock-demo-i1", "kind": "selection"}
+{"at": "2026-10-10T08:44:35.116902Z", "event": "artifact_stored", "artifact_id": "cur_mock-demo-i1", "kind": "curation"}
+{"at": "2026-10-10T08:44:35.125100Z", "event": "transition", "to": "SELECTED", "note": ""}
+{"at": "2026-10-10T08:44:35.134773Z", "event": "transition", "to": "AWAITING_HUMAN_APPROVAL", "note": "curator_recommended_stop: no remaining deficit in dimensions the engine input can change (technical_quality mean is 5.0)"}
+{"at": "2026-10-10T08:44:35.292268Z", "event": "paused", "waiting_for": {"kind": "human", "step": "approval", "keys": [], "agent": null, "task_paths": ["report/review.md"]}}
+{"at": "2026-10-10T08:44:36.240923Z", "event": "artifact_stored", "artifact_id": "approval_mock-demo-1", "kind": "approval"}
+{"at": "2026-10-10T08:44:36.258124Z", "event": "transition", "to": "APPROVED", "note": "approved cand_mock-demo-i0-s0 by scripts/mock_e2e.sh"}
+{"at": "2026-10-10T08:44:36.667618Z", "event": "transition", "to": "DONE", "note": "final report written"}

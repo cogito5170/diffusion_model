@@ -1,0 +1,76 @@
+{
+  "art_direction_id": "ad_mock-demo-v2",
+  "candidate_id": "cand_mock-demo-i1-s3",
+  "compilation": {
+    "compiler_version": "1.0.0",
+    "dropped": [
+      {
+        "field": "palette",
+        "reason": "token budget 75 exceeded (estimate 72+10)"
+      },
+      {
+        "field": "composition",
+        "reason": "token budget 75 exceeded (estimate 72+22)"
+      },
+      {
+        "field": "semantic_constraints/must",
+        "reason": "token budget 75 exceeded (estimate 72+8)"
+      },
+      {
+        "field": "mood",
+        "reason": "token budget 75 exceeded (estimate 72+5)"
+      },
+      {
+        "field": "semantic_constraints/should",
+        "reason": "token budget 75 exceeded (estimate 72+7)"
+      },
+      {
+        "field": "lighting/environment",
+        "reason": "token budget 75 exceeded (estimate 72+8)"
+      },
+      {
+        "field": "prompt.negative",
+        "reason": "negative prompts have no effect at guidance_scale=0.0"
+      }
+    ],
+    "size_adjusted": false,
+    "token_budget": 75,
+    "token_estimate": 72,
+    "warnings": [
+      {
+        "code": "prompt_segments_dropped",
+        "message": "lower-priority segments dropped: palette, composition, semantic_constraints/must, mood, semantic_constraints/should, lighting/environment"
+      },
+      {
+        "code": "negative_prompt_unavailable",
+        "message": "avoidance constraints are enforced only by critique, not by the engine"
+      }
+    ]
+  },
+  "engine": {
+    "engine_id": "mock",
+    "model_id": "mock-procedural-v1"
+  },
+  "engine_params": {
+    "guidance_scale": 0.0,
+    "num_inference_steps": 2
+  },
+  "height": 640,
+  "iteration": 1,
+  "limits": {
+    "max_retries": 1,
+    "timeout_s": 60
+  },
+  "prompt": {
+    "negative": null,
+    "positive": "fine-art editorial photograph, a sculptural liquid chrome form with an implied human contour in an empty industrial hall, liquid chrome (mirror), fluid molten curvature, mirror-like reflections, razor-sharp highlights, fine micro-scratches, hard key light from upper left, neutral daylight, no fill, deep shadows, 8:1 contrast"
+  },
+  "prompt_source": "compiled",
+  "reference_images": [],
+  "request_id": "req_mock-demo-i1-s3",
+  "run_id": "run_mock-demo",
+  "schema_version": "atelier.generation_request.v1",
+  "seed": 20284767,
+  "slot": 3,
+  "width": 512
+}

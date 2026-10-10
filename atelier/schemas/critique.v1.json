@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://atelier.invalid/schemas/critique.v1.json",
+  "title": "Critique v1 (art-critic output)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "critique_id", "candidate_id", "art_direction_id", "critic", "ratings", "observations",
+               "evidence_types", "confidence", "next_experiment"],
+  "properties": {
+    "schema_version": {"const": "atelier.critique.v1"},
+    "critique_id": {"$ref": "common.v1.json#/$defs/identifier"},
+    "candidate_id": {"$ref": "common.v1.json#/$defs/identifier"},
+    "art_direction_id": {"$ref": "common.v1.json#/$defs/identifier"},
+    "critic": {"$ref": "common.v1.json#/$defs/producer"},
+    "ratings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["intent_alignment", "material_plausibility", "composition", "visual_coherence", "originality", "technical_quality"],
+      "properties": {
+        "intent_alignment": {"$ref": "common.v1.json#/$defs/rating"},
+        "material_plausibility": {"$ref": "common.v1.json#/$defs/rating"},
+        "composition": {"$ref": "common.v1.json#/$defs/rating"},
+        "visual_coherence": {"$ref": "common.v1.json#/$defs/rating"},
+        "originality": {"$ref": "common.v1.json#/$defs/rating"},
+        "technical_quality": {"$ref": "common.v1.json#/$defs/rating"}
+      }
+    },
+    "observations": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["dimension", "observation", "evidence_type"],
+        "properties": {
+          "dimension": {"$ref": "common.v1.json#/$defs/dimension"},
+          "observation": {"$ref": "common.v1.json#/$defs/long_text"},
+          "evidence_type": {"$ref": "#/$defs/evidence_type"}
+        }
+      }
+    },
+    "evidence_types": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/evidence_type"}},
+    "confidence": {"$ref": "common.v1.json#/$defs/unit_interval"},
+    "next_experiment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["hypothesis", "variable", "proposed_change", "expected_effect"],
+      "properties": {
+        "hypothesis": {"$ref": "common.v1.json#/$defs/long_text"},
+        "variable": {"$ref": "common.v1.json#/$defs/short_text"},
+        "proposed_change": {"$ref": "common.v1.json#/$defs/long_text"},
+        "expected_effect": {"$ref": "common.v1.json#/$defs/long_text"}
+      }
+    }
+  },
+  "$defs": {
+    "evidence_type": {
+      "enum": ["visual_inspection", "technical_measurement", "spec_comparison", "batch_comparison",
+               "heuristic_proxy", "external_reference"]
+    }
+  }
+}

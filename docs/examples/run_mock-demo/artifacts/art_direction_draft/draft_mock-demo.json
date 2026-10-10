@@ -1,0 +1,94 @@
+{
+  "avoidance_constraints": [
+    {
+      "reason": "brief must_avoid",
+      "term": "visible face"
+    },
+    {
+      "reason": "brief must_avoid",
+      "term": "robot"
+    },
+    {
+      "reason": "brief must_avoid",
+      "term": "science fiction"
+    },
+    {
+      "reason": "domain is fine-art editorial",
+      "term": "cartoon"
+    },
+    {
+      "reason": "cliche of metal + human",
+      "term": "sci-fi robot"
+    }
+  ],
+  "brief_id": "brief_metallic-identity-01",
+  "composition": {
+    "camera_angle": "eye level",
+    "focal_hierarchy": [
+      "reflective form",
+      "reflected room"
+    ],
+    "framing": "medium",
+    "layout": "single subject, slightly off-center",
+    "lens_mm": 85,
+    "negative_space": "balanced"
+  },
+  "concept_id": "concept_metallic-identity-01-mirror",
+  "concept_thesis": "A perfectly reflective form returns the whole industrial room to the viewer but withholds the face: identity appears only as the distortion it causes in a surface.",
+  "draft_id": "draft_mock-demo",
+  "mood": [
+    "austere",
+    "contemplative"
+  ],
+  "notes_for_material_specialist": "Primary surface should read as liquid chrome under one hard key light.",
+  "output": {
+    "aspect_ratio": "4:5",
+    "height": 640,
+    "width": 512
+  },
+  "palette": {
+    "colors": [
+      {
+        "hex": "#2E3034",
+        "name": "Graphite",
+        "role": "dominant"
+      },
+      {
+        "hex": "#D6DAE0",
+        "name": "Chrome",
+        "role": "highlight"
+      },
+      {
+        "hex": "#0C0C0E",
+        "name": "Black",
+        "role": "shadow"
+      }
+    ],
+    "saturation": "muted"
+  },
+  "produced_by": {
+    "kind": "offline_stub",
+    "name": "offline-stub"
+  },
+  "schema_version": "atelier.art_direction_draft.v1",
+  "semantic_constraints": [
+    {
+      "constraint": "no visible face",
+      "priority": "must"
+    },
+    {
+      "constraint": "the reflection shows the room",
+      "priority": "should"
+    },
+    {
+      "constraint": "industrial space",
+      "priority": "must"
+    }
+  ],
+  "subject": {
+    "description": "a sculptural liquid chrome form with an implied human contour in an empty industrial hall",
+    "human_presence": "implied",
+    "human_treatment": "contour only, no face"
+  },
+  "visual_hypothesis": "A single liquid-chrome sculptural mass, implied human contour, hard key light; the reflection carries more information than the object."
+}

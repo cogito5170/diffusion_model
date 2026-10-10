@@ -1,0 +1,92 @@
+{
+  "schema_version": "atelier.art_direction_draft.v1",
+  "draft_id": "draft_example-01",
+  "brief_id": "brief_metallic-identity-01",
+  "concept_id": "concept_example-mirror",
+  "produced_by": {
+    "name": "art-director",
+    "kind": "agent"
+  },
+  "concept_thesis": "A perfectly reflective form returns the whole industrial room to the viewer but withholds the face: identity appears only as the distortion it causes in a surface.",
+  "visual_hypothesis": "If the reflection carries more information than the object, the viewer reads absence instead of a sculpture.",
+  "subject": {
+    "description": "a sculptural liquid chrome mass with an implied human shoulder contour, alone in an empty industrial hall",
+    "human_presence": "implied",
+    "human_treatment": "shoulder contour only, no face"
+  },
+  "composition": {
+    "framing": "medium",
+    "camera_angle": "eye level, slightly off axis",
+    "lens_mm": 85,
+    "layout": "subject on left third, reflected girders lead right",
+    "focal_hierarchy": [
+      "shoulder contour",
+      "reflected room",
+      "floor seam"
+    ],
+    "negative_space": "balanced"
+  },
+  "palette": {
+    "colors": [
+      {
+        "hex": "#2E3034",
+        "name": "Graphite",
+        "role": "dominant"
+      },
+      {
+        "hex": "#D6DAE0",
+        "name": "Chrome",
+        "role": "highlight"
+      },
+      {
+        "hex": "#0C0C0E",
+        "name": "Black",
+        "role": "shadow"
+      }
+    ],
+    "saturation": "muted"
+  },
+  "mood": [
+    "austere",
+    "contemplative",
+    "quiet unease"
+  ],
+  "semantic_constraints": [
+    {
+      "constraint": "no visible face",
+      "priority": "must"
+    },
+    {
+      "constraint": "industrial space",
+      "priority": "must"
+    },
+    {
+      "constraint": "the reflection shows the room",
+      "priority": "should"
+    }
+  ],
+  "avoidance_constraints": [
+    {
+      "term": "visible face",
+      "reason": "brief must_avoid"
+    },
+    {
+      "term": "robot",
+      "reason": "brief must_avoid"
+    },
+    {
+      "term": "science fiction",
+      "reason": "brief must_avoid"
+    },
+    {
+      "term": "cartoon",
+      "reason": "domain is fine-art editorial"
+    }
+  ],
+  "output": {
+    "aspect_ratio": "4:5",
+    "width": 512,
+    "height": 640
+  },
+  "notes_for_material_specialist": "Primary surface must read as liquid chrome, not grey plastic; consider one secondary brushed-steel element for contrast."
+}

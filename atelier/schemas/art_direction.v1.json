@@ -1,0 +1,166 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://atelier.invalid/schemas/art_direction.v1.json",
+  "title": "Art Direction v1 (engine-independent visual specification)",
+  "description": "Merged output of art-director (draft) and material-specialist (materials + lighting). It must not contain engine-specific prompt syntax.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "art_direction_id", "version", "parent_id", "brief_id", "concept_id", "provenance",
+               "concept_thesis", "visual_hypothesis", "subject", "composition", "materials", "lighting", "palette",
+               "mood", "semantic_constraints", "avoidance_constraints", "output"],
+  "properties": {
+    "schema_version": {"const": "atelier.art_direction.v1"},
+    "art_direction_id": {"$ref": "common.v1.json#/$defs/identifier"},
+    "version": {"type": "integer", "minimum": 1, "maximum": 20},
+    "parent_id": {"oneOf": [{"type": "null"}, {"$ref": "common.v1.json#/$defs/identifier"}]},
+    "brief_id": {"$ref": "common.v1.json#/$defs/identifier"},
+    "concept_id": {"$ref": "common.v1.json#/$defs/identifier"},
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["draft_id", "material_spec_id", "derived_from_plan_id"],
+      "properties": {
+        "draft_id": {"$ref": "common.v1.json#/$defs/identifier"},
+        "material_spec_id": {"$ref": "common.v1.json#/$defs/identifier"},
+        "derived_from_plan_id": {"oneOf": [{"type": "null"}, {"$ref": "common.v1.json#/$defs/identifier"}]}
+      }
+    },
+    "concept_thesis": {"$ref": "common.v1.json#/$defs/long_text"},
+    "visual_hypothesis": {"$ref": "common.v1.json#/$defs/long_text"},
+    "subject": {"$ref": "#/$defs/subject"},
+    "composition": {"$ref": "#/$defs/composition"},
+    "materials": {"$ref": "#/$defs/materials"},
+    "lighting": {"$ref": "#/$defs/lighting"},
+    "palette": {"$ref": "#/$defs/palette"},
+    "mood": {"$ref": "#/$defs/mood"},
+    "semantic_constraints": {"$ref": "#/$defs/semantic_constraints"},
+    "avoidance_constraints": {"$ref": "#/$defs/avoidance_constraints"},
+    "output": {"$ref": "#/$defs/output"}
+  },
+  "$defs": {
+    "subject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["description", "human_presence", "human_treatment"],
+      "properties": {
+        "description": {"$ref": "common.v1.json#/$defs/long_text"},
+        "human_presence": {"enum": ["none", "implied", "partial_figure", "full_figure"]},
+        "human_treatment": {"oneOf": [{"type": "null"}, {"$ref": "common.v1.json#/$defs/short_text"}]}
+      }
+    },
+    "composition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["framing", "camera_angle", "lens_mm", "layout", "focal_hierarchy", "negative_space"],
+      "properties": {
+        "framing": {"enum": ["extreme_close_up", "close_up", "medium", "wide", "environmental"]},
+        "camera_angle": {"$ref": "common.v1.json#/$defs/short_text"},
+        "lens_mm": {"oneOf": [{"type": "null"}, {"type": "number", "minimum": 8, "maximum": 800}]},
+        "layout": {"$ref": "common.v1.json#/$defs/short_text"},
+        "focal_hierarchy": {"type": "array", "minItems": 1, "maxItems": 5, "items": {"$ref": "common.v1.json#/$defs/short_text"}},
+        "negative_space": {"enum": ["minimal", "balanced", "generous"]}
+      }
+    },
+    "material": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["material_id", "type", "finish", "reflectivity", "roughness", "anisotropy", "curvature", "imperfections", "role"],
+      "properties": {
+        "material_id": {"type": "string", "pattern": "^[a-z0-9_-]{1,40}$"},
+        "type": {"enum": ["liquid_chrome", "polished_chrome", "brushed_steel", "mirror_steel", "polished_titanium",
+                          "anodized_titanium", "oxidized_steel", "brushed_aluminum", "gunmetal", "other_metal"]},
+        "finish": {"$ref": "common.v1.json#/$defs/short_text"},
+        "reflectivity": {"$ref": "common.v1.json#/$defs/unit_interval"},
+        "roughness": {"$ref": "common.v1.json#/$defs/unit_interval"},
+        "anisotropy": {"$ref": "common.v1.json#/$defs/unit_interval"},
+        "curvature": {"enum": ["flat", "gentle", "sculptural", "fluid", "faceted"]},
+        "imperfections": {"type": "array", "maxItems": 6, "items": {"$ref": "common.v1.json#/$defs/short_text"}},
+        "role": {"$ref": "common.v1.json#/$defs/short_text"}
+      }
+    },
+    "materials": {"type": "array", "minItems": 1, "maxItems": 4, "items": {"$ref": "#/$defs/material"}},
+    "lighting": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["setup", "key", "fill", "rim", "environment", "contrast_ratio"],
+      "properties": {
+        "setup": {"$ref": "common.v1.json#/$defs/short_text"},
+        "key": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["direction", "hardness", "color_temperature_k"],
+          "properties": {
+            "direction": {"$ref": "common.v1.json#/$defs/short_text"},
+            "hardness": {"enum": ["hard", "medium", "soft"]},
+            "color_temperature_k": {"type": "integer", "minimum": 1800, "maximum": 12000}
+          }
+        },
+        "fill": {"enum": ["none", "low", "medium", "high"]},
+        "rim": {"type": "boolean"},
+        "environment": {"$ref": "common.v1.json#/$defs/short_text"},
+        "contrast_ratio": {"type": "string", "pattern": "^[1-9][0-9]?(\\.[0-9])?:1$"}
+      }
+    },
+    "palette": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["colors", "saturation"],
+      "properties": {
+        "colors": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 6,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["hex", "name", "role"],
+            "properties": {
+              "hex": {"$ref": "common.v1.json#/$defs/hex_color"},
+              "name": {"$ref": "common.v1.json#/$defs/short_text"},
+              "role": {"enum": ["dominant", "secondary", "accent", "shadow", "highlight"]}
+            }
+          }
+        },
+        "saturation": {"enum": ["monochrome", "muted", "moderate", "vivid"]}
+      }
+    },
+    "mood": {"type": "array", "minItems": 1, "maxItems": 6, "items": {"$ref": "common.v1.json#/$defs/short_text"}},
+    "semantic_constraints": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["constraint", "priority"],
+        "properties": {
+          "constraint": {"$ref": "common.v1.json#/$defs/short_text"},
+          "priority": {"enum": ["must", "should"]}
+        }
+      }
+    },
+    "avoidance_constraints": {
+      "type": "array",
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["term", "reason"],
+        "properties": {
+          "term": {"$ref": "common.v1.json#/$defs/short_text"},
+          "reason": {"$ref": "common.v1.json#/$defs/short_text"}
+        }
+      }
+    },
+    "output": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["aspect_ratio", "width", "height"],
+      "properties": {
+        "aspect_ratio": {"type": "string", "pattern": "^[1-9][0-9]?:[1-9][0-9]?$"},
+        "width": {"type": "integer", "minimum": 64, "maximum": 2048},
+        "height": {"type": "integer", "minimum": 64, "maximum": 2048}
+      }
+    }
+  }
+}

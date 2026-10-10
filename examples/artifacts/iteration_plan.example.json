@@ -1,0 +1,39 @@
+{
+  "schema_version": "atelier.iteration_plan.v1",
+  "plan_id": "plan_example-i1",
+  "iteration": 1,
+  "based_on_selection_id": "sel_example-i0",
+  "base_art_direction_id": "ad_example-v1",
+  "what_failed": [
+    {
+      "dimension": "intent_alignment",
+      "evidence": "3 of 4 critiques: human contour not legible (visual_inspection)."
+    }
+  ],
+  "what_will_change": [
+    {
+      "path": "/subject/description",
+      "from": "a sculptural liquid chrome mass with an implied human shoulder contour, alone in an empty industrial hall",
+      "to": "a human shoulder contour formed in liquid chrome, alone in an empty industrial hall",
+      "rationale": "Lead with the human reference so it survives the 75-token prompt budget."
+    }
+  ],
+  "what_remains_fixed": [
+    "materials",
+    "lighting",
+    "palette",
+    "composition",
+    "mood",
+    "seeds per slot",
+    "engine and model",
+    "engine params"
+  ],
+  "why_it_should_help": "The compiler keeps the first subject clause; putting the contour first makes it the strongest prompt signal.",
+  "improvement_criterion": {
+    "metric": "intent_alignment",
+    "aggregate": "mean",
+    "comparator": ">=",
+    "threshold": 3.5
+  },
+  "keep_seeds": true
+}

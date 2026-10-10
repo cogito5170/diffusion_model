@@ -1,0 +1,58 @@
+{
+  "schema_version": "atelier.critique.v1",
+  "critique_id": "crit_example-i0-s0",
+  "candidate_id": "cand_example-i0-s0",
+  "art_direction_id": "ad_example-v1",
+  "critic": {
+    "name": "art-critic",
+    "kind": "agent"
+  },
+  "ratings": {
+    "intent_alignment": 3,
+    "material_plausibility": 4,
+    "composition": 3,
+    "visual_coherence": 4,
+    "originality": 2,
+    "technical_quality": 4
+  },
+  "observations": [
+    {
+      "dimension": "intent_alignment",
+      "observation": "The form reads as an abstract blob; the shoulder contour that should imply a person is not legible.",
+      "evidence_type": "visual_inspection"
+    },
+    {
+      "dimension": "material_plausibility",
+      "observation": "Sharp highlight and structured reflection read as chrome; no plastic sheen.",
+      "evidence_type": "visual_inspection"
+    },
+    {
+      "dimension": "composition",
+      "observation": "Subject is centered although the spec asks for the left third.",
+      "evidence_type": "spec_comparison"
+    },
+    {
+      "dimension": "originality",
+      "observation": "Very close to the other three candidates in silhouette.",
+      "evidence_type": "batch_comparison"
+    },
+    {
+      "dimension": "technical_quality",
+      "observation": "QA passed; slight highlight clipping (0.5%).",
+      "evidence_type": "technical_measurement"
+    }
+  ],
+  "evidence_types": [
+    "batch_comparison",
+    "spec_comparison",
+    "technical_measurement",
+    "visual_inspection"
+  ],
+  "confidence": 0.55,
+  "next_experiment": {
+    "hypothesis": "The human reference is lost because the subject clause is truncated by the token budget.",
+    "variable": "subject.description",
+    "proposed_change": "Shorten the subject to lead with 'human shoulder contour in liquid chrome'.",
+    "expected_effect": "Higher intent alignment with material plausibility unchanged."
+  }
+}

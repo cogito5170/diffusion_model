@@ -1,0 +1,49 @@
+{
+  "candidate_notes": [
+    {
+      "candidate_id": "cand_mock-demo-i0-s0",
+      "note": "score rank 1, weighted 4.15"
+    },
+    {
+      "candidate_id": "cand_mock-demo-i1-s0",
+      "note": "score rank 2, weighted 4.15"
+    },
+    {
+      "candidate_id": "cand_mock-demo-i0-s1",
+      "note": "score rank 3, weighted 4.0"
+    },
+    {
+      "candidate_id": "cand_mock-demo-i0-s3",
+      "note": "score rank 4, weighted 4.0"
+    },
+    {
+      "candidate_id": "cand_mock-demo-i1-s1",
+      "note": "score rank 5, weighted 4.0"
+    },
+    {
+      "candidate_id": "cand_mock-demo-i1-s3",
+      "note": "score rank 6, weighted 4.0"
+    },
+    {
+      "candidate_id": "cand_mock-demo-i0-s2",
+      "note": "score rank 7, weighted 3.85"
+    },
+    {
+      "candidate_id": "cand_mock-demo-i1-s2",
+      "note": "score rank 8, weighted 3.85"
+    }
+  ],
+  "curation_id": "cur_mock-demo-i1",
+  "iteration": 1,
+  "iteration_plan": null,
+  "produced_by": {
+    "kind": "offline_stub",
+    "name": "rule-based-curator-v1"
+  },
+  "rationale": "Shortlist ['cand_mock-demo-i0-s0', 'cand_mock-demo-i0-s1', 'cand_mock-demo-i1-s3'] chosen by weighted score with MMR diversity; ratings are heuristic proxies (offline mode).",
+  "recommendation": "stop",
+  "run_id": "run_mock-demo",
+  "schema_version": "atelier.curation.v1",
+  "selection_id": "sel_mock-demo-i1",
+  "stop_reason": "no remaining deficit in dimensions the engine input can change (technical_quality mean is 5.0)"
+}

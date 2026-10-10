@@ -1,0 +1,41 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "runtime_s": 0.1836,
+      "status": "succeeded"
+    }
+  ],
+  "candidate_id": "cand_mock-demo-i1-s2",
+  "cost": {
+    "basis": "mock engine: no compute or API cost",
+    "usd_estimated": 0.0
+  },
+  "engine": {
+    "engine_id": "mock",
+    "model_id": "mock-procedural-v1"
+  },
+  "engine_metadata": {
+    "mode": "ok",
+    "not_a_generative_model": true,
+    "renderer": "procedural-numpy"
+  },
+  "errors": [],
+  "finished_at": "2026-10-10T08:44:34.112725Z",
+  "images": [
+    {
+      "format": "PNG",
+      "height": 640,
+      "path": "images/cand_mock-demo-i1-s2/a1/image_0.png",
+      "sha256": "a0d2f50c3453037d10ba76d041b59be46b3d5e480e437adbbe94b5e06f90dc36",
+      "width": 512
+    }
+  ],
+  "request_id": "req_mock-demo-i1-s2",
+  "result_id": "result_mock-demo-i1-s2",
+  "runtime_s": 0.1852,
+  "schema_version": "atelier.generation_result.v1",
+  "seed_used": 20276848,
+  "started_at": "2026-10-10T08:44:33.927453Z",
+  "status": "succeeded"
+}

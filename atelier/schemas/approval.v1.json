@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://atelier.invalid/schemas/approval.v1.json",
+  "title": "Approval v1 (final selection decision; human by default)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "approval_id", "run_id", "decision", "candidate_id", "reviewer", "note", "override", "decided_at"],
+  "properties": {
+    "schema_version": {"const": "atelier.approval.v1"},
+    "approval_id": {"$ref": "common.v1.json#/$defs/identifier"},
+    "run_id": {"$ref": "common.v1.json#/$defs/identifier"},
+    "decision": {"enum": ["approved", "rejected"]},
+    "candidate_id": {"oneOf": [{"type": "null"}, {"$ref": "common.v1.json#/$defs/identifier"}]},
+    "reviewer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "kind"],
+      "properties": {
+        "name": {"$ref": "common.v1.json#/$defs/short_text"},
+        "kind": {"enum": ["human", "script", "config_auto"]}
+      }
+    },
+    "note": {"type": "string", "maxLength": 4000},
+    "override": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["is_override", "reasons"],
+      "properties": {
+        "is_override": {"type": "boolean"},
+        "reasons": {"type": "array", "items": {"type": "string", "maxLength": 300}}
+      }
+    },
+    "decided_at": {"$ref": "common.v1.json#/$defs/timestamp"}
+  },
+  "if": {"properties": {"decision": {"const": "approved"}}},
+  "then": {"properties": {"candidate_id": {"$ref": "common.v1.json#/$defs/identifier"}}}
+}

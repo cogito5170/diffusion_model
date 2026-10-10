@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://atelier.invalid/schemas/generation_request.v1.json",
+  "title": "Generation Request v1 (prompt-compiler output, engine-specific)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "request_id", "run_id", "candidate_id", "iteration", "slot", "art_direction_id",
+               "engine", "prompt_source", "prompt", "reference_images", "width", "height", "seed", "engine_params",
+               "limits", "compilation"],
+  "properties": {
+    "schema_version": {"const": "atelier.generation_request.v1"},
+    "request_id": {"$ref": "common.v1.json#/$defs/identifier"},
+    "run_id": {"$ref": "common.v1.json#/$defs/identifier"},
+    "candidate_id": {"$ref": "common.v1.json#/$defs/identifier"},
+    "iteration": {"type": "integer", "minimum": 0, "maximum": 5},
+    "slot": {"type": "integer", "minimum": 0, "maximum": 63},
+    "art_direction_id": {"oneOf": [{"type": "null"}, {"$ref": "common.v1.json#/$defs/identifier"}]},
+    "engine": {"$ref": "common.v1.json#/$defs/engine_ref"},
+    "prompt_source": {"enum": ["compiled", "baseline_raw"]},
+    "prompt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["positive", "negative"],
+      "properties": {
+        "positive": {"type": "string", "minLength": 1, "maxLength": 4000},
+        "negative": {"type": ["string", "null"], "maxLength": 4000}
+      }
+    },
+    "reference_images": {
+      "type": "array",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "role", "sha256"],
+        "properties": {
+          "path": {"$ref": "common.v1.json#/$defs/path"},
+          "role": {"enum": ["composition", "material", "lighting", "mood"]},
+          "sha256": {"oneOf": [{"type": "null"}, {"$ref": "common.v1.json#/$defs/sha256"}]}
+        }
+      }
+    },
+    "width": {"type": "integer", "minimum": 64, "maximum": 2048},
+    "height": {"type": "integer", "minimum": 64, "maximum": 2048},
+    "seed": {"type": ["integer", "null"], "minimum": 0, "maximum": 4294967295},
+    "engine_params": {
+      "type": "object",
+      "maxProperties": 32,
+      "additionalProperties": {"type": ["number", "integer", "string", "boolean"]}
+    },
+    "limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["timeout_s", "max_retries"],
+      "properties": {
+        "timeout_s": {"type": "number", "exclusiveMinimum": 0, "maximum": 3600},
+        "max_retries": {"type": "integer", "minimum": 0, "maximum": 3}
+      }
+    },
+    "compilation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["compiler_version", "token_estimate", "token_budget", "warnings", "dropped", "size_adjusted"],
+      "properties": {
+        "compiler_version": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$"},
+        "token_estimate": {"type": "integer", "minimum": 0},
+        "token_budget": {"type": ["integer", "null"], "minimum": 1},
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["code", "message"],
+            "properties": {
+              "code": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+              "message": {"type": "string", "maxLength": 1000}
+            }
+          }
+        },
+        "dropped": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["field", "reason"],
+            "properties": {
+              "field": {"type": "string", "maxLength": 200},
+              "reason": {"type": "string", "maxLength": 1000}
+            }
+          }
+        },
+        "size_adjusted": {"type": "boolean"}
+      }
+    }
+  }
+}

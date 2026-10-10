@@ -1,0 +1,326 @@
+{
+  "artifacts": {
+    "brief_metallic-identity-01": {
+      "kind": "creative_brief",
+      "schema_version": "atelier.creative_brief.v1",
+      "path": "artifacts/creative_brief/brief_metallic-identity-01.json",
+      "sha256": "c145af98383b84f6f98693c03a552998491024655227bbc14b5ecf624cbff0f9",
+      "created_at": "2026-10-10T08:44:30.976182Z"
+    },
+    "research_mock-demo": {
+      "kind": "research_notes",
+      "schema_version": "atelier.research_notes.v1",
+      "path": "artifacts/research_notes/research_mock-demo.json",
+      "sha256": "8e284d0dab0990bbceac75723f4bdc850400750fa0b6f5d1d723d56457f7b6e1",
+      "created_at": "2026-10-10T08:44:31.059503Z"
+    },
+    "brief_metallic-identity-01.interpreted": {
+      "kind": "creative_brief",
+      "schema_version": "atelier.creative_brief.v1",
+      "path": "artifacts/creative_brief/brief_metallic-identity-01.interpreted.json",
+      "sha256": "74ca4804da2e7a959a88c5a2d6297a2ed99b0c3ca27861a64f5b188d02d24b72",
+      "created_at": "2026-10-10T08:44:31.064538Z"
+    },
+    "concepts_mock-demo": {
+      "kind": "concept_set",
+      "schema_version": "atelier.concept_set.v1",
+      "path": "artifacts/concept_set/concepts_mock-demo.json",
+      "sha256": "b0aeec098f0f9c70c635f7b7bae08f9d837dc021528fe241fdf66ce0ba43898c",
+      "created_at": "2026-10-10T08:44:31.086686Z"
+    },
+    "draft_mock-demo": {
+      "kind": "art_direction_draft",
+      "schema_version": "atelier.art_direction_draft.v1",
+      "path": "artifacts/art_direction_draft/draft_mock-demo.json",
+      "sha256": "b45d7c3e05c63608c196c96ae88013f6232c9ecc9cc935bf54dffa9cfb92df9f",
+      "created_at": "2026-10-10T08:44:31.105475Z"
+    },
+    "matspec_mock-demo": {
+      "kind": "material_spec",
+      "schema_version": "atelier.material_spec.v1",
+      "path": "artifacts/material_spec/matspec_mock-demo.json",
+      "sha256": "56d9d2b2eaef20803258de4a269a89b30ce55a201042c421a8d681e4f982ee59",
+      "created_at": "2026-10-10T08:44:31.150664Z"
+    },
+    "ad_mock-demo-v1": {
+      "kind": "art_direction",
+      "schema_version": "atelier.art_direction.v1",
+      "path": "artifacts/art_direction/ad_mock-demo-v1.json",
+      "sha256": "433282208ccb8d275c1781d570d721d3c1eccee33f6b249385219f1ac33abc82",
+      "created_at": "2026-10-10T08:44:31.155974Z"
+    },
+    "req_mock-demo-i0-s0": {
+      "kind": "generation_request",
+      "schema_version": "atelier.generation_request.v1",
+      "path": "artifacts/generation_request/req_mock-demo-i0-s0.json",
+      "sha256": "915bfc04641da159a141d2c287dc09ae0c2bd7f3827155038e1f26817e35edc1",
+      "created_at": "2026-10-10T08:44:31.180925Z"
+    },
+    "req_mock-demo-i0-s1": {
+      "kind": "generation_request",
+      "schema_version": "atelier.generation_request.v1",
+      "path": "artifacts/generation_request/req_mock-demo-i0-s1.json",
+      "sha256": "041ef6618763d3d9f32baadff7c4451956e4b70d31cbcbfda660d59f1f39deb1",
+      "created_at": "2026-10-10T08:44:31.185654Z"
+    },
+    "req_mock-demo-i0-s2": {
+      "kind": "generation_request",
+      "schema_version": "atelier.generation_request.v1",
+      "path": "artifacts/generation_request/req_mock-demo-i0-s2.json",
+      "sha256": "998f204b8e5c2fd7f63efedb860fd2c8b3f36adb588f980c55d1d5a11235142b",
+      "created_at": "2026-10-10T08:44:31.190070Z"
+    },
+    "req_mock-demo-i0-s3": {
+      "kind": "generation_request",
+      "schema_version": "atelier.generation_request.v1",
+      "path": "artifacts/generation_request/req_mock-demo-i0-s3.json",
+      "sha256": "5a3d1a1636c70cea394d854f344c03dc036a5a239fced8511b1d800feb429abd",
+      "created_at": "2026-10-10T08:44:31.194608Z"
+    },
+    "result_mock-demo-i0-s0": {
+      "kind": "generation_result",
+      "schema_version": "atelier.generation_result.v1",
+      "path": "artifacts/generation_result/result_mock-demo-i0-s0.json",
+      "sha256": "38a6717498f6ded0f2a3e91e823f3e10f4a0641a09fc5e0a9957bce2ac3d242b",
+      "created_at": "2026-10-10T08:44:31.610917Z"
+    },
+    "result_mock-demo-i0-s1": {
+      "kind": "generation_result",
+      "schema_version": "atelier.generation_result.v1",
+      "path": "artifacts/generation_result/result_mock-demo-i0-s1.json",
+      "sha256": "a4bd4ab4bf624ffa7af72ba50526784b43c1ea85223c529ee48268ec403413c4",
+      "created_at": "2026-10-10T08:44:31.768417Z"
+    },
+    "result_mock-demo-i0-s2": {
+      "kind": "generation_result",
+      "schema_version": "atelier.generation_result.v1",
+      "path": "artifacts/generation_result/result_mock-demo-i0-s2.json",
+      "sha256": "78994d90c6be376d9f0d79513a02bf193e6b48c598a89185deaadbca42cbde69",
+      "created_at": "2026-10-10T08:44:32.141411Z"
+    },
+    "result_mock-demo-i0-s3": {
+      "kind": "generation_result",
+      "schema_version": "atelier.generation_result.v1",
+      "path": "artifacts/generation_result/result_mock-demo-i0-s3.json",
+      "sha256": "be4ddfa92ac66a41f38f4b8043f8fcfe1a1a7335fdee305e61bf60b57853d37e",
+      "created_at": "2026-10-10T08:44:32.403281Z"
+    },
+    "qa_mock-demo-i0-s0": {
+      "kind": "qa_report",
+      "schema_version": "atelier.qa_report.v1",
+      "path": "artifacts/qa_report/qa_mock-demo-i0-s0.json",
+      "sha256": "78a699639eed9d0f6f9124963e16784f3f1f0a253dad8fadfa072f64dd6f79c5",
+      "created_at": "2026-10-10T08:44:32.512453Z"
+    },
+    "qa_mock-demo-i0-s1": {
+      "kind": "qa_report",
+      "schema_version": "atelier.qa_report.v1",
+      "path": "artifacts/qa_report/qa_mock-demo-i0-s1.json",
+      "sha256": "9da3c284c5a07225bc6df52ebebe0b99af78ae13db2009bb05450c7d001a2f78",
+      "created_at": "2026-10-10T08:44:32.584997Z"
+    },
+    "qa_mock-demo-i0-s2": {
+      "kind": "qa_report",
+      "schema_version": "atelier.qa_report.v1",
+      "path": "artifacts/qa_report/qa_mock-demo-i0-s2.json",
+      "sha256": "a9d4ac50e9e8d25ada86dd3caf6542e0d5a3c9551495ff4fe77ff5ba2b9d091c",
+      "created_at": "2026-10-10T08:44:32.648170Z"
+    },
+    "qa_mock-demo-i0-s3": {
+      "kind": "qa_report",
+      "schema_version": "atelier.qa_report.v1",
+      "path": "artifacts/qa_report/qa_mock-demo-i0-s3.json",
+      "sha256": "fa053af4a28e3f0757e6ab344ea5c22a42ed77e8dbb735d9c2ed7dbec1d55db3",
+      "created_at": "2026-10-10T08:44:32.710422Z"
+    },
+    "crit_mock-demo-i0-s0": {
+      "kind": "critique",
+      "schema_version": "atelier.critique.v1",
+      "path": "artifacts/critique/crit_mock-demo-i0-s0.json",
+      "sha256": "703b8d32d9a421e412955d151ac8c2ac9aa4cb5150f5f35c6ec924f19b7b6dfc",
+      "created_at": "2026-10-10T08:44:32.864290Z"
+    },
+    "crit_mock-demo-i0-s1": {
+      "kind": "critique",
+      "schema_version": "atelier.critique.v1",
+      "path": "artifacts/critique/crit_mock-demo-i0-s1.json",
+      "sha256": "8dc4c4c5111b6383a2ce6b7587ef2697bb45f158374e3f32ea0842c70b932fdb",
+      "created_at": "2026-10-10T08:44:32.967676Z"
+    },
+    "crit_mock-demo-i0-s2": {
+      "kind": "critique",
+      "schema_version": "atelier.critique.v1",
+      "path": "artifacts/critique/crit_mock-demo-i0-s2.json",
+      "sha256": "19c5abb2f14f94bd90837b6bc42e8ffcace805bbfc93351d692b114c54a36b92",
+      "created_at": "2026-10-10T08:44:33.097030Z"
+    },
+    "crit_mock-demo-i0-s3": {
+      "kind": "critique",
+      "schema_version": "atelier.critique.v1",
+      "path": "artifacts/critique/crit_mock-demo-i0-s3.json",
+      "sha256": "5c45003a3852a5d1a2bab33f27e9bb630551571365fa6b223b67d827c8c38726",
+      "created_at": "2026-10-10T08:44:33.204399Z"
+    },
+    "sel_mock-demo-i0": {
+      "kind": "selection",
+      "schema_version": "atelier.selection.v1",
+      "path": "artifacts/selection/sel_mock-demo-i0.json",
+      "sha256": "5a9f498fb6efbb483bbbc4d200478dc142eb15f083b14aaa1b3eb5d6da50cec0",
+      "created_at": "2026-10-10T08:44:33.250713Z"
+    },
+    "cur_mock-demo-i0": {
+      "kind": "curation",
+      "schema_version": "atelier.curation.v1",
+      "path": "artifacts/curation/cur_mock-demo-i0.json",
+      "sha256": "341520302acb7815610a76fdfb11ab5fb77497bac32c59f157a999e37ea4eec9",
+      "created_at": "2026-10-10T08:44:33.302692Z"
+    },
+    "plan_mock-demo-i1": {
+      "kind": "iteration_plan",
+      "schema_version": "atelier.iteration_plan.v1",
+      "path": "artifacts/iteration_plan/plan_mock-demo-i1.json",
+      "sha256": "d1a237285416f3725770b9c0a19e697f16796e76225b8e7f40b800a2c6fc44c2",
+      "created_at": "2026-10-10T08:44:33.307629Z"
+    },
+    "ad_mock-demo-v2": {
+      "kind": "art_direction",
+      "schema_version": "atelier.art_direction.v1",
+      "path": "artifacts/art_direction/ad_mock-demo-v2.json",
+      "sha256": "41d90f9c68c5186ae5fda183e4938a0e6229c9122d5464bf78bb47cc73c75186",
+      "created_at": "2026-10-10T08:44:33.329037Z"
+    },
+    "req_mock-demo-i1-s0": {
+      "kind": "generation_request",
+      "schema_version": "atelier.generation_request.v1",
+      "path": "artifacts/generation_request/req_mock-demo-i1-s0.json",
+      "sha256": "8fd6b6774bd1a715004df9f9a70f07496625fcd49d3c883ec9d2c189ccc38eec",
+      "created_at": "2026-10-10T08:44:33.340879Z"
+    },
+    "req_mock-demo-i1-s1": {
+      "kind": "generation_request",
+      "schema_version": "atelier.generation_request.v1",
+      "path": "artifacts/generation_request/req_mock-demo-i1-s1.json",
+      "sha256": "a302fc91e6ecd0427b8f4e185f089ba610a16c9d8be48b1a96430ca02d1da815",
+      "created_at": "2026-10-10T08:44:33.344926Z"
+    },
+    "req_mock-demo-i1-s2": {
+      "kind": "generation_request",
+      "schema_version": "atelier.generation_request.v1",
+      "path": "artifacts/generation_request/req_mock-demo-i1-s2.json",
+      "sha256": "c2248ad2b40d6fe04a033fd54b57c54b3588625ad54bf7cbcb67f5948247e633",
+      "created_at": "2026-10-10T08:44:33.348738Z"
+    },
+    "req_mock-demo-i1-s3": {
+      "kind": "generation_request",
+      "schema_version": "atelier.generation_request.v1",
+      "path": "artifacts/generation_request/req_mock-demo-i1-s3.json",
+      "sha256": "58499d03b0d3d2ea9a0bcb180d950c11e7bb70e7780ff649028ea328ca64250c",
+      "created_at": "2026-10-10T08:44:33.353202Z"
+    },
+    "result_mock-demo-i1-s0": {
+      "kind": "generation_result",
+      "schema_version": "atelier.generation_result.v1",
+      "path": "artifacts/generation_result/result_mock-demo-i1-s0.json",
+      "sha256": "d2ab4c78151e3da7194c86836134f94a3a17687cde144fd6cf8d6cec9e201e74",
+      "created_at": "2026-10-10T08:44:33.527482Z"
+    },
+    "result_mock-demo-i1-s1": {
+      "kind": "generation_result",
+      "schema_version": "atelier.generation_result.v1",
+      "path": "artifacts/generation_result/result_mock-demo-i1-s1.json",
+      "sha256": "ae9fbed1f566f405cf76fe695778bc5c5697bf46a8b10b720c362074ebb9d360",
+      "created_at": "2026-10-10T08:44:33.912186Z"
+    },
+    "result_mock-demo-i1-s2": {
+      "kind": "generation_result",
+      "schema_version": "atelier.generation_result.v1",
+      "path": "artifacts/generation_result/result_mock-demo-i1-s2.json",
+      "sha256": "3554c511d694f2d3ba3626253ad38ed8166c6a9559a4adfb22f81f17b9d89f0f",
+      "created_at": "2026-10-10T08:44:34.116935Z"
+    },
+    "result_mock-demo-i1-s3": {
+      "kind": "generation_result",
+      "schema_version": "atelier.generation_result.v1",
+      "path": "artifacts/generation_result/result_mock-demo-i1-s3.json",
+      "sha256": "abe8c83412fbfa12681756ba57dbb83fce872d5d57c5b0e2ab26d5c18ce91d43",
+      "created_at": "2026-10-10T08:44:34.316794Z"
+    },
+    "qa_mock-demo-i1-s0": {
+      "kind": "qa_report",
+      "schema_version": "atelier.qa_report.v1",
+      "path": "artifacts/qa_report/qa_mock-demo-i1-s0.json",
+      "sha256": "dc644a919c6ef00410c57826f6cdc8c342019518073bc43cbd7627b8827339d2",
+      "created_at": "2026-10-10T08:44:34.387597Z"
+    },
+    "qa_mock-demo-i1-s1": {
+      "kind": "qa_report",
+      "schema_version": "atelier.qa_report.v1",
+      "path": "artifacts/qa_report/qa_mock-demo-i1-s1.json",
+      "sha256": "9143bd4a17e35004d2bab73ec984d394f971455acd5b6d51c48d9a75307453a8",
+      "created_at": "2026-10-10T08:44:34.452940Z"
+    },
+    "qa_mock-demo-i1-s2": {
+      "kind": "qa_report",
+      "schema_version": "atelier.qa_report.v1",
+      "path": "artifacts/qa_report/qa_mock-demo-i1-s2.json",
+      "sha256": "15c0e43707bcf06e26a95007114dcbc8b167f5d614347dd61e88c4395778109e",
+      "created_at": "2026-10-10T08:44:34.516328Z"
+    },
+    "qa_mock-demo-i1-s3": {
+      "kind": "qa_report",
+      "schema_version": "atelier.qa_report.v1",
+      "path": "artifacts/qa_report/qa_mock-demo-i1-s3.json",
+      "sha256": "fe071d11f77b2a91b7ae10ea05a01b1aae89b02ca8ff320acb8a6b50ff30aeba",
+      "created_at": "2026-10-10T08:44:34.579537Z"
+    },
+    "crit_mock-demo-i1-s0": {
+      "kind": "critique",
+      "schema_version": "atelier.critique.v1",
+      "path": "artifacts/critique/crit_mock-demo-i1-s0.json",
+      "sha256": "a6debec2dd1669d1312354e08ae8efb086dd141709c6574a0b4fa532dca35750",
+      "created_at": "2026-10-10T08:44:34.742806Z"
+    },
+    "crit_mock-demo-i1-s1": {
+      "kind": "critique",
+      "schema_version": "atelier.critique.v1",
+      "path": "artifacts/critique/crit_mock-demo-i1-s1.json",
+      "sha256": "0ae7489be9d49b3f7be17caa33ad6838c7e5369ebf567861b646b1370a261fe8",
+      "created_at": "2026-10-10T08:44:34.844353Z"
+    },
+    "crit_mock-demo-i1-s2": {
+      "kind": "critique",
+      "schema_version": "atelier.critique.v1",
+      "path": "artifacts/critique/crit_mock-demo-i1-s2.json",
+      "sha256": "b430c673730a019e8daea0de396a0b3a50e6e17ef113299e62a6e03837a1234f",
+      "created_at": "2026-10-10T08:44:34.954690Z"
+    },
+    "crit_mock-demo-i1-s3": {
+      "kind": "critique",
+      "schema_version": "atelier.critique.v1",
+      "path": "artifacts/critique/crit_mock-demo-i1-s3.json",
+      "sha256": "86debe2d2ebc9a56bc63d071c0bb779d3ab72a2907f8888ba65d8d0ed6835bfa",
+      "created_at": "2026-10-10T08:44:35.062436Z"
+    },
+    "sel_mock-demo-i1": {
+      "kind": "selection",
+      "schema_version": "atelier.selection.v1",
+      "path": "artifacts/selection/sel_mock-demo-i1.json",
+      "sha256": "c304e4cbd680665cce052a45d070e2c9f5a55b7ecc333267458e95ace4dd466e",
+      "created_at": "2026-10-10T08:44:35.091349Z"
+    },
+    "cur_mock-demo-i1": {
+      "kind": "curation",
+      "schema_version": "atelier.curation.v1",
+      "path": "artifacts/curation/cur_mock-demo-i1.json",
+      "sha256": "0f00b330ed229e4e3edff058f109bb44f546b3d62ecf7c0bfa74dd767ab4509f",
+      "created_at": "2026-10-10T08:44:35.115166Z"
+    },
+    "approval_mock-demo-1": {
+      "kind": "approval",
+      "schema_version": "atelier.approval.v1",
+      "path": "artifacts/approval/approval_mock-demo-1.json",
+      "sha256": "d4ba74403d735285dfb5a9f30474fe4182c5a09cb2e69e5982b3aaa1e5da5bea",
+      "created_at": "2026-10-10T08:44:36.239252Z"
+    }
+  }
+}

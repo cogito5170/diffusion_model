@@ -1,0 +1,134 @@
+{
+  "schema_version": "atelier.art_direction.v1",
+  "art_direction_id": "ad_example-v1",
+  "version": 1,
+  "parent_id": null,
+  "brief_id": "brief_metallic-identity-01",
+  "concept_id": "concept_example-mirror",
+  "provenance": {
+    "draft_id": "draft_example-01",
+    "material_spec_id": "matspec_example-01",
+    "derived_from_plan_id": null
+  },
+  "concept_thesis": "A perfectly reflective form returns the whole industrial room to the viewer but withholds the face: identity appears only as the distortion it causes in a surface.",
+  "visual_hypothesis": "If the reflection carries more information than the object, the viewer reads absence instead of a sculpture.",
+  "subject": {
+    "description": "a sculptural liquid chrome mass with an implied human shoulder contour, alone in an empty industrial hall",
+    "human_presence": "implied",
+    "human_treatment": "shoulder contour only, no face"
+  },
+  "composition": {
+    "framing": "medium",
+    "camera_angle": "eye level, slightly off axis",
+    "lens_mm": 85,
+    "layout": "subject on left third, reflected girders lead right",
+    "focal_hierarchy": [
+      "shoulder contour",
+      "reflected room",
+      "floor seam"
+    ],
+    "negative_space": "balanced"
+  },
+  "palette": {
+    "colors": [
+      {
+        "hex": "#2E3034",
+        "name": "Graphite",
+        "role": "dominant"
+      },
+      {
+        "hex": "#D6DAE0",
+        "name": "Chrome",
+        "role": "highlight"
+      },
+      {
+        "hex": "#0C0C0E",
+        "name": "Black",
+        "role": "shadow"
+      }
+    ],
+    "saturation": "muted"
+  },
+  "mood": [
+    "austere",
+    "contemplative",
+    "quiet unease"
+  ],
+  "semantic_constraints": [
+    {
+      "constraint": "no visible face",
+      "priority": "must"
+    },
+    {
+      "constraint": "industrial space",
+      "priority": "must"
+    },
+    {
+      "constraint": "the reflection shows the room",
+      "priority": "should"
+    }
+  ],
+  "avoidance_constraints": [
+    {
+      "term": "visible face",
+      "reason": "brief must_avoid"
+    },
+    {
+      "term": "robot",
+      "reason": "brief must_avoid"
+    },
+    {
+      "term": "science fiction",
+      "reason": "brief must_avoid"
+    },
+    {
+      "term": "cartoon",
+      "reason": "domain is fine-art editorial"
+    }
+  ],
+  "output": {
+    "aspect_ratio": "4:5",
+    "width": 512,
+    "height": 640
+  },
+  "materials": [
+    {
+      "material_id": "figure",
+      "type": "liquid_chrome",
+      "finish": "mirror",
+      "reflectivity": 0.95,
+      "roughness": 0.04,
+      "anisotropy": 0.0,
+      "curvature": "fluid",
+      "imperfections": [
+        "faint pooling ripples"
+      ],
+      "role": "the implied figure"
+    },
+    {
+      "material_id": "floor",
+      "type": "brushed_steel",
+      "finish": "satin brushed",
+      "reflectivity": 0.55,
+      "roughness": 0.35,
+      "anisotropy": 0.8,
+      "curvature": "flat",
+      "imperfections": [
+        "fine micro-scratches"
+      ],
+      "role": "ground plane"
+    }
+  ],
+  "lighting": {
+    "setup": "single hard key with black flags",
+    "key": {
+      "direction": "from upper left",
+      "hardness": "hard",
+      "color_temperature_k": 5600
+    },
+    "fill": "none",
+    "rim": false,
+    "environment": "empty industrial hall with steel girders and skylights",
+    "contrast_ratio": "8:1"
+  }
+}

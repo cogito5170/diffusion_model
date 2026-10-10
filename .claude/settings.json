@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 -m atelier:*)",
+      "Bash(python -m atelier:*)",
+      "Bash(python3 -m unittest:*)",
+      "Bash(python -m unittest:*)"
+    ],
+    "ask": [
+      "Bash(pip install:*)",
+      "Bash(pip3 install:*)",
+      "Bash(uv pip install:*)",
+      "Bash(huggingface-cli download:*)",
+      "Bash(hf download:*)"
+    ]
+  }
+}

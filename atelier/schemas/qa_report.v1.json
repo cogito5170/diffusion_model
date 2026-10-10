@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://atelier.invalid/schemas/qa_report.v1.json",
+  "title": "Technical QA Report v1 (deterministic, evaluator.py)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "qa_id", "candidate_id", "result_id", "passed", "checks", "metrics"],
+  "properties": {
+    "schema_version": {"const": "atelier.qa_report.v1"},
+    "qa_id": {"$ref": "common.v1.json#/$defs/identifier"},
+    "candidate_id": {"$ref": "common.v1.json#/$defs/identifier"},
+    "result_id": {"$ref": "common.v1.json#/$defs/identifier"},
+    "passed": {"type": "boolean"},
+    "checks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "passed", "value", "threshold", "message"],
+        "properties": {
+          "name": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+          "passed": {"type": "boolean"},
+          "value": {"type": ["number", "string", "boolean", "null"]},
+          "threshold": {"type": ["number", "string", "boolean", "null"]},
+          "message": {"type": "string", "maxLength": 1000}
+        }
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": {"type": "number"}
+    }
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://atelier.invalid/schemas/research_notes.v1.json",
+  "title": "Research Notes v1 (concept-researcher output)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "research_id", "brief_id", "produced_by", "research_mode", "sources", "context_notes", "interpretation", "visual_vocabulary", "cautions"],
+  "properties": {
+    "schema_version": {"const": "atelier.research_notes.v1"},
+    "research_id": {"$ref": "common.v1.json#/$defs/identifier"},
+    "brief_id": {"$ref": "common.v1.json#/$defs/identifier"},
+    "produced_by": {"$ref": "common.v1.json#/$defs/producer"},
+    "research_mode": {"enum": ["web_and_knowledge", "model_knowledge_only", "offline_stub"]},
+    "sources": {
+      "type": "array",
+      "maxItems": 30,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["title", "locator", "kind", "verified", "relevance"],
+        "properties": {
+          "title": {"$ref": "common.v1.json#/$defs/short_text"},
+          "locator": {"type": ["string", "null"], "maxLength": 1000},
+          "kind": {"enum": ["web", "publication", "artwork", "exhibition", "model_knowledge"]},
+          "verified": {"type": "boolean", "description": "true only if the source was actually opened/checked during this run"},
+          "relevance": {"$ref": "common.v1.json#/$defs/long_text"}
+        }
+      }
+    },
+    "context_notes": {
+      "type": "array",
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["topic", "note"],
+        "properties": {
+          "topic": {"$ref": "common.v1.json#/$defs/short_text"},
+          "note": {"$ref": "common.v1.json#/$defs/long_text"}
+        }
+      }
+    },
+    "interpretation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["summary", "themes", "tensions", "open_questions"],
+      "properties": {
+        "summary": {"$ref": "common.v1.json#/$defs/long_text"},
+        "themes": {"type": "array", "minItems": 1, "maxItems": 12, "items": {"$ref": "common.v1.json#/$defs/short_text"}},
+        "tensions": {"type": "array", "minItems": 1, "maxItems": 10, "items": {"$ref": "common.v1.json#/$defs/tension"}},
+        "open_questions": {"$ref": "common.v1.json#/$defs/short_text_list"}
+      }
+    },
+    "visual_vocabulary": {"$ref": "common.v1.json#/$defs/short_text_list"},
+    "cautions": {"$ref": "common.v1.json#/$defs/short_text_list"}
+  }
+}

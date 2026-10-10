@@ -1,0 +1,74 @@
+{
+  "candidate_id": "cand_mock-demo-i1-s0",
+  "checks": [
+    {
+      "message": "result lists at least one image",
+      "name": "image_present",
+      "passed": true,
+      "threshold": 1,
+      "value": 1
+    },
+    {
+      "message": "images/cand_mock-demo-i1-s0/a1/image_0.png",
+      "name": "file_exists",
+      "passed": true,
+      "threshold": true,
+      "value": true
+    },
+    {
+      "message": "file hash equals recorded hash",
+      "name": "sha256_matches",
+      "passed": true,
+      "threshold": null,
+      "value": null
+    },
+    {
+      "message": "image decodes",
+      "name": "decodes",
+      "passed": true,
+      "threshold": true,
+      "value": true
+    },
+    {
+      "message": "output size equals requested size",
+      "name": "dimensions_match",
+      "passed": true,
+      "threshold": "512x640",
+      "value": "512x640"
+    },
+    {
+      "message": "luma standard deviation (detects flat/blank frames)",
+      "name": "not_blank",
+      "passed": true,
+      "threshold": 0.02,
+      "value": 0.14141
+    },
+    {
+      "message": "fraction of pixels crushed to black or blown to white",
+      "name": "exposure_clipping",
+      "passed": true,
+      "threshold": 0.6,
+      "value": 0.00597
+    },
+    {
+      "message": "Laplacian variance (detects fully blurred frames)",
+      "name": "sharpness",
+      "passed": true,
+      "threshold": 1e-05,
+      "value": 0.0033247
+    }
+  ],
+  "metrics": {
+    "clipped_bright_fraction": 0.005972,
+    "clipped_dark_fraction": 0.0,
+    "mean_luma": 0.597908,
+    "saturation_mean": 0.04406,
+    "sharpness": 0.003325,
+    "specular_fraction": 0.009241,
+    "std_luma": 0.14141
+  },
+  "passed": true,
+  "qa_id": "qa_mock-demo-i1-s0",
+  "result_id": "result_mock-demo-i1-s0",
+  "schema_version": "atelier.qa_report.v1"
+}

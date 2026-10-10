@@ -1,0 +1,78 @@
+{
+  "candidate_notes": [
+    {
+      "candidate_id": "cand_mock-demo-i0-s0",
+      "note": "score rank 1, weighted 4.15"
+    },
+    {
+      "candidate_id": "cand_mock-demo-i0-s1",
+      "note": "score rank 2, weighted 4.0"
+    },
+    {
+      "candidate_id": "cand_mock-demo-i0-s3",
+      "note": "score rank 3, weighted 4.0"
+    },
+    {
+      "candidate_id": "cand_mock-demo-i0-s2",
+      "note": "score rank 4, weighted 3.85"
+    }
+  ],
+  "curation_id": "cur_mock-demo-i0",
+  "iteration": 0,
+  "iteration_plan": {
+    "base_art_direction_id": "ad_mock-demo-v1",
+    "based_on_selection_id": "sel_mock-demo-i0",
+    "improvement_criterion": {
+      "aggregate": "mean",
+      "comparator": ">",
+      "metric": "material_plausibility",
+      "threshold": 4.0
+    },
+    "iteration": 1,
+    "keep_seeds": true,
+    "plan_id": "plan_mock-demo-i1",
+    "schema_version": "atelier.iteration_plan.v1",
+    "what_failed": [
+      {
+        "dimension": "material_plausibility",
+        "evidence": "batch mean 4.00/5 (largest weighted deficit)"
+      }
+    ],
+    "what_remains_fixed": [
+      "avoidance_constraints",
+      "composition",
+      "concept_thesis",
+      "engine and model",
+      "engine params",
+      "lighting",
+      "mood",
+      "output size",
+      "palette",
+      "seeds per slot",
+      "semantic_constraints",
+      "subject",
+      "visual_hypothesis"
+    ],
+    "what_will_change": [
+      {
+        "from": [],
+        "path": "/materials/0/imperfections",
+        "rationale": "Perfect surfaces read as CG; sparse micro-scratches are a physical cue of real metal.",
+        "to": [
+          "fine micro-scratches"
+        ]
+      }
+    ],
+    "why_it_should_help": "Perfect surfaces read as CG; sparse micro-scratches are a physical cue of real metal."
+  },
+  "produced_by": {
+    "kind": "offline_stub",
+    "name": "rule-based-curator-v1"
+  },
+  "rationale": "Shortlist ['cand_mock-demo-i0-s0', 'cand_mock-demo-i0-s1', 'cand_mock-demo-i0-s3'] chosen by weighted score with MMR diversity; ratings are heuristic proxies (offline mode).",
+  "recommendation": "iterate",
+  "run_id": "run_mock-demo",
+  "schema_version": "atelier.curation.v1",
+  "selection_id": "sel_mock-demo-i0",
+  "stop_reason": null
+}

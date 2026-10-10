@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://atelier.invalid/schemas/curation.v1.json",
+  "title": "Curation v1 (curator output: comparison, rationale, and at most one bounded experiment)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "curation_id", "run_id", "iteration", "selection_id", "produced_by", "rationale",
+               "candidate_notes", "recommendation", "stop_reason", "iteration_plan"],
+  "properties": {
+    "schema_version": {"const": "atelier.curation.v1"},
+    "curation_id": {"$ref": "common.v1.json#/$defs/identifier"},
+    "run_id": {"$ref": "common.v1.json#/$defs/identifier"},
+    "iteration": {"type": "integer", "minimum": 0, "maximum": 5},
+    "selection_id": {"$ref": "common.v1.json#/$defs/identifier"},
+    "produced_by": {"$ref": "common.v1.json#/$defs/producer"},
+    "rationale": {"$ref": "common.v1.json#/$defs/long_text"},
+    "candidate_notes": {
+      "type": "array",
+      "maxItems": 48,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["candidate_id", "note"],
+        "properties": {
+          "candidate_id": {"$ref": "common.v1.json#/$defs/identifier"},
+          "note": {"$ref": "common.v1.json#/$defs/long_text"}
+        }
+      }
+    },
+    "recommendation": {"enum": ["iterate", "stop"]},
+    "stop_reason": {"type": ["string", "null"], "maxLength": 1000},
+    "iteration_plan": {"oneOf": [{"type": "null"}, {"$ref": "iteration_plan.v1.json"}]}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"recommendation": {"const": "iterate"}}},
+      "then": {"properties": {"iteration_plan": {"type": "object"}}}
+    },
+    {
+      "if": {"properties": {"recommendation": {"const": "stop"}}},
+      "then": {"properties": {"iteration_plan": {"type": "null"}, "stop_reason": {"type": "string", "minLength": 1}}}
+    }
+  ]
+}

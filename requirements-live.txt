@@ -1,0 +1,8 @@
+# OPTIONAL live generation with the diffusers-local engine. Read docs/LIVE_GENERATION.md first.
+# Install deliberately; nothing in this repo installs these automatically.
+-r requirements.txt
+torch
+diffusers>=0.27
+transformers
+accelerate
+huggingface_hub

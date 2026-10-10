@@ -1,0 +1,53 @@
+{
+  "schema_version": "atelier.run_config.v1",
+  "config_id": "config_mock-claude-code",
+  "engine": {
+    "engine_id": "mock",
+    "model_id": "mock-procedural-v1",
+    "options": {}
+  },
+  "engine_params": {},
+  "agent_backend": "claude_code",
+  "batch_size": 4,
+  "max_iterations": 2,
+  "max_major_variables_per_iteration": 1,
+  "weights": {
+    "intent_alignment": 0.25,
+    "material_plausibility": 0.2,
+    "composition": 0.15,
+    "visual_coherence": 0.15,
+    "originality": 0.15,
+    "technical_quality": 0.1
+  },
+  "selection": {
+    "shortlist_size": 3,
+    "mmr_lambda": 0.7,
+    "near_duplicate_threshold": 0.08
+  },
+  "stopping": {
+    "target_weighted_score": 4.6,
+    "min_dimension_for_target": 4,
+    "min_improvement": 0.0
+  },
+  "budget": {
+    "max_total_images": 12,
+    "max_generation_attempts": 24,
+    "max_cost_usd": 0.0,
+    "max_engine_seconds": 600
+  },
+  "generation": {
+    "timeout_s": 60,
+    "max_retries": 1,
+    "retry_on_timeout": false,
+    "base_seed": 20261010
+  },
+  "agents": {
+    "max_rejections_per_step": 2
+  },
+  "qa": {
+    "min_luma_std": 0.02,
+    "max_clipped_fraction": 0.6,
+    "min_sharpness": 1e-05
+  },
+  "require_human_approval": true
+}

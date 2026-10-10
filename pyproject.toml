@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "atelier"
+version = "0.1.0"
+description = "Agent-orchestrated, schema-validated aesthetic image generation (metallic fine-art editorial domain)"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "jsonschema>=4.18",   # includes the 'referencing' library used for cross-schema $ref
+  "pillow>=10",
+  "numpy>=1.24",
+]
+
+[project.optional-dependencies]
+# Live local inference. Large downloads (torch alone is ~0.2-2.5 GB depending on platform/CUDA). Never auto-installed.
+live = ["torch", "diffusers>=0.27", "transformers", "accelerate", "huggingface_hub"]
+test = ["pytest"]
+
+[project.scripts]
+atelier = "atelier.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["atelier*"]
+
+[tool.setuptools.package-data]
+atelier = ["schemas/*.json"]

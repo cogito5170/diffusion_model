@@ -1,0 +1,242 @@
+{
+  "schema_version": "atelier.run_state.v1",
+  "run_id": "run_mock-demo",
+  "state": "DONE",
+  "waiting_for": null,
+  "iteration": 1,
+  "pointers": {
+    "brief": "brief_metallic-identity-01",
+    "research": "research_mock-demo",
+    "interpreted_brief": "brief_metallic-identity-01.interpreted",
+    "concepts": "concepts_mock-demo",
+    "art_direction_draft": "draft_mock-demo",
+    "material_spec": "matspec_mock-demo",
+    "art_direction": "ad_mock-demo-v2",
+    "approval": "approval_mock-demo-1"
+  },
+  "iterations": [
+    {
+      "iteration": 0,
+      "art_direction_id": "ad_mock-demo-v1",
+      "candidates": [
+        {
+          "candidate_id": "cand_mock-demo-i0-s0",
+          "slot": 0,
+          "request_id": "req_mock-demo-i0-s0",
+          "result_id": "result_mock-demo-i0-s0",
+          "qa_id": "qa_mock-demo-i0-s0",
+          "critique_id": "crit_mock-demo-i0-s0"
+        },
+        {
+          "candidate_id": "cand_mock-demo-i0-s1",
+          "slot": 1,
+          "request_id": "req_mock-demo-i0-s1",
+          "result_id": "result_mock-demo-i0-s1",
+          "qa_id": "qa_mock-demo-i0-s1",
+          "critique_id": "crit_mock-demo-i0-s1"
+        },
+        {
+          "candidate_id": "cand_mock-demo-i0-s2",
+          "slot": 2,
+          "request_id": "req_mock-demo-i0-s2",
+          "result_id": "result_mock-demo-i0-s2",
+          "qa_id": "qa_mock-demo-i0-s2",
+          "critique_id": "crit_mock-demo-i0-s2"
+        },
+        {
+          "candidate_id": "cand_mock-demo-i0-s3",
+          "slot": 3,
+          "request_id": "req_mock-demo-i0-s3",
+          "result_id": "result_mock-demo-i0-s3",
+          "qa_id": "qa_mock-demo-i0-s3",
+          "critique_id": "crit_mock-demo-i0-s3"
+        }
+      ],
+      "selection_id": "sel_mock-demo-i0",
+      "curation_id": "cur_mock-demo-i0",
+      "plan_id": "plan_mock-demo-i1",
+      "plan_outcome": null
+    },
+    {
+      "iteration": 1,
+      "art_direction_id": "ad_mock-demo-v2",
+      "candidates": [
+        {
+          "candidate_id": "cand_mock-demo-i1-s0",
+          "slot": 0,
+          "request_id": "req_mock-demo-i1-s0",
+          "result_id": "result_mock-demo-i1-s0",
+          "qa_id": "qa_mock-demo-i1-s0",
+          "critique_id": "crit_mock-demo-i1-s0"
+        },
+        {
+          "candidate_id": "cand_mock-demo-i1-s1",
+          "slot": 1,
+          "request_id": "req_mock-demo-i1-s1",
+          "result_id": "result_mock-demo-i1-s1",
+          "qa_id": "qa_mock-demo-i1-s1",
+          "critique_id": "crit_mock-demo-i1-s1"
+        },
+        {
+          "candidate_id": "cand_mock-demo-i1-s2",
+          "slot": 2,
+          "request_id": "req_mock-demo-i1-s2",
+          "result_id": "result_mock-demo-i1-s2",
+          "qa_id": "qa_mock-demo-i1-s2",
+          "critique_id": "crit_mock-demo-i1-s2"
+        },
+        {
+          "candidate_id": "cand_mock-demo-i1-s3",
+          "slot": 3,
+          "request_id": "req_mock-demo-i1-s3",
+          "result_id": "result_mock-demo-i1-s3",
+          "qa_id": "qa_mock-demo-i1-s3",
+          "critique_id": "crit_mock-demo-i1-s3"
+        }
+      ],
+      "selection_id": "sel_mock-demo-i1",
+      "curation_id": "cur_mock-demo-i1",
+      "plan_id": null,
+      "plan_outcome": {
+        "plan_id": "plan_mock-demo-i1",
+        "metric": "material_plausibility",
+        "aggregate": "mean",
+        "comparator": ">",
+        "threshold": 4.0,
+        "baseline": 4.0,
+        "measured": 4.0,
+        "met": false
+      }
+    }
+  ],
+  "ledger": {
+    "images": 8,
+    "attempts": 8,
+    "cost_usd_estimated": 0.0,
+    "engine_seconds": 2.0202
+  },
+  "agent_rejections": {},
+  "stop_reason": "curator_recommended_stop: no remaining deficit in dimensions the engine input can change (technical_quality mean is 5.0)",
+  "failure": null,
+  "final_candidate_id": "cand_mock-demo-i0-s0",
+  "original_intent_sha256": "3e05b380fa82030483b35826b6413efc5cc6ec316d0f84634b7dbfa079fd7b40",
+  "config_sha256": "a229970773deb59d07c5a08432ff31ef12b82fc63f5332f46a2cebf2174f95af",
+  "history": [
+    {
+      "from": "CREATED",
+      "to": "BRIEF_ACCEPTED",
+      "at": "2026-10-10T08:44:31.028256Z",
+      "note": "original intent hash recorded"
+    },
+    {
+      "from": "BRIEF_ACCEPTED",
+      "to": "RESEARCHED",
+      "at": "2026-10-10T08:44:31.066763Z",
+      "note": ""
+    },
+    {
+      "from": "RESEARCHED",
+      "to": "CONCEPTS_READY",
+      "at": "2026-10-10T08:44:31.088047Z",
+      "note": ""
+    },
+    {
+      "from": "CONCEPTS_READY",
+      "to": "ART_DIRECTION_DRAFTED",
+      "at": "2026-10-10T08:44:31.106744Z",
+      "note": ""
+    },
+    {
+      "from": "ART_DIRECTION_DRAFTED",
+      "to": "SPEC_VALIDATED",
+      "at": "2026-10-10T08:44:31.157142Z",
+      "note": "schema + semantic checks passed"
+    },
+    {
+      "from": "SPEC_VALIDATED",
+      "to": "PROMPTS_COMPILED",
+      "at": "2026-10-10T08:44:31.201568Z",
+      "note": "4 requests for ad_mock-demo-v1"
+    },
+    {
+      "from": "PROMPTS_COMPILED",
+      "to": "GENERATED",
+      "at": "2026-10-10T08:44:32.414283Z",
+      "note": ""
+    },
+    {
+      "from": "GENERATED",
+      "to": "QA_DONE",
+      "at": "2026-10-10T08:44:32.718265Z",
+      "note": ""
+    },
+    {
+      "from": "QA_DONE",
+      "to": "CRITIQUED",
+      "at": "2026-10-10T08:44:33.211871Z",
+      "note": ""
+    },
+    {
+      "from": "CRITIQUED",
+      "to": "SELECTED",
+      "at": "2026-10-10T08:44:33.309748Z",
+      "note": ""
+    },
+    {
+      "from": "SELECTED",
+      "to": "SPEC_VALIDATED",
+      "at": "2026-10-10T08:44:33.330725Z",
+      "note": "bounded iteration 1: plan_mock-demo-i1"
+    },
+    {
+      "from": "SPEC_VALIDATED",
+      "to": "PROMPTS_COMPILED",
+      "at": "2026-10-10T08:44:33.361339Z",
+      "note": "4 requests for ad_mock-demo-v2"
+    },
+    {
+      "from": "PROMPTS_COMPILED",
+      "to": "GENERATED",
+      "at": "2026-10-10T08:44:34.325978Z",
+      "note": ""
+    },
+    {
+      "from": "GENERATED",
+      "to": "QA_DONE",
+      "at": "2026-10-10T08:44:34.590066Z",
+      "note": ""
+    },
+    {
+      "from": "QA_DONE",
+      "to": "CRITIQUED",
+      "at": "2026-10-10T08:44:35.072873Z",
+      "note": ""
+    },
+    {
+      "from": "CRITIQUED",
+      "to": "SELECTED",
+      "at": "2026-10-10T08:44:35.117210Z",
+      "note": ""
+    },
+    {
+      "from": "SELECTED",
+      "to": "AWAITING_HUMAN_APPROVAL",
+      "at": "2026-10-10T08:44:35.126462Z",
+      "note": "curator_recommended_stop: no remaining deficit in dimensions the engine input can change (technical_quality mean is 5.0)"
+    },
+    {
+      "from": "AWAITING_HUMAN_APPROVAL",
+      "to": "APPROVED",
+      "at": "2026-10-10T08:44:36.248736Z",
+      "note": "approved cand_mock-demo-i0-s0 by scripts/mock_e2e.sh"
+    },
+    {
+      "from": "APPROVED",
+      "to": "DONE",
+      "at": "2026-10-10T08:44:36.659422Z",
+      "note": "final report written"
+    }
+  ],
+  "created_at": "2026-10-10T08:44:30.977066Z",
+  "updated_at": "2026-10-10T08:44:36.659465Z"
+}

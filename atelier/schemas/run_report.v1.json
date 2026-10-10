@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://atelier.invalid/schemas/run_report.v1.json",
+  "title": "Run Report v1 (machine-readable final report)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "report_id", "run_id", "final_state", "stop_reason", "final_candidate_id", "approval_id",
+               "original_intent", "system_interpretation_summary", "engine", "critic_kinds", "iterations", "candidates",
+               "ledger", "evidence_note", "integrity", "generated_at"],
+  "properties": {
+    "schema_version": {"const": "atelier.run_report.v1"},
+    "report_id": {"$ref": "common.v1.json#/$defs/identifier"},
+    "run_id": {"$ref": "common.v1.json#/$defs/identifier"},
+    "final_state": {"type": "string"},
+    "stop_reason": {"type": ["string", "null"]},
+    "final_candidate_id": {"oneOf": [{"type": "null"}, {"$ref": "common.v1.json#/$defs/identifier"}]},
+    "approval_id": {"oneOf": [{"type": "null"}, {"$ref": "common.v1.json#/$defs/identifier"}]},
+    "original_intent": {"type": "string"},
+    "system_interpretation_summary": {"type": ["string", "null"]},
+    "engine": {"$ref": "common.v1.json#/$defs/engine_ref"},
+    "critic_kinds": {"type": "array", "items": {"type": "string"}},
+    "iterations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["iteration", "art_direction_id", "plan_id", "plan_outcome", "best_weighted_score", "mean_weighted_score", "n_succeeded", "n_requested"],
+        "properties": {
+          "iteration": {"type": "integer"},
+          "art_direction_id": {"type": "string"},
+          "plan_id": {"type": ["string", "null"]},
+          "plan_outcome": {"oneOf": [{"type": "null"}, {"$ref": "run_state.v1.json#/$defs/plan_outcome"}]},
+          "best_weighted_score": {"type": ["number", "null"]},
+          "mean_weighted_score": {"type": ["number", "null"]},
+          "n_succeeded": {"type": "integer"},
+          "n_requested": {"type": "integer"}
+        }
+      }
+    },
+    "candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["candidate_id", "iteration", "status", "qa_passed", "weighted_score", "critic_kind", "image_path", "runtime_s"],
+        "properties": {
+          "candidate_id": {"type": "string"},
+          "iteration": {"type": "integer"},
+          "status": {"type": "string"},
+          "qa_passed": {"type": ["boolean", "null"]},
+          "weighted_score": {"type": ["number", "null"]},
+          "critic_kind": {"type": ["string", "null"]},
+          "image_path": {"type": ["string", "null"]},
+          "runtime_s": {"type": ["number", "null"]}
+        }
+      }
+    },
+    "ledger": {"$ref": "run_state.v1.json#/$defs/ledger"},
+    "evidence_note": {"type": "string"},
+    "integrity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["verified", "problems"],
+      "properties": {
+        "verified": {"type": "boolean"},
+        "problems": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "generated_at": {"$ref": "common.v1.json#/$defs/timestamp"}
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "schema_version": "atelier.research_notes.v1",
+  "research_id": "research_example-01",
+  "brief_id": "brief_metallic-identity-01",
+  "produced_by": {
+    "name": "concept-researcher",
+    "kind": "agent"
+  },
+  "research_mode": "model_knowledge_only",
+  "sources": [
+    {
+      "title": "Constantin Brancusi, Bird in Space (polished bronze, 1923-1940s series)",
+      "locator": null,
+      "kind": "artwork",
+      "verified": false,
+      "relevance": "Polished metal used to dissolve a subject into light and reflection; precedent for form-as-essence rather than likeness."
+    },
+    {
+      "title": "Anish Kapoor, Cloud Gate (stainless steel, 2004-2006)",
+      "locator": null,
+      "kind": "artwork",
+      "verified": false,
+      "relevance": "A mirror surface whose subject is the surrounding environment and the viewer's distorted image."
+    },
+    {
+      "title": "Narcissus myth (Ovid, Metamorphoses, Book III)",
+      "locator": null,
+      "kind": "publication",
+      "verified": false,
+      "relevance": "Identity located in a reflection that cannot be possessed."
+    }
+  ],
+  "context_notes": [
+    {
+      "topic": "mirror surfaces in sculpture",
+      "note": "Highly reflective sculpture tends to shift attention from object to surroundings; the image is mostly what the metal reflects."
+    },
+    {
+      "topic": "editorial fine-art photography",
+      "note": "Hard, single-source light and controlled black flags are the usual way to make chrome read as chrome rather than grey plastic."
+    }
+  ],
+  "interpretation": {
+    "summary": "The brief asks for absence rendered as material: a person known only through what a metal surface retains (contour, reflection, abrasion).",
+    "themes": [
+      "identity as surface",
+      "absence and trace",
+      "industrial permanence"
+    ],
+    "tensions": [
+      {
+        "pole_a": "human presence",
+        "pole_b": "impersonal material",
+        "description": "The figure must be legible enough to be missed, but never shown."
+      }
+    ],
+    "open_questions": [
+      "Is the contour on the metal (sculptural) or in the metal (reflected)?"
+    ]
+  },
+  "visual_vocabulary": [
+    "liquid chrome",
+    "brushed steel grain",
+    "hard raking light",
+    "black flags",
+    "reflected girders"
+  ],
+  "cautions": [
+    "Sources are from model knowledge and were not opened in this run (verified=false).",
+    "Avoid direct imitation of a living artist's signature work."
+  ]
+}

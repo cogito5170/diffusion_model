@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://atelier.invalid/schemas/concept_set.v1.json",
+  "title": "Concept Set v1 (concept-generator output)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "concept_set_id", "brief_id", "research_id", "produced_by", "concepts", "distinctness_rationale"],
+  "properties": {
+    "schema_version": {"const": "atelier.concept_set.v1"},
+    "concept_set_id": {"$ref": "common.v1.json#/$defs/identifier"},
+    "brief_id": {"$ref": "common.v1.json#/$defs/identifier"},
+    "research_id": {"$ref": "common.v1.json#/$defs/identifier"},
+    "produced_by": {"$ref": "common.v1.json#/$defs/producer"},
+    "concepts": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["concept_id", "title", "thesis", "tension", "visual_hypothesis", "key_motifs", "risks"],
+        "properties": {
+          "concept_id": {"$ref": "common.v1.json#/$defs/identifier"},
+          "title": {"$ref": "common.v1.json#/$defs/short_text"},
+          "thesis": {"$ref": "common.v1.json#/$defs/long_text"},
+          "tension": {"$ref": "common.v1.json#/$defs/tension"},
+          "visual_hypothesis": {"$ref": "common.v1.json#/$defs/long_text"},
+          "key_motifs": {"type": "array", "minItems": 1, "maxItems": 8, "items": {"$ref": "common.v1.json#/$defs/short_text"}},
+          "risks": {"$ref": "common.v1.json#/$defs/short_text_list"}
+        }
+      }
+    },
+    "recommended_concept_id": {"$ref": "common.v1.json#/$defs/identifier"},
+    "distinctness_rationale": {"$ref": "common.v1.json#/$defs/long_text"}
+  }
+}

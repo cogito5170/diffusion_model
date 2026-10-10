@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://atelier.invalid/schemas/run_state.v1.json",
+  "title": "Run State v1 (persisted orchestrator state, enables resume)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "run_id", "state", "waiting_for", "iteration", "pointers", "iterations", "ledger",
+               "agent_rejections", "stop_reason", "failure", "final_candidate_id", "original_intent_sha256",
+               "config_sha256", "history", "created_at", "updated_at"],
+  "properties": {
+    "schema_version": {"const": "atelier.run_state.v1"},
+    "run_id": {"$ref": "common.v1.json#/$defs/identifier"},
+    "state": {"type": "string", "pattern": "^[A-Z_]+$"},
+    "waiting_for": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "step", "keys", "agent", "task_paths"],
+          "properties": {
+            "kind": {"enum": ["agent", "human"]},
+            "step": {"type": "string"},
+            "keys": {"type": "array", "items": {"type": "string"}},
+            "agent": {"type": ["string", "null"]},
+            "task_paths": {"type": "array", "items": {"type": "string"}}
+          }
+        }
+      ]
+    },
+    "iteration": {"type": "integer", "minimum": 0, "maximum": 5},
+    "pointers": {
+      "type": "object",
+      "additionalProperties": {"oneOf": [{"type": "null"}, {"$ref": "common.v1.json#/$defs/identifier"}]}
+    },
+    "iterations": {
+      "type": "array",
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["iteration", "art_direction_id", "candidates", "selection_id", "curation_id", "plan_id", "plan_outcome"],
+        "properties": {
+          "iteration": {"type": "integer", "minimum": 0},
+          "art_direction_id": {"$ref": "common.v1.json#/$defs/identifier"},
+          "candidates": {
+            "type": "array",
+            "maxItems": 8,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["candidate_id", "slot", "request_id", "result_id", "qa_id", "critique_id"],
+              "properties": {
+                "candidate_id": {"$ref": "common.v1.json#/$defs/identifier"},
+                "slot": {"type": "integer", "minimum": 0},
+                "request_id": {"$ref": "common.v1.json#/$defs/identifier"},
+                "result_id": {"oneOf": [{"type": "null"}, {"$ref": "common.v1.json#/$defs/identifier"}]},
+                "qa_id": {"oneOf": [{"type": "null"}, {"$ref": "common.v1.json#/$defs/identifier"}]},
+                "critique_id": {"oneOf": [{"type": "null"}, {"$ref": "common.v1.json#/$defs/identifier"}]}
+              }
+            }
+          },
+          "selection_id": {"oneOf": [{"type": "null"}, {"$ref": "common.v1.json#/$defs/identifier"}]},
+          "curation_id": {"oneOf": [{"type": "null"}, {"$ref": "common.v1.json#/$defs/identifier"}]},
+          "plan_id": {"oneOf": [{"type": "null"}, {"$ref": "common.v1.json#/$defs/identifier"}]},
+          "plan_outcome": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/plan_outcome"}]}
+        }
+      }
+    },
+    "ledger": {"$ref": "#/$defs/ledger"},
+    "agent_rejections": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+    "stop_reason": {"type": ["string", "null"]},
+    "failure": {"oneOf": [{"type": "null"}, {"$ref": "common.v1.json#/$defs/error"}]},
+    "final_candidate_id": {"oneOf": [{"type": "null"}, {"$ref": "common.v1.json#/$defs/identifier"}]},
+    "original_intent_sha256": {"$ref": "common.v1.json#/$defs/sha256"},
+    "config_sha256": {"$ref": "common.v1.json#/$defs/sha256"},
+    "history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["from", "to", "at", "note"],
+        "properties": {
+          "from": {"type": "string"},
+          "to": {"type": "string"},
+          "at": {"$ref": "common.v1.json#/$defs/timestamp"},
+          "note": {"type": "string"}
+        }
+      }
+    },
+    "created_at": {"$ref": "common.v1.json#/$defs/timestamp"},
+    "updated_at": {"$ref": "common.v1.json#/$defs/timestamp"}
+  },
+  "$defs": {
+    "ledger": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["images", "attempts", "cost_usd_estimated", "engine_seconds"],
+      "properties": {
+        "images": {"type": "integer", "minimum": 0},
+        "attempts": {"type": "integer", "minimum": 0},
+        "cost_usd_estimated": {"type": "number", "minimum": 0},
+        "engine_seconds": {"type": "number", "minimum": 0}
+      }
+    },
+    "plan_outcome": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["plan_id", "metric", "aggregate", "comparator", "threshold", "baseline", "measured", "met"],
+      "properties": {
+        "plan_id": {"$ref": "common.v1.json#/$defs/identifier"},
+        "metric": {"type": "string"},
+        "aggregate": {"enum": ["best", "mean"]},
+        "comparator": {"enum": [">=", ">"]},
+        "threshold": {"type": "number"},
+        "baseline": {"type": ["number", "null"]},
+        "measured": {"type": ["number", "null"]},
+        "met": {"type": "boolean"}
+      }
+    }
+  }
+}

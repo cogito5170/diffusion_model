@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://atelier.invalid/schemas/run_config.v1.json",
+  "title": "Run Config v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "config_id", "engine", "engine_params", "agent_backend", "batch_size", "max_iterations",
+               "max_major_variables_per_iteration", "weights", "selection", "stopping", "budget", "generation", "agents",
+               "qa", "require_human_approval"],
+  "properties": {
+    "schema_version": {"const": "atelier.run_config.v1"},
+    "config_id": {"$ref": "common.v1.json#/$defs/identifier"},
+    "engine": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["engine_id", "model_id", "options"],
+      "properties": {
+        "engine_id": {"enum": ["mock", "diffusers-local"]},
+        "model_id": {"$ref": "common.v1.json#/$defs/short_text"},
+        "options": {"type": "object"}
+      }
+    },
+    "engine_params": {"type": "object", "additionalProperties": {"type": ["number", "integer", "string", "boolean"]}},
+    "agent_backend": {"enum": ["offline", "claude_code"]},
+    "batch_size": {"type": "integer", "minimum": 1, "maximum": 8},
+    "max_iterations": {"type": "integer", "minimum": 0, "maximum": 5, "description": "Refinement iterations after the initial batch (hard ceiling 5)."},
+    "max_major_variables_per_iteration": {"type": "integer", "minimum": 1, "maximum": 3},
+    "weights": {"$ref": "#/$defs/weights"},
+    "selection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["shortlist_size", "mmr_lambda", "near_duplicate_threshold"],
+      "properties": {
+        "shortlist_size": {"type": "integer", "minimum": 1, "maximum": 8},
+        "mmr_lambda": {"$ref": "common.v1.json#/$defs/unit_interval"},
+        "near_duplicate_threshold": {"type": "number", "minimum": 0, "maximum": 2}
+      }
+    },
+    "stopping": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["target_weighted_score", "min_dimension_for_target", "min_improvement"],
+      "properties": {
+        "target_weighted_score": {"type": "number", "minimum": 1, "maximum": 5},
+        "min_dimension_for_target": {"type": "integer", "minimum": 1, "maximum": 5},
+        "min_improvement": {"type": "number", "minimum": 0, "maximum": 4}
+      }
+    },
+    "budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["max_total_images", "max_generation_attempts", "max_cost_usd", "max_engine_seconds"],
+      "properties": {
+        "max_total_images": {"type": "integer", "minimum": 1, "maximum": 64},
+        "max_generation_attempts": {"type": "integer", "minimum": 1, "maximum": 128},
+        "max_cost_usd": {"type": "number", "minimum": 0},
+        "max_engine_seconds": {"type": "number", "exclusiveMinimum": 0}
+      }
+    },
+    "generation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["timeout_s", "max_retries", "retry_on_timeout", "base_seed"],
+      "properties": {
+        "timeout_s": {"type": "number", "exclusiveMinimum": 0, "maximum": 3600},
+        "max_retries": {"type": "integer", "minimum": 0, "maximum": 3},
+        "retry_on_timeout": {"type": "boolean"},
+        "base_seed": {"type": "integer", "minimum": 0, "maximum": 4294967000}
+      }
+    },
+    "agents": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["max_rejections_per_step"],
+      "properties": {"max_rejections_per_step": {"type": "integer", "minimum": 0, "maximum": 5}}
+    },
+    "qa": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["min_luma_std", "max_clipped_fraction", "min_sharpness"],
+      "properties": {
+        "min_luma_std": {"type": "number", "minimum": 0},
+        "max_clipped_fraction": {"$ref": "common.v1.json#/$defs/unit_interval"},
+        "min_sharpness": {"type": "number", "minimum": 0}
+      }
+    },
+    "require_human_approval": {"type": "boolean"}
+  },
+  "$defs": {
+    "weights": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["intent_alignment", "material_plausibility", "composition", "visual_coherence", "originality", "technical_quality"],
+      "properties": {
+        "intent_alignment": {"type": "number", "minimum": 0, "maximum": 1},
+        "material_plausibility": {"type": "number", "minimum": 0, "maximum": 1},
+        "composition": {"type": "number", "minimum": 0, "maximum": 1},
+        "visual_coherence": {"type": "number", "minimum": 0, "maximum": 1},
+        "originality": {"type": "number", "minimum": 0, "maximum": 1},
+        "technical_quality": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    }
+  }
+}

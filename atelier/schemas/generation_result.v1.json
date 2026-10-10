@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://atelier.invalid/schemas/generation_result.v1.json",
+  "title": "Generation Result v1 (image-operator / engine runner output)",
+  "description": "Records what actually happened. A result with status other than 'succeeded' must not list images.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "result_id", "request_id", "candidate_id", "status", "engine", "images", "seed_used",
+               "runtime_s", "attempts", "errors", "cost", "started_at", "finished_at", "engine_metadata"],
+  "properties": {
+    "schema_version": {"const": "atelier.generation_result.v1"},
+    "result_id": {"$ref": "common.v1.json#/$defs/identifier"},
+    "request_id": {"$ref": "common.v1.json#/$defs/identifier"},
+    "candidate_id": {"$ref": "common.v1.json#/$defs/identifier"},
+    "status": {"enum": ["succeeded", "failed", "timeout", "cancelled", "malformed_response", "budget_exceeded", "unavailable"]},
+    "engine": {"$ref": "common.v1.json#/$defs/engine_ref"},
+    "images": {
+      "type": "array",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "sha256", "width", "height", "format"],
+        "properties": {
+          "path": {"$ref": "common.v1.json#/$defs/path"},
+          "sha256": {"$ref": "common.v1.json#/$defs/sha256"},
+          "width": {"type": "integer", "minimum": 1},
+          "height": {"type": "integer", "minimum": 1},
+          "format": {"enum": ["PNG", "JPEG", "WEBP"]}
+        }
+      }
+    },
+    "seed_used": {"type": ["integer", "null"], "minimum": 0},
+    "runtime_s": {"type": "number", "minimum": 0},
+    "attempts": {
+      "type": "array",
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["attempt", "status", "runtime_s"],
+        "properties": {
+          "attempt": {"type": "integer", "minimum": 1},
+          "status": {"enum": ["succeeded", "failed", "timeout", "cancelled", "malformed_response"]},
+          "runtime_s": {"type": "number", "minimum": 0}
+        }
+      }
+    },
+    "errors": {"type": "array", "maxItems": 8, "items": {"$ref": "common.v1.json#/$defs/error"}},
+    "cost": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["usd_estimated", "basis"],
+      "properties": {
+        "usd_estimated": {"type": "number", "minimum": 0},
+        "basis": {"type": "string", "maxLength": 500}
+      }
+    },
+    "started_at": {"$ref": "common.v1.json#/$defs/timestamp"},
+    "finished_at": {"$ref": "common.v1.json#/$defs/timestamp"},
+    "engine_metadata": {"type": "object"}
+  },
+  "if": {"properties": {"status": {"const": "succeeded"}}},
+  "then": {"properties": {"images": {"minItems": 1}}},
+  "else": {"properties": {"images": {"maxItems": 0}, "errors": {"minItems": 1}}}
+}

@@ -1,0 +1,144 @@
+{
+  "schema_version": "atelier.art_direction_draft.v1",
+  "draft_id": "draft_memory-of-space-01",
+  "brief_id": "brief_memory-of-space-01",
+  "concept_id": "concept_memory-of-space-frame",
+  "produced_by": {
+    "name": "claude-main-session",
+    "kind": "agent"
+  },
+  "concept_thesis": "A machine constructs what space remembers: the transparent frame makes space perceptible, and the water keeps an imperfect image of what was made.",
+  "visual_hypothesis": "If the arm, the transparent polyhedron and its reflection share one cold light and one axis, the viewer reads a single installation about memory rather than a machine demo; one faint red joint marks where perception begins.",
+  "subject": {
+    "description": "a black chrome industrial robotic arm building a transparent glass polyhedron above a still water basin. Acrylic rods, glass tubes and oxidized silver sphere connectors; some edges deliberately missing; one connector glows faint warm red; the arm's tool tip touches the structure.",
+    "human_presence": "none",
+    "human_treatment": null
+  },
+  "composition": {
+    "framing": "wide",
+    "camera_angle": "eye level",
+    "lens_mm": 35,
+    "layout": "sculpture left of center over the basin, arm reaching in from the right",
+    "focal_hierarchy": [
+      "red-lit connector",
+      "transparent polyhedron",
+      "reflection in the water",
+      "robotic arm as maker"
+    ],
+    "negative_space": "generous"
+  },
+  "palette": {
+    "colors": [
+      {
+        "hex": "#5E6164",
+        "name": "Concrete grey",
+        "role": "dominant"
+      },
+      {
+        "hex": "#121416",
+        "name": "Black chrome",
+        "role": "shadow"
+      },
+      {
+        "hex": "#DCE6EE",
+        "name": "Cold white",
+        "role": "highlight"
+      },
+      {
+        "hex": "#8A8D8F",
+        "name": "Titanium",
+        "role": "secondary"
+      },
+      {
+        "hex": "#9E2A22",
+        "name": "Muted red",
+        "role": "accent"
+      }
+    ],
+    "saturation": "muted"
+  },
+  "mood": [
+    "quiet",
+    "contemplative",
+    "austere",
+    "museum-grade"
+  ],
+  "semantic_constraints": [
+    {
+      "constraint": "the sculpture is the focal point",
+      "priority": "must"
+    },
+    {
+      "constraint": "the robotic arm is clearly its maker",
+      "priority": "must"
+    },
+    {
+      "constraint": "the faint red joint is the only saturated color",
+      "priority": "must"
+    },
+    {
+      "constraint": "no people",
+      "priority": "must"
+    },
+    {
+      "constraint": "the water reflection is slightly imperfect",
+      "priority": "should"
+    },
+    {
+      "constraint": "reads as a documented real installation",
+      "priority": "should"
+    }
+  ],
+  "avoidance_constraints": [
+    {
+      "term": "people",
+      "reason": "brief: no people"
+    },
+    {
+      "term": "extra furniture",
+      "reason": "brief: no extra furniture"
+    },
+    {
+      "term": "decorative plants",
+      "reason": "brief"
+    },
+    {
+      "term": "cables on the floor",
+      "reason": "brief (the reference image shows floor cables; exclude them)"
+    },
+    {
+      "term": "excessive LEDs",
+      "reason": "brief"
+    },
+    {
+      "term": "neon colors",
+      "reason": "brief"
+    },
+    {
+      "term": "clutter",
+      "reason": "brief (the reference shows a cabinet; exclude it)"
+    },
+    {
+      "term": "floating components",
+      "reason": "brief: everything structurally supported"
+    },
+    {
+      "term": "illegible text",
+      "reason": "brief"
+    },
+    {
+      "term": "watermark",
+      "reason": "brief"
+    },
+    {
+      "term": "sci-fi concept art",
+      "reason": "must read as a documented real installation"
+    }
+  ],
+  "output": {
+    "aspect_ratio": "16:9",
+    "width": 1024,
+    "height": 576
+  },
+  "notes_for_material_specialist": "Material and lighting DNA plus the reference image override the base prompt's white gallery and soft daylight: black chrome, brushed titanium, oxidized silver, wet reflective surfaces; cold blue-white spot from a skylight, hard contrast, thin rim, restrained volumetric haze."
+}

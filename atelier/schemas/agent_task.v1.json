@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://atelier.invalid/schemas/agent_task.v1.json",
+  "title": "Agent Task v1 (orchestrator -> Claude Code subagent hand-off)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "task_id", "run_id", "step", "key", "agent", "inputs", "output_path", "output_schema",
+               "expected_schema_version", "required_values", "instructions", "previous_errors", "attempt", "created_at"],
+  "properties": {
+    "schema_version": {"const": "atelier.agent_task.v1"},
+    "task_id": {"$ref": "common.v1.json#/$defs/identifier"},
+    "run_id": {"$ref": "common.v1.json#/$defs/identifier"},
+    "step": {"enum": ["research", "concepts", "art_direction_draft", "material_spec", "critique", "curation"]},
+    "key": {"type": "string", "pattern": "^[A-Za-z0-9_.-]+$"},
+    "agent": {"enum": ["concept-researcher", "concept-generator", "art-director", "material-specialist",
+                       "prompt-compiler", "image-operator", "art-critic", "curator"]},
+    "inputs": {"type": "object", "additionalProperties": {"type": "string"}},
+    "output_path": {"type": "string"},
+    "output_schema": {"type": "string"},
+    "expected_schema_version": {"type": "string"},
+    "required_values": {"type": "object", "description": "Fields the output must contain with exactly these values."},
+    "instructions": {"type": "string"},
+    "previous_errors": {"type": "array", "items": {"type": "string"}},
+    "attempt": {"type": "integer", "minimum": 1},
+    "created_at": {"$ref": "common.v1.json#/$defs/timestamp"}
+  }
+}

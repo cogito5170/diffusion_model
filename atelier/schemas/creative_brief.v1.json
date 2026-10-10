@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://atelier.invalid/schemas/creative_brief.v1.json",
+  "title": "Creative Brief v1",
+  "description": "The user's original intent is stored verbatim in original_intent and must never be rewritten. Anything the system infers goes into system_interpretation, with provenance.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "brief_id", "title", "original_intent", "domain", "constraints", "system_interpretation"],
+  "properties": {
+    "schema_version": {"const": "atelier.creative_brief.v1"},
+    "brief_id": {"$ref": "common.v1.json#/$defs/identifier"},
+    "title": {"$ref": "common.v1.json#/$defs/short_text"},
+    "original_intent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["text", "author", "submitted_at"],
+      "properties": {
+        "text": {"type": "string", "minLength": 10, "maxLength": 4000},
+        "language": {"type": "string", "pattern": "^[a-z]{2}(-[A-Z]{2})?$"},
+        "author": {"$ref": "common.v1.json#/$defs/short_text"},
+        "submitted_at": {"$ref": "common.v1.json#/$defs/timestamp"}
+      }
+    },
+    "domain": {"enum": ["metallic_fine_art_editorial"]},
+    "constraints": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["aspect_ratio", "must_include", "must_avoid", "reference_images"],
+      "properties": {
+        "aspect_ratio": {"type": "string", "pattern": "^[1-9][0-9]?:[1-9][0-9]?$"},
+        "must_include": {"$ref": "common.v1.json#/$defs/short_text_list"},
+        "must_avoid": {"$ref": "common.v1.json#/$defs/short_text_list"},
+        "reference_images": {
+          "type": "array",
+          "maxItems": 8,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["path", "role", "required"],
+            "properties": {
+              "path": {"$ref": "common.v1.json#/$defs/path"},
+              "role": {"enum": ["composition", "material", "lighting", "mood"]},
+              "required": {"type": "boolean"},
+              "note": {"$ref": "common.v1.json#/$defs/short_text"}
+            }
+          }
+        }
+      }
+    },
+    "system_interpretation": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["interpreted_by", "interpreted_at", "source_artifact_id", "summary", "themes", "tensions", "open_questions"],
+          "properties": {
+            "interpreted_by": {"$ref": "common.v1.json#/$defs/producer"},
+            "interpreted_at": {"$ref": "common.v1.json#/$defs/timestamp"},
+            "source_artifact_id": {"$ref": "common.v1.json#/$defs/identifier"},
+            "summary": {"$ref": "common.v1.json#/$defs/long_text"},
+            "themes": {"$ref": "common.v1.json#/$defs/short_text_list"},
+            "tensions": {"type": "array", "items": {"$ref": "common.v1.json#/$defs/tension"}, "maxItems": 10},
+            "open_questions": {"$ref": "common.v1.json#/$defs/short_text_list"}
+          }
+        }
+      ]
+    }
+  }
+}

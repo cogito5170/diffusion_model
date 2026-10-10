@@ -1,0 +1,17 @@
+{
+  "approval_id": "approval_mock-demo-1",
+  "candidate_id": "cand_mock-demo-i0-s0",
+  "decided_at": "2026-10-10T08:44:36.228558Z",
+  "decision": "approved",
+  "note": "scripted approval of the top shortlist entry for the reproducible demo; not an aesthetic judgement",
+  "override": {
+    "is_override": false,
+    "reasons": []
+  },
+  "reviewer": {
+    "kind": "script",
+    "name": "scripts/mock_e2e.sh"
+  },
+  "run_id": "run_mock-demo",
+  "schema_version": "atelier.approval.v1"
+}

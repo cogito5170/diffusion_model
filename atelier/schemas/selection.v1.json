@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://atelier.invalid/schemas/selection.v1.json",
+  "title": "Selection v1 (deterministic ranking + diversity-preserving shortlist, selector.py)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "selection_id", "run_id", "iteration", "weights", "method", "ranking", "shortlist",
+               "diversity", "requires_human_approval"],
+  "properties": {
+    "schema_version": {"const": "atelier.selection.v1"},
+    "selection_id": {"$ref": "common.v1.json#/$defs/identifier"},
+    "run_id": {"$ref": "common.v1.json#/$defs/identifier"},
+    "iteration": {"type": "integer", "minimum": 0, "maximum": 5},
+    "weights": {"$ref": "run_config.v1.json#/$defs/weights"},
+    "method": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "mmr_lambda", "shortlist_size", "near_duplicate_threshold", "feature"],
+      "properties": {
+        "name": {"const": "weighted_score_mmr"},
+        "mmr_lambda": {"$ref": "common.v1.json#/$defs/unit_interval"},
+        "shortlist_size": {"type": "integer", "minimum": 1, "maximum": 8},
+        "near_duplicate_threshold": {"type": "number", "minimum": 0},
+        "feature": {"type": "string", "maxLength": 200}
+      }
+    },
+    "ranking": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["candidate_id", "iteration", "eligible", "ineligible_reason", "weighted_score", "score_rank", "critic_kind"],
+        "properties": {
+          "candidate_id": {"$ref": "common.v1.json#/$defs/identifier"},
+          "iteration": {"type": "integer", "minimum": 0},
+          "eligible": {"type": "boolean"},
+          "ineligible_reason": {"type": ["string", "null"]},
+          "weighted_score": {"type": ["number", "null"], "minimum": 1, "maximum": 5},
+          "score_rank": {"type": ["integer", "null"], "minimum": 1},
+          "critic_kind": {"type": ["string", "null"]}
+        }
+      }
+    },
+    "shortlist": {"type": "array", "maxItems": 8, "uniqueItems": true, "items": {"$ref": "common.v1.json#/$defs/identifier"}},
+    "diversity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mean_pairwise_distance", "shortlist_mean_pairwise_distance", "near_duplicate_pairs", "demoted_near_duplicates"],
+      "properties": {
+        "mean_pairwise_distance": {"type": ["number", "null"]},
+        "shortlist_mean_pairwise_distance": {"type": ["number", "null"]},
+        "near_duplicate_pairs": {
+          "type": "array",
+          "items": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"$ref": "common.v1.json#/$defs/identifier"}}
+        },
+        "demoted_near_duplicates": {"type": "array", "items": {"$ref": "common.v1.json#/$defs/identifier"}}
+      }
+    },
+    "requires_human_approval": {"type": "boolean"}
+  }
+}

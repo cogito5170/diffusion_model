@@ -1,0 +1,143 @@
+{
+  "schema_version": "atelier.run_report.v1",
+  "report_id": "report_mock-demo",
+  "run_id": "run_mock-demo",
+  "final_state": "DONE",
+  "stop_reason": "curator_recommended_stop: no remaining deficit in dimensions the engine input can change (technical_quality mean is 5.0)",
+  "final_candidate_id": "cand_mock-demo-i0-s0",
+  "approval_id": "approval_mock-demo-1",
+  "original_intent": "A fine-art editorial image about identity dissolving into material. A human presence that exists only as a reflection or contour on liquid chrome or brushed steel, in a cold industrial space under hard directional light. It should feel like the metal remembers a person who is no longer there: sculptural curvature, reflective titanium, quiet tension between the body and the surface. No faces, no robots, no sci-fi.",
+  "system_interpretation_summary": "Offline keyword interpretation of the brief: engineered permanence; facelessness; identity as surface; industrial endurance; industrial perfection; industrial space; instability and flux; reflection and self-recognition; the body as material.",
+  "engine": {
+    "engine_id": "mock",
+    "model_id": "mock-procedural-v1"
+  },
+  "critic_kinds": [
+    "heuristic"
+  ],
+  "iterations": [
+    {
+      "iteration": 0,
+      "art_direction_id": "ad_mock-demo-v1",
+      "plan_id": "plan_mock-demo-i1",
+      "plan_outcome": null,
+      "best_weighted_score": 4.15,
+      "mean_weighted_score": 4.0,
+      "n_succeeded": 4,
+      "n_requested": 4
+    },
+    {
+      "iteration": 1,
+      "art_direction_id": "ad_mock-demo-v2",
+      "plan_id": null,
+      "plan_outcome": {
+        "plan_id": "plan_mock-demo-i1",
+        "metric": "material_plausibility",
+        "aggregate": "mean",
+        "comparator": ">",
+        "threshold": 4.0,
+        "baseline": 4.0,
+        "measured": 4.0,
+        "met": false
+      },
+      "best_weighted_score": 4.15,
+      "mean_weighted_score": 4.0,
+      "n_succeeded": 4,
+      "n_requested": 4
+    }
+  ],
+  "candidates": [
+    {
+      "candidate_id": "cand_mock-demo-i0-s0",
+      "iteration": 0,
+      "status": "succeeded",
+      "qa_passed": true,
+      "weighted_score": 4.15,
+      "critic_kind": "heuristic",
+      "image_path": "images/cand_mock-demo-i0-s0/a1/image_0.png",
+      "runtime_s": 0.385
+    },
+    {
+      "candidate_id": "cand_mock-demo-i0-s1",
+      "iteration": 0,
+      "status": "succeeded",
+      "qa_passed": true,
+      "weighted_score": 4.0,
+      "critic_kind": "heuristic",
+      "image_path": "images/cand_mock-demo-i0-s1/a1/image_0.png",
+      "runtime_s": 0.1461
+    },
+    {
+      "candidate_id": "cand_mock-demo-i0-s2",
+      "iteration": 0,
+      "status": "succeeded",
+      "qa_passed": true,
+      "weighted_score": 3.85,
+      "critic_kind": "heuristic",
+      "image_path": "images/cand_mock-demo-i0-s2/a1/image_0.png",
+      "runtime_s": 0.3595
+    },
+    {
+      "candidate_id": "cand_mock-demo-i0-s3",
+      "iteration": 0,
+      "status": "succeeded",
+      "qa_passed": true,
+      "weighted_score": 4.0,
+      "critic_kind": "heuristic",
+      "image_path": "images/cand_mock-demo-i0-s3/a1/image_0.png",
+      "runtime_s": 0.2458
+    },
+    {
+      "candidate_id": "cand_mock-demo-i1-s0",
+      "iteration": 1,
+      "status": "succeeded",
+      "qa_passed": true,
+      "weighted_score": 4.15,
+      "critic_kind": "heuristic",
+      "image_path": "images/cand_mock-demo-i1-s0/a1/image_0.png",
+      "runtime_s": 0.1551
+    },
+    {
+      "candidate_id": "cand_mock-demo-i1-s1",
+      "iteration": 1,
+      "status": "succeeded",
+      "qa_passed": true,
+      "weighted_score": 4.0,
+      "critic_kind": "heuristic",
+      "image_path": "images/cand_mock-demo-i1-s1/a1/image_0.png",
+      "runtime_s": 0.3706
+    },
+    {
+      "candidate_id": "cand_mock-demo-i1-s2",
+      "iteration": 1,
+      "status": "succeeded",
+      "qa_passed": true,
+      "weighted_score": 3.85,
+      "critic_kind": "heuristic",
+      "image_path": "images/cand_mock-demo-i1-s2/a1/image_0.png",
+      "runtime_s": 0.1852
+    },
+    {
+      "candidate_id": "cand_mock-demo-i1-s3",
+      "iteration": 1,
+      "status": "succeeded",
+      "qa_passed": true,
+      "weighted_score": 4.0,
+      "critic_kind": "heuristic",
+      "image_path": "images/cand_mock-demo-i1-s3/a1/image_0.png",
+      "runtime_s": 0.1846
+    }
+  ],
+  "ledger": {
+    "images": 8,
+    "attempts": 8,
+    "cost_usd_estimated": 0.0,
+    "engine_seconds": 2.0202
+  },
+  "evidence_note": "All ratings come from the offline HEURISTIC critic: pixel-statistic proxies with low confidence. They are not aesthetic judgements and must not be cited as evidence of image quality.",
+  "integrity": {
+    "verified": true,
+    "problems": []
+  },
+  "generated_at": "2026-10-10T08:44:36.730837Z"
+}

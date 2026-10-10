@@ -1,0 +1,38 @@
+{
+  "draft_id": "draft_mock-demo",
+  "lighting": {
+    "contrast_ratio": "8:1",
+    "environment": "empty industrial hall with steel girders",
+    "fill": "none",
+    "key": {
+      "color_temperature_k": 5600,
+      "direction": "from upper left",
+      "hardness": "hard"
+    },
+    "rim": false,
+    "setup": "single hard key, black flags"
+  },
+  "material_spec_id": "matspec_mock-demo",
+  "materials": [
+    {
+      "anisotropy": 0.0,
+      "curvature": "fluid",
+      "finish": "mirror",
+      "imperfections": [],
+      "material_id": "primary",
+      "reflectivity": 0.95,
+      "role": "the figure",
+      "roughness": 0.05,
+      "type": "liquid_chrome"
+    }
+  ],
+  "plausibility_notes": [
+    "Chrome needs a structured environment to reflect, otherwise it reads as grey plastic."
+  ],
+  "produced_by": {
+    "kind": "offline_stub",
+    "name": "offline-stub"
+  },
+  "rationale": "Fixed offline default for the liquid-chrome domain.",
+  "schema_version": "atelier.material_spec.v1"
+}

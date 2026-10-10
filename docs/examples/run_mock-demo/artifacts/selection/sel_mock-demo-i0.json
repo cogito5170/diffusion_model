@@ -1,0 +1,71 @@
+{
+  "diversity": {
+    "demoted_near_duplicates": [],
+    "mean_pairwise_distance": 0.364221,
+    "near_duplicate_pairs": [],
+    "shortlist_mean_pairwise_distance": 0.430069
+  },
+  "iteration": 0,
+  "method": {
+    "feature": "16x16 zero-mean luma thumbnail (L2, weight 0.7) + 8x3 hue/sat histogram of chromatic pixels and 4-bin luma histogram of grey pixels (L2, weight 0.3); distance = L2 / sqrt(2)",
+    "mmr_lambda": 0.7,
+    "name": "weighted_score_mmr",
+    "near_duplicate_threshold": 0.08,
+    "shortlist_size": 3
+  },
+  "ranking": [
+    {
+      "candidate_id": "cand_mock-demo-i0-s0",
+      "critic_kind": "heuristic",
+      "eligible": true,
+      "ineligible_reason": null,
+      "iteration": 0,
+      "score_rank": 1,
+      "weighted_score": 4.15
+    },
+    {
+      "candidate_id": "cand_mock-demo-i0-s1",
+      "critic_kind": "heuristic",
+      "eligible": true,
+      "ineligible_reason": null,
+      "iteration": 0,
+      "score_rank": 2,
+      "weighted_score": 4.0
+    },
+    {
+      "candidate_id": "cand_mock-demo-i0-s3",
+      "critic_kind": "heuristic",
+      "eligible": true,
+      "ineligible_reason": null,
+      "iteration": 0,
+      "score_rank": 3,
+      "weighted_score": 4.0
+    },
+    {
+      "candidate_id": "cand_mock-demo-i0-s2",
+      "critic_kind": "heuristic",
+      "eligible": true,
+      "ineligible_reason": null,
+      "iteration": 0,
+      "score_rank": 4,
+      "weighted_score": 3.85
+    }
+  ],
+  "requires_human_approval": true,
+  "run_id": "run_mock-demo",
+  "schema_version": "atelier.selection.v1",
+  "selection_id": "sel_mock-demo-i0",
+  "shortlist": [
+    "cand_mock-demo-i0-s0",
+    "cand_mock-demo-i0-s1",
+    "cand_mock-demo-i0-s3"
+  ],
+  "weights": {
+    "composition": 0.15,
+    "intent_alignment": 0.25,
+    "material_plausibility": 0.2,
+    "originality": 0.15,
+    "technical_quality": 0.1,
+    "visual_coherence": 0.15
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "schema_version": "atelier.material_spec.v1",
+  "material_spec_id": "matspec_example-01",
+  "draft_id": "draft_example-01",
+  "produced_by": {
+    "name": "material-specialist",
+    "kind": "agent"
+  },
+  "materials": [
+    {
+      "material_id": "figure",
+      "type": "liquid_chrome",
+      "finish": "mirror",
+      "reflectivity": 0.95,
+      "roughness": 0.04,
+      "anisotropy": 0.0,
+      "curvature": "fluid",
+      "imperfections": [
+        "faint pooling ripples"
+      ],
+      "role": "the implied figure"
+    },
+    {
+      "material_id": "floor",
+      "type": "brushed_steel",
+      "finish": "satin brushed",
+      "reflectivity": 0.55,
+      "roughness": 0.35,
+      "anisotropy": 0.8,
+      "curvature": "flat",
+      "imperfections": [
+        "fine micro-scratches"
+      ],
+      "role": "ground plane"
+    }
+  ],
+  "lighting": {
+    "setup": "single hard key with black flags",
+    "key": {
+      "direction": "from upper left",
+      "hardness": "hard",
+      "color_temperature_k": 5600
+    },
+    "fill": "none",
+    "rim": false,
+    "environment": "empty industrial hall with steel girders and skylights",
+    "contrast_ratio": "8:1"
+  },
+  "rationale": "Chrome only reads as chrome when it has a structured environment to reflect; the brushed floor gives a contrasting anisotropic surface.",
+  "plausibility_notes": [
+    "roughness above ~0.3 would make the chrome read as satin",
+    "flags keep large black areas in the reflection"
+  ]
+}
