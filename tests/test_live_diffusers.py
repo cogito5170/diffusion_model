@@ -5,10 +5,13 @@ Enable explicitly (after reading docs/LIVE_GENERATION.md):
     ATELIER_LIVE_TEST=1 ATELIER_LIVE_MODEL=stabilityai/sd-turbo python -m unittest tests.test_live_diffusers
 
 It never downloads weights unless ATELIER_LIVE_ALLOW_DOWNLOAD=1 is also set.
+Optional: ATELIER_LIVE_VARIANT=fp16 (weights fetched by scripts/download_sd_turbo.py), ATELIER_LIVE_DEVICE
+(auto|cpu|mps|cuda), ATELIER_LIVE_DTYPE (auto|float32|float16). The image is kept in runs/run_live-smoke/.
 """
 
 import os
 import unittest
+from pathlib import Path
 
 from atelier.artifact_store import ArtifactStore
 from atelier.budget import Budget, CancelToken
@@ -26,17 +29,22 @@ class LiveDiffusersTest(TempDirTest):
         engine = DiffusersLocalEngine(
             model_id=os.environ.get("ATELIER_LIVE_MODEL", "stabilityai/sd-turbo"),
             allow_download=os.environ.get("ATELIER_LIVE_ALLOW_DOWNLOAD") == "1",
+            variant=os.environ.get("ATELIER_LIVE_VARIANT") or None,
+            device=os.environ.get("ATELIER_LIVE_DEVICE", "auto"),
+            dtype=os.environ.get("ATELIER_LIVE_DTYPE", "auto"),
         )
         av = engine.availability()
         self.assertTrue(av.ok, av.reason)
         req = compile_request(art_direction(), brief(), engine.capabilities(), run_id="run_live", iteration=0, slot=0,
                               base_seed=1234, keep_seeds=True, engine_params={}, timeout_s=float(os.environ.get("ATELIER_LIVE_TIMEOUT", "900")),
                               max_retries=0)
-        store = ArtifactStore(self.tmp / "run_live")
+        store = ArtifactStore(Path("runs") / "run_live-smoke")
         budget = Budget({"max_total_images": 1, "max_generation_attempts": 1, "max_cost_usd": 0.0, "max_engine_seconds": 1800},
                         Budget.empty_ledger())
         res = execute_request(engine, req, store, budget, CancelToken())
         print("\nlive result:", res["status"], res["runtime_s"], "s", res["engine_metadata"], res["errors"])
+        if res["images"]:
+            print("image:", store.abs(res["images"][0]["path"]))
         self.assertEqual(res["status"], "succeeded", res["errors"])
         self.assertEqual((res["images"][0]["width"], res["images"][0]["height"]), (req["width"], req["height"]))
 

@@ -41,3 +41,24 @@ sections and records each drop in `generation_request.compilation.dropped`.
 
 Budget limits in `configs/live_sd_turbo.json`: 4 images/batch, ≤ 2 refinements, ≤ 12 images, ≤ 16 attempts,
 300 s timeout per image, ≤ 1800 engine seconds. Lower them for a first trial.
+
+## macOS (Apple Silicon) quick path
+Apple's bundled `/usr/bin/python3` is 3.9 and ships without a `pip` command. Use a newer Python in a virtual
+environment (the project is tested on 3.13; 3.9 is untested).
+
+```bash
+brew install python@3.12                      # or install Python 3.12 from python.org
+cd diffusion_model
+python3.12 -m venv .venv && source .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -r requirements-live.txt
+python scripts/download_sd_turbo.py           # only the fp16 diffusers files, roughly 2.6 GB (estimate)
+python -m unittest discover -s tests -t .     # offline suite first
+ATELIER_LIVE_TEST=1 ATELIER_LIVE_VARIANT=fp16 python -m unittest tests.test_live_diffusers -v
+python scripts/generate_once.py --config configs/live_sd_turbo_mac.json \
+  --brief examples/briefs/memory_of_space.json \
+  --art-direction examples/artifacts/memory_of_space.art_direction.json --count 2 --name mos-try1
+```
+`device: auto` picks the Apple GPU (MPS) when torch reports it, with float16; otherwise CPU with float32. If the
+images come out black or QA reports `not_blank` failures, retry with `ATELIER_LIVE_DTYPE=float32` (or set
+`"dtype": "float32"` in a copy of the config). Images are written under `runs/` (git-ignored).
