@@ -253,6 +253,16 @@ class DiffusersLocalEngine(ImageEngine):
         self._pipe = pipe
         return pipe
 
+    def warmup(self, cancel: CancelToken | None = None) -> float:
+        import time
+
+        if self._pipe is not None:
+            return 0.0
+        t0 = time.monotonic()
+        self._progress("loading")
+        self._load()
+        return round(time.monotonic() - t0, 2)
+
     def close(self) -> None:
         """Release the loaded pipeline so another model can use the memory."""
         self._pipe = None

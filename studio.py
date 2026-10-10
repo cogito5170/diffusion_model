@@ -23,6 +23,7 @@ import json
 import os
 import re
 import secrets
+import subprocess
 import sys
 import threading
 import time
@@ -35,9 +36,10 @@ ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT))
 
 from atelier.artifact_store import ArtifactStore  # noqa: E402
-from atelier.budget import Budget, CancelToken  # noqa: E402
+from atelier.budget import Budget, Cancelled, CancelToken  # noqa: E402
 from atelier.config import load_config  # noqa: E402
 from atelier.engines import create_engine  # noqa: E402
+from atelier.engines.base import EngineError  # noqa: E402
 from atelier.engines.runner import execute_request  # noqa: E402
 from atelier.evaluator import run_qa  # noqa: E402
 from atelier.prompt_compiler import CompilationError, compile_baseline_request  # noqa: E402
@@ -56,6 +58,32 @@ NO_RE = re.compile(r"--no\s+(.+?)(?=\s--[a-z]+\s|$)", re.IGNORECASE | re.S)
 
 class PromptError(ValueError):
     pass
+
+
+_SWAP_CACHE: dict = {"at": 0.0, "gb": None}
+
+
+def swap_used_gb() -> float | None:
+    """Swap in use (GB): a direct sign of memory pressure. Cached for 3 s; None if unknown."""
+    if time.monotonic() - _SWAP_CACHE["at"] < 3:
+        return _SWAP_CACHE["gb"]
+    gb = None
+    try:
+        if sys.platform == "darwin":
+            out = subprocess.run(["sysctl", "-n", "vm.swapusage"], capture_output=True, text=True, timeout=2).stdout
+            m = re.search(r"used = ([\d.]+)M", out)
+            gb = round(float(m.group(1)) / 1024, 2) if m else None
+        else:
+            info = {}
+            with open("/proc/meminfo") as fh:
+                for line in fh:
+                    key, _, rest = line.partition(":")
+                    info[key] = int(rest.split()[0])
+            gb = round((info["SwapTotal"] - info["SwapFree"]) / 1024 / 1024, 2)
+    except Exception:  # noqa: BLE001 - diagnostics only
+        gb = None
+    _SWAP_CACHE.update(at=time.monotonic(), gb=gb)
+    return gb
 
 
 def size_for_ratio(ar: str, preferred_pixels: int = 768 * 432) -> tuple[int, int]:
@@ -139,6 +167,8 @@ class Studio:
     def _on_progress(self, stage: str, step: int, total: int) -> None:
         now = time.monotonic()
         p = self.progress
+        if stage == "loading" and p.get("stage") != "loading":
+            p["load_started"] = now
         p["stage"], p["step"], p["steps"] = stage, step, total
         if stage == "step" and step > 0:
             if self._last_step is not None and self._last_step[0] == p.get("image") and step > 1:
@@ -156,8 +186,27 @@ class Studio:
             remaining = (steps - step) + (p["images"] - p["image"]) * steps
             p["eta_s"] = round(remaining * spp)
         p["elapsed_s"] = round(time.monotonic() - p["started"])
+        if p.get("stage") == "loading" and p.get("load_started"):
+            p["loading_s"] = round(time.monotonic() - p["load_started"])
+        p["swap_gb"] = swap_used_gb()
         p.pop("started", None)
+        p.pop("load_started", None)
         return p
+
+    def _describe_progress(self) -> str:
+        p = self.progress_snapshot()
+        if not p.get("active"):
+            return ""
+        if p.get("stage") == "loading":
+            where = f"모델을 불러오는 중이었습니다 ({p.get('loading_s', 0)}초째)"
+        else:
+            where = f"{p.get('image')}/{p.get('images')}장 {p.get('step')}/{p.get('steps')}단계까지 진행"
+            if p.get("sec_per_step"):
+                where += f", 단계당 {p['sec_per_step']:.0f}초"
+        swap = p.get("swap_gb")
+        if swap is not None and swap >= 1:
+            where += f"; 스왑 {swap:.1f}GB 사용 중 = 메모리 부족 신호"
+        return where
 
     def cancel(self) -> bool:
         if self.cancel_token is not None and self.progress.get("active"):
@@ -215,6 +264,16 @@ class Studio:
                "width": None, "height": None, "first_seed": opts["seed"], "crop": opts["crop"],
                "created_at": _dt.datetime.now().isoformat(timespec="seconds"),
                "engine": f"{caps.engine_id}/{caps.model_id}", "warnings": [], "images": []}
+        # Load the model first, outside every per-image timeout (it can take minutes on a 16 GB Mac).
+        try:
+            job["load_s"] = engine.warmup(self.cancel_token)
+        except Cancelled:
+            job["error"] = "멈췄습니다 (모델을 불러오는 중이었습니다)."
+            job["swap_gb"] = swap_used_gb()
+            (store.root / "job.json").write_text(json.dumps(job, indent=2, ensure_ascii=False), encoding="utf-8")
+            return job
+        except EngineError as exc:
+            raise PromptError(f"모델을 불러오지 못했습니다: {exc}") from None
         for slot in range(opts["n"]):
             try:
                 req = compile_baseline_request(opts["prompt"], caps, run_id=f"run_{name}", slot=slot,
@@ -244,8 +303,15 @@ class Studio:
                 item["url"] = "/runs/" + img.relative_to(RUNS).as_posix()
                 if opts["crop"]:
                     item["crop_url"] = "/runs/" + crop_to_slot(img, *opts["crop"]).relative_to(RUNS).as_posix()
+            if res["status"] == "succeeded":
+                item["sec_per_step"] = self.progress_snapshot().get("sec_per_step")
             job["images"].append(item)
             codes = {e["code"] for e in res["errors"]}
+            if res["status"] == "timeout":
+                job["error"] = (f"{g['timeout_s']:.0f}초 안에 끝나지 않아 멈췄습니다: {self._describe_progress()}. "
+                                "단계당 시간이 길거나 스왑이 크면 이 맥에서는 이 크기/모델이 버겁다는 뜻입니다.")
+                job["swap_gb"] = swap_used_gb()
+                break
             if res["status"] == "cancelled" or self.cancel_token.is_cancelled():
                 job["error"] = "멈췄습니다. 그때까지 만든 그림만 남겼습니다."
                 break

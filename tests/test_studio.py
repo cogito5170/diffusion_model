@@ -233,3 +233,41 @@ class StudioProgressAndCancelTests(unittest.TestCase):
             for d in set(studio.RUNS.glob("run_studio-*")) - before:
                 shutil.rmtree(d, ignore_errors=True)
             shutil.rmtree(tmp, ignore_errors=True)
+
+
+class StudioWarmupAndTimeoutTests(unittest.TestCase):
+    def _studio(self, tmp, options, timeout_s, steps=4):
+        cfg = config(engine={"engine_id": "mock", "model_id": "mock-slow", "options": {"isolate": True, **options}},
+                     engine_params={"num_inference_steps": steps})
+        cfg["generation"]["timeout_s"] = timeout_s
+        (tmp / "c.json").write_text(json.dumps(cfg))
+        return studio.Studio({"fast": str(tmp / "c.json")})
+
+    def setUp(self):
+        self.tmp = Path(tempfile.mkdtemp(prefix="studio-warm-"))
+        self.before = set(studio.RUNS.glob("run_studio-*")) if studio.RUNS.exists() else set()
+
+    def tearDown(self):
+        for d in set(studio.RUNS.glob("run_studio-*")) - self.before:
+            shutil.rmtree(d, ignore_errors=True)
+        shutil.rmtree(self.tmp, ignore_errors=True)
+
+    def test_model_loading_is_not_counted_against_the_image_timeout(self):
+        s = self._studio(self.tmp, {"load_latency_s": 2.5}, timeout_s=2.0)
+        try:
+            job = s.generate("a steel arch --n 1", {}, model="fast")
+        finally:
+            s.engine.close()
+        self.assertNotIn("error", job, job.get("error"))
+        self.assertEqual(job["images"][0]["status"], "succeeded")
+        self.assertGreaterEqual(job["load_s"], 2.0)
+
+    def test_timeout_message_says_where_it_stopped(self):
+        s = self._studio(self.tmp, {"step_latency_s": 0.6}, timeout_s=1.5)
+        try:
+            job = s.generate("a steel arch --n 2", {}, model="fast")
+        finally:
+            s.engine.close()
+        self.assertEqual(len(job["images"]), 1)
+        self.assertIn("초 안에 끝나지 않아", job["error"])
+        self.assertIn("단계", job["error"])

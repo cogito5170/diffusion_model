@@ -142,5 +142,9 @@ class ImageEngine(ABC):
         return paths outside ``out_dir``.
         """
 
+    def warmup(self, cancel: CancelToken | None = None) -> float:
+        """Load the model ahead of the first image; returns seconds spent. Default: nothing to load."""
+        return 0.0
+
     def close(self) -> None:  # pragma: no cover - optional hook
         pass

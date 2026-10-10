@@ -7,7 +7,7 @@
 | Reproducible mock end-to-end run (`scripts/mock_e2e.sh`) | **executed**; images and decisions byte-identical across two runs |
 | diffusers adapter code path | **unit-tested with an injected fake pipeline only** |
 | Real diffusers inference, sd-turbo | executed by the user on an Apple-silicon Mac (MPS, float16): about 2.4–4.1 s per image; first image 10–19 s including model load |
-| Real diffusers inference, SDXL | first attempts on the user's 16 GB Mac: a missing-file download bug (fixed) and then a Python crash during high-quality generation (cause not yet diagnosed; mitigations: isolated worker, VAE tiling, ~0.8 MP default size). **No successful SDXL image yet** |
+| Real diffusers inference, SDXL | first attempts on the user's 16 GB Mac: a missing-file download bug (fixed) then a Python crash during high-quality generation, then (after isolation, VAE tiling and a ~0.8 MP default) a single 896×896 image that did not finish within 900 s. Whether loading or the denoising steps were slow is not yet known; model loading is now separated from the per-image timeout and swap usage is reported. **No successful SDXL image yet** |
 | Mac installer, studio | tested here only with the mock engine and syntax checks; **not yet run on a clean Mac** |
 | Claude Code subagents producing artifacts | protocol tested end to end with stub answers; **no real agent run recorded yet** |
 | Image-quality improvement from the agent workflow | **unverified**; no human ratings collected |

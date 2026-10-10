@@ -53,6 +53,16 @@ def _worker(conn, engine_cfg: dict[str, Any], cancel_event) -> None:  # pragma: 
             return
         if msg is None:
             return
+        if msg == "warmup":
+            try:
+                conn.send(("warm", engine.warmup(_EventToken(cancel_event))))
+            except Cancelled:
+                conn.send(("cancelled",))
+            except EngineError as exc:
+                conn.send(("engine_error", exc.code, str(exc), exc.retryable, exc.details))
+            except Exception as exc:  # noqa: BLE001
+                conn.send(("error", type(exc).__name__, str(exc)))
+            continue
         request, out_dir = msg
         try:
             out = engine.generate(request, Path(out_dir), _EventToken(cancel_event))
@@ -79,6 +89,7 @@ class IsolatedEngine(ImageEngine):
         self._proc = None
         self._conn = None
         self._cancel_event = None
+        self.is_warm = False
 
     def capabilities(self) -> EngineCapabilities:
         return self._shadow.capabilities()
@@ -105,8 +116,20 @@ class IsolatedEngine(ImageEngine):
                 self._proc.kill()
                 self._proc.join(5)
         self._proc, self._conn = None, None
+        self.is_warm = False
 
-    def generate(self, request: dict[str, Any], out_dir: Path, cancel: CancelToken) -> EngineOutput:
+    def warmup(self, cancel: CancelToken | None = None) -> float:
+        """Load the model in the worker; not counted against any per-image timeout."""
+        if self.is_warm and self._proc is not None and self._proc.is_alive():
+            return 0.0
+        reply = self._exchange("warmup", cancel or CancelToken())
+        if reply[0] == "warm":
+            self.is_warm = True
+            return float(reply[1])
+        self._raise_for(reply)
+        return 0.0  # pragma: no cover
+
+    def _exchange(self, payload, cancel: CancelToken):
         import time
 
         cancel.raise_if_cancelled()
@@ -114,21 +137,21 @@ class IsolatedEngine(ImageEngine):
         self._cancel_event.clear()
         cancel_sent_at = None
         try:
-            self._conn.send((request, str(out_dir)))
+            self._conn.send(payload)
             while True:
                 if self._conn.poll(0.2):
                     reply = self._conn.recv()
                     if reply[0] == "progress":
                         self._progress(*reply[1:])
                         continue
-                    break
+                    return reply
                 if cancel.is_cancelled():
                     if cancel_sent_at is None:
                         self._cancel_event.set()  # ask the pipeline to stop at the next step, keeping the model
                         cancel_sent_at = time.monotonic()
                     elif time.monotonic() - cancel_sent_at > self.CANCEL_GRACE_S:
                         self._kill_worker()  # did not stop in time: a real stop, unlike abandoning a thread
-                        raise Cancelled("generation stopped; the worker did not respond and was terminated")
+                        raise Cancelled("stopped; the worker did not respond and was terminated")
                 if not self._proc.is_alive():
                     if self._conn.poll(0):
                         continue
@@ -139,19 +162,29 @@ class IsolatedEngine(ImageEngine):
                 self._proc.join(5)  # the pipe can close before the OS has reaped the process
                 code = self._proc.exitcode
             self._proc, self._conn = None, None
+            self.is_warm = False
             raise EngineError("engine_process_crashed", f"the image engine process {describe_exit(code)}",
                               retryable=False, details={"exit_code": code}) from None
+
+    @staticmethod
+    def _raise_for(reply) -> None:
         kind = reply[0]
-        if kind == "ok":
-            data = reply[1]
-            return EngineOutput(images=[Path(p) for p in data["images"]], model_id=data["model_id"],
-                                seed_used=data["seed_used"], metadata=dict(data["metadata"], isolated_worker=True))
         if kind == "cancelled":
-            raise Cancelled("generation stopped at a step boundary; the model stays loaded")
+            raise Cancelled("stopped at a step boundary; the model stays loaded")
         if kind == "engine_error":
             _, code, message, retryable, details = reply
             raise EngineError(code, message, retryable=retryable, details=details)
         raise EngineError("engine_exception", f"{reply[1]}: {reply[2]}", retryable=False)
+
+    def generate(self, request: dict[str, Any], out_dir: Path, cancel: CancelToken) -> EngineOutput:
+        reply = self._exchange((request, str(out_dir)), cancel)
+        if reply[0] == "ok":
+            self.is_warm = True
+            data = reply[1]
+            return EngineOutput(images=[Path(p) for p in data["images"]], model_id=data["model_id"],
+                                seed_used=data["seed_used"], metadata=dict(data["metadata"], isolated_worker=True))
+        self._raise_for(reply)
+        raise AssertionError("unreachable")  # pragma: no cover
 
     def close(self) -> None:
         if self._conn is not None:

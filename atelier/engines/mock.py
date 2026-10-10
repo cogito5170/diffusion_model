@@ -145,7 +145,7 @@ class MockEngine(ImageEngine):
 
     def __init__(self, model_id: str = "mock-procedural-v1", *, latency_s: float = 0.0,
                  failures: dict[str, list[str]] | None = None, profile: str = "stabilityai/sd-turbo",
-                 cost_usd_per_image: float = 0.0, step_latency_s: float = 0.0):
+                 cost_usd_per_image: float = 0.0, step_latency_s: float = 0.0, load_latency_s: float = 0.0):
         """``failures`` maps a slot ("0", "1", ... or "*") to per-attempt modes:
         ok | transient | error | timeout | malformed | not_an_object | blank | crash."""
         self.model_id = model_id
@@ -154,6 +154,8 @@ class MockEngine(ImageEngine):
         self.profile = PROFILES[profile]
         self.cost_usd_per_image = cost_usd_per_image
         self.step_latency_s = step_latency_s
+        self.load_latency_s = load_latency_s
+        self._warm = False
         self.calls: list[dict[str, Any]] = []
         self._attempts: dict[str, int] = {}
         self._lock = threading.Lock()
@@ -161,6 +163,19 @@ class MockEngine(ImageEngine):
     def capabilities(self) -> EngineCapabilities:
         return profile_capabilities(self.profile, self.engine_id, self.model_id, self.cost_usd_per_image,
                                     cost_basis="mock engine: no compute or API cost")
+
+    def warmup(self, cancel: CancelToken | None = None) -> float:
+        if self._warm:
+            return 0.0
+        self._progress("loading")
+        t0 = time.monotonic()
+        end = t0 + self.load_latency_s
+        while time.monotonic() < end:
+            if cancel is not None:
+                cancel.raise_if_cancelled()
+            time.sleep(0.02)
+        self._warm = True
+        return round(time.monotonic() - t0, 2)
 
     def _mode(self, request: dict[str, Any]) -> str:
         with self._lock:
