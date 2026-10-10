@@ -221,6 +221,7 @@ async function generate(req) {
       else {
         t = `${p.image}/${p.images}장 · ${p.step}/${p.steps}단계`;
         if (p.sec_per_step) t += ` · 단계당 ${p.sec_per_step.toFixed(1)}초`;
+        if (p.sec_per_step > 20) t += " (이 맥에는 매우 느린 속도: 보통 원인은 메모리 부족)";
         if (p.eta_s != null) t += ` · 남은 시간 약 ${fmt(p.eta_s)}`;
         t += ` · 경과 ${fmt(p.elapsed_s)}`;
       }

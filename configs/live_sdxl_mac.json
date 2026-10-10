@@ -46,7 +46,7 @@
     "max_engine_seconds": 7200
   },
   "generation": {
-    "timeout_s": 900,
+    "timeout_s": 3600,
     "max_retries": 0,
     "retry_on_timeout": false,
     "base_seed": 20261010

@@ -271,3 +271,24 @@ class StudioWarmupAndTimeoutTests(unittest.TestCase):
         self.assertEqual(len(job["images"]), 1)
         self.assertIn("초 안에 끝나지 않아", job["error"])
         self.assertIn("단계", job["error"])
+
+    def test_a_run_with_no_step_progress_is_stopped_as_stalled(self):
+        s = self._studio(self.tmp, {"step_latency_s": 3.0}, timeout_s=60, steps=4)
+        s.STALL_TIMEOUT_S = 1.0
+        try:
+            job = s.generate("a steel arch --n 2", {}, model="fast")
+        finally:
+            s.engine.close()
+        self.assertEqual(len(job["images"]), 1)
+        self.assertNotEqual(job["images"][0]["status"], "succeeded")
+        self.assertIn("한 단계도 진행되지 않아", job["error"])
+
+    def test_a_slow_run_that_keeps_advancing_is_not_stopped(self):
+        s = self._studio(self.tmp, {"step_latency_s": 0.6}, timeout_s=60, steps=4)
+        s.STALL_TIMEOUT_S = 1.5
+        try:
+            job = s.generate("a steel arch --n 1", {}, model="fast")
+        finally:
+            s.engine.close()
+        self.assertNotIn("error", job, job.get("error"))
+        self.assertEqual(job["images"][0]["status"], "succeeded")

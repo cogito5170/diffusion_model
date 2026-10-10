@@ -152,6 +152,10 @@ def crop_to_slot(src: Path, slot_w: int, slot_h: int) -> Path:
 
 
 class Studio:
+    # A run that keeps advancing is left to finish (up to the config's per-image timeout); one that shows
+    # no step for this long is stuck and is stopped. Model loading is exempt (it reports no steps).
+    STALL_TIMEOUT_S = 300.0
+
     def __init__(self, configs: dict[str, str] | None = None):
         self.configs = configs or {k: v["config"] for k, v in MODELS.items()}
         self.lock = threading.Lock()  # one generation at a time; the model is not shared across threads
@@ -162,6 +166,7 @@ class Studio:
         self.progress: dict = {"active": False}
         self._step_times: list[float] = []
         self._last_step: tuple[int, float] | None = None
+        self._stalled = False
 
     # ---------------------------------------------------------------- progress / stop
     def _on_progress(self, stage: str, step: int, total: int) -> None:
@@ -170,6 +175,7 @@ class Studio:
         if stage == "loading" and p.get("stage") != "loading":
             p["load_started"] = now
         p["stage"], p["step"], p["steps"] = stage, step, total
+        p["tick"] = now
         if stage == "step" and step > 0:
             if self._last_step is not None and self._last_step[0] == p.get("image") and step > 1:
                 self._step_times = (self._step_times + [now - self._last_step[1]])[-12:]
@@ -189,8 +195,8 @@ class Studio:
         if p.get("stage") == "loading" and p.get("load_started"):
             p["loading_s"] = round(time.monotonic() - p["load_started"])
         p["swap_gb"] = swap_used_gb()
-        p.pop("started", None)
-        p.pop("load_started", None)
+        for k in ("started", "load_started", "tick"):
+            p.pop(k, None)
         return p
 
     def _describe_progress(self) -> str:
@@ -207,6 +213,15 @@ class Studio:
         if swap is not None and swap >= 1:
             where += f"; 스왑 {swap:.1f}GB 사용 중 = 메모리 부족 신호"
         return where
+
+    def _watch_for_stall(self, token: CancelToken, done: threading.Event) -> None:
+        while not done.wait(1.0):
+            p = self.progress
+            tick = p.get("tick")
+            if p.get("stage") != "loading" and tick is not None and time.monotonic() - tick > self.STALL_TIMEOUT_S:
+                self._stalled = True
+                token.cancel()
+                return
 
     def cancel(self) -> bool:
         if self.cancel_token is not None and self.progress.get("active"):
@@ -274,6 +289,17 @@ class Studio:
             return job
         except EngineError as exc:
             raise PromptError(f"모델을 불러오지 못했습니다: {exc}") from None
+        self._stalled = False
+        done = threading.Event()
+        threading.Thread(target=self._watch_for_stall, args=(self.cancel_token, done), daemon=True).start()
+        try:
+            self._image_loop(job, opts, g, engine, caps, name, store, budget)
+        finally:
+            done.set()
+        (store.root / "job.json").write_text(json.dumps(job, indent=2, ensure_ascii=False), encoding="utf-8")
+        return job
+
+    def _image_loop(self, job, opts, g, engine, caps, name, store, budget) -> None:
         for slot in range(opts["n"]):
             try:
                 req = compile_baseline_request(opts["prompt"], caps, run_id=f"run_{name}", slot=slot,
@@ -289,7 +315,7 @@ class Studio:
                 job["warnings"] = [w["message"] for w in req["compilation"]["warnings"]]
                 job["truncated"] = any(w["code"] == "prompt_truncated" for w in req["compilation"]["warnings"])
             store.put(req)
-            self.progress.update(image=slot + 1, stage="starting", step=0)
+            self.progress.update(image=slot + 1, stage="starting", step=0, tick=time.monotonic())
             res = execute_request(engine, req, store, budget, self.cancel_token)
             store.put(res)
             item = {"seed": req["seed"], "status": res["status"], "runtime_s": res["runtime_s"],
@@ -312,6 +338,11 @@ class Studio:
                                 "단계당 시간이 길거나 스왑이 크면 이 맥에서는 이 크기/모델이 버겁다는 뜻입니다.")
                 job["swap_gb"] = swap_used_gb()
                 break
+            if self._stalled:
+                job["error"] = (f"{self.STALL_TIMEOUT_S:.0f}초 동안 한 단계도 진행되지 않아 멈췄습니다: "
+                                f"{self._describe_progress()}. 다른 앱을 닫거나 맥을 재시동한 뒤 다시 해 보세요.")
+                job["swap_gb"] = swap_used_gb()
+                break
             if res["status"] == "cancelled" or self.cancel_token.is_cancelled():
                 job["error"] = "멈췄습니다. 그때까지 만든 그림만 남겼습니다."
                 break
@@ -328,8 +359,6 @@ class Studio:
                 job["error"] = ("모델을 불러오지 못해 나머지는 만들지 않았습니다. "
                                 + (f"터미널에서 실행: cd ~/diffusion_model && .venv/bin/{fix}" if fix else item["error"]))
                 break
-        (store.root / "job.json").write_text(json.dumps(job, indent=2, ensure_ascii=False), encoding="utf-8")
-        return job
 
 
 def history(limit: int = 30) -> list[dict]:
