@@ -60,5 +60,7 @@ class InstallerScriptTests(unittest.TestCase):
         self.assertIn("pkgutil --check-signature", text, "the downloaded Python installer must be signature-checked")
         self.assertNotIn("brew install", text, "must not depend on Homebrew")
         self.assertNotIn("rsync -", text, "macOS 15 ships openrsync; the update step uses plain mv instead")
-        self.assertNotIn("/usr/bin/python3", text.split("pick_python()")[1].split("}")[0],
-                         "never invoke Apple's python3 stub (it pops up a developer-tools dialog)")
+        code = "\n".join(l for l in text.split("pick_python()")[1].split("\n}")[0].splitlines()
+                          if not l.strip().startswith("#"))
+        self.assertNotIn("/usr/bin/python3", code, "never invoke Apple's python3 stub (it pops up a developer-tools dialog)")
+        self.assertIn("/Library/Frameworks/Python.framework", code)
