@@ -69,3 +69,19 @@ class ResumeTests(TempDirTest):
         self.assertEqual(resumed.state["state"], "AWAITING_HUMAN_APPROVAL")
         crit_ids = [c["critique_id"] for c in resumed.state["iterations"][0]["candidates"]]
         self.assertTrue(all(crit_ids))
+
+
+class StopAtTests(TempDirTest):
+    def test_stop_at_spec_validated_generates_nothing(self):
+        from atelier.state_machine import State
+
+        engine = MockEngine()
+        orch = new_run(self.tmp, engine=engine)
+        orch.run(stop_at=State.SPEC_VALIDATED)
+        self.assertEqual(orch.state["state"], "SPEC_VALIDATED")
+        self.assertEqual(engine.calls, [])
+        self.assertEqual(orch.state["ledger"]["attempts"], 0)
+        self.assertTrue(orch.store.ids("art_direction"))
+        resumed = Orchestrator.load(orch.store.root, engine=MockEngine())
+        resumed.run()
+        self.assertEqual(resumed.state["state"], "AWAITING_HUMAN_APPROVAL")

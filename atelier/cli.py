@@ -11,6 +11,7 @@ from atelier import doctor, schemas
 from atelier.config import ConfigError, load_config
 from atelier.engines import create_engine
 from atelier.orchestrator import Orchestrator, RunError
+from atelier.state_machine import State
 from atelier.util import read_json
 
 
@@ -70,12 +71,15 @@ def main(argv: list[str] | None = None) -> int:
     s.add_argument("--brief", required=True)
     s.add_argument("--config", required=True)
     s.add_argument("--run-id", required=True, help="e.g. run_demo-mock")
+    s.add_argument("--stop-at", choices=["SPEC_VALIDATED"], help="stop once the art direction is validated")
 
     for name, hlp in (("resume", "continue a paused or interrupted run"), ("status", "show run state"),
                       ("cancel", "request cancellation"), ("verify", "re-hash and re-validate all artifacts"),
                       ("report", "regenerate the report"), ("shortlist", "print the system shortlist")):
         s = sub.add_parser(name, help=hlp)
         s.add_argument("run")
+        if name == "resume":
+            s.add_argument("--stop-at", choices=["SPEC_VALIDATED"], help="stop once the art direction is validated")
 
     s = sub.add_parser("approve", help="human approval of a final candidate")
     s.add_argument("run")
@@ -123,13 +127,13 @@ def main(argv: list[str] | None = None) -> int:
             return 0
         if a.cmd == "run":
             orch = Orchestrator.create(a.runs_dir, a.run_id, read_json(Path(a.brief)), load_config(a.config))
-            orch.run()
+            orch.run(stop_at=State(a.stop_at) if a.stop_at else None)
             print(_summary(orch))
             return 0 if orch.state["state"] != "FAILED" else 2
         run_dir = _run_dir(a.run, a.runs_dir)
         orch = Orchestrator.load(run_dir)
         if a.cmd == "resume":
-            orch.run()
+            orch.run(stop_at=State(a.stop_at) if a.stop_at else None)
         elif a.cmd == "cancel":
             orch.request_cancel()
             print("cancellation requested (takes effect at the next step/candidate boundary)")

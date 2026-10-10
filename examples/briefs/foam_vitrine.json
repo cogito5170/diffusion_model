@@ -1,0 +1,31 @@
+{
+  "schema_version": "atelier.creative_brief.v1",
+  "domain": "metallic_fine_art_editorial",
+  "system_interpretation": null,
+  "brief_id": "brief_foam-vitrine-01",
+  "title": "Materiality B: machine-milled white matter in a glass vitrine",
+  "original_intent": {
+    "text": "이제 다음 두 개의 물성으로 작품을 만들 것이다 각각 1개씩",
+    "language": "ko",
+    "author": "project-owner",
+    "submitted_at": "2026-10-10T12:00:00Z"
+  },
+  "constraints": {
+    "aspect_ratio": "16:9",
+    "must_include": [],
+    "must_avoid": [
+      "people",
+      "text",
+      "watermark",
+      "logo"
+    ],
+    "reference_images": [
+      {
+        "path": "examples/references/robot_vitrine_carved_foam.png",
+        "role": "material",
+        "required": false,
+        "note": "materiality to work from: white milled foam/plaster and its dust, black-framed glass vitrine, white robot arm, dark reflective floor; one artwork; do not replicate this existing work"
+      }
+    ]
+  }
+}

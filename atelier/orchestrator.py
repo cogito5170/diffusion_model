@@ -197,9 +197,13 @@ class Orchestrator:
         return art, None
 
     # ----------------------------------------------------------------- run
-    def run(self, max_steps: int = 500) -> dict[str, Any]:
+    def run(self, max_steps: int = 500, stop_at: State | None = None) -> dict[str, Any]:
+        """Advance until terminal, paused, or (optionally) the run reaches ``stop_at``.
+
+        ``stop_at=State.SPEC_VALIDATED`` lets judgement steps run here and generation run elsewhere
+        (e.g. design the art direction in a cloud session, generate on a local GPU machine)."""
         for _ in range(max_steps):
-            if self.current in TERMINAL:
+            if self.current in TERMINAL or (stop_at is not None and self.current == stop_at):
                 break
             if self.cancel_token.is_cancelled():
                 self._end(State.CANCELLED, "cancellation requested")
