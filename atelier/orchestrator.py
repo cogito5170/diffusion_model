@@ -296,7 +296,9 @@ class Orchestrator:
             "concepts", "brief",
             self._paths(brief=p["interpreted_brief"], research=p["research"]),
             {"concept_set_id": f"concepts_{self.stem}", "brief_id": brief["brief_id"], "research_id": p["research"]},
-            "Produce 2-6 clearly distinct concepts, each with an explicit conceptual tension (pole_a vs pole_b).",
+            "Produce 2-6 clearly distinct concepts, each with an explicit conceptual tension (pole_a vs pole_b). "
+            "Use brief_id exactly as in required_values (the original brief), even though the input is its "
+            "'.interpreted' copy.",
             {"brief": brief, "research": self.store.get(p["research"])},
         )
         art, paused = self._agent_or_pause(req, check)
@@ -325,7 +327,8 @@ class Orchestrator:
             {"draft_id": f"draft_{self.stem}", "brief_id": brief["brief_id"]},
             "Develop ONE concept (prefer recommended_concept_id) into engine-independent art direction: thesis, "
             "visual hypothesis, composition, palette, mood, semantic and avoidance constraints. No prompt syntax. "
-            "Leave materials and lighting to material-specialist (write notes for them).",
+            "Leave materials and lighting to material-specialist (write notes for them). Use brief_id exactly as in "
+            "required_values (the original brief), not the '.interpreted' input id.",
             {"brief": brief, "concepts": cset},
         )
         art, paused = self._agent_or_pause(req, check)
