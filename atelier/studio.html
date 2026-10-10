@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>이미지 스튜디오</title>
+<style>
+  :root {
+    --bg: #0e0f11; --panel: #17191c; --panel-2: #1f2226; --line: #2c3035;
+    --text: #e8e6e3; --muted: #8d9198; --accent: #e8e6e3; --red: #c0453a;
+    --radius: 12px;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+         font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", system-ui, sans-serif; }
+  header { position: sticky; top: 0; z-index: 5; background: linear-gradient(var(--bg) 85%, transparent);
+           padding: 18px 16px 22px; }
+  .wrap { max-width: 1180px; margin: 0 auto; }
+  .brand { display: flex; align-items: baseline; gap: 10px; margin-bottom: 12px; }
+  .brand b { font-size: 17px; letter-spacing: .02em; }
+  .brand span { color: var(--muted); font-size: 13px; }
+  .bar { display: flex; gap: 8px; background: var(--panel); border: 1px solid var(--line);
+         border-radius: var(--radius); padding: 8px; }
+  textarea { flex: 1; resize: none; min-height: 44px; max-height: 160px; background: transparent; color: var(--text);
+             border: 0; outline: none; font: inherit; padding: 10px 8px; }
+  button { white-space: nowrap; font: inherit; cursor: pointer; border-radius: 9px; border: 1px solid var(--line);
+           background: var(--panel-2); color: var(--text); padding: 8px 14px; }
+  button:hover { border-color: #4a4f56; }
+  button.go { background: var(--accent); color: #111; border: 0; font-weight: 600; padding: 0 22px; }
+  button.go:disabled { opacity: .5; cursor: progress; }
+  .opts { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; margin-top: 10px; color: var(--muted); font-size: 13px; }
+  .chips { display: flex; gap: 6px; flex-wrap: wrap; }
+  .chip { padding: 4px 10px; border-radius: 999px; font-size: 13px; }
+  .chip[aria-pressed="true"] { background: var(--accent); color: #111; border-color: var(--accent); }
+  .opts input { width: 110px; background: var(--panel); color: var(--text); border: 1px solid var(--line);
+                border-radius: 8px; padding: 5px 8px; font: inherit; font-size: 13px; }
+  .tip { color: var(--muted); font-size: 12.5px; margin-top: 8px; }
+  main { padding: 0 16px 60px; }
+  .job { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);
+         padding: 14px; margin-bottom: 18px; }
+  .job-head { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; margin-bottom: 10px; }
+  .job-prompt { font-size: 14.5px; }
+  .job-meta { color: var(--muted); font-size: 12.5px; margin-top: 3px; }
+  .job-warn { color: #d9a441; font-size: 12.5px; margin-top: 3px; }
+  .grid { display: grid; gap: 8px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .grid.wide { grid-template-columns: 1fr; }
+  .cell { position: relative; border-radius: 9px; overflow: hidden; background: #000; }
+  .cell img { display: block; width: 100%; height: auto; }
+  .cell .over { position: absolute; inset: auto 0 0 0; display: flex; gap: 6px; align-items: center; flex-wrap: wrap;
+                padding: 8px; background: linear-gradient(transparent, rgba(0,0,0,.78)); opacity: 0; transition: opacity .15s; }
+  .cell:hover .over, .cell:focus-within .over { opacity: 1; }
+  .over button, .over a { font-size: 12px; padding: 4px 9px; border-radius: 7px; background: rgba(20,20,20,.75);
+                          color: #fff; border: 1px solid rgba(255,255,255,.18); text-decoration: none; }
+  .seed { color: #ddd; font-size: 12px; margin-right: auto; }
+  .fail { padding: 30px 12px; color: var(--red); font-size: 13px; text-align: center; }
+  .slot { margin-top: 8px; }
+  .slot img { width: 100%; display: block; border-radius: 6px; }
+  .slot div { color: var(--muted); font-size: 12px; margin-bottom: 4px; }
+  .loading { display: flex; align-items: center; gap: 12px; color: var(--muted); }
+  .spin { width: 18px; height: 18px; border: 2px solid var(--line); border-top-color: var(--text); border-radius: 50%;
+          animation: s 0.9s linear infinite; }
+  @keyframes s { to { transform: rotate(360deg); } }
+  .empty { color: var(--muted); text-align: center; padding: 60px 0; }
+  .toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); background: #3a1d1a;
+           color: #ffd9d4; border: 1px solid #6b2c25; padding: 10px 16px; border-radius: 10px; max-width: 90vw;
+           display: none; z-index: 20; }
+  .lightbox { position: fixed; inset: 0; background: rgba(0,0,0,.92); display: none; align-items: center;
+              justify-content: center; z-index: 30; cursor: zoom-out; padding: 16px; }
+  .lightbox img { max-width: 100%; max-height: 100%; }
+  @media (max-width: 640px) { .grid { grid-template-columns: 1fr; } .bar { flex-direction: column; } button.go { padding: 10px; } }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="brand"><b>이미지 스튜디오</b><span>atelier · sd-turbo · 내 맥에서만 실행</span></div>
+    <div class="bar">
+      <textarea id="prompt" rows="1" placeholder="만들고 싶은 장면을 영어로 적고 Enter  (예: a brushed steel arch sculpture under a glowing ceiling --ar 16:9)"></textarea>
+      <button class="go" id="go">만들기</button>
+    </div>
+    <div class="opts">
+      <div class="chips" id="ars" aria-label="비율"></div>
+      <label>장수 <input id="n" type="number" min="1" max="4" value="4" style="width:60px"></label>
+      <label>시드 <input id="seed" placeholder="비우면 랜덤"></label>
+      <label>자르기 <input id="crop" placeholder="예: 574x172"></label>
+    </div>
+    <div class="tip">영어로, 가장 중요한 것을 맨 앞에. 앞쪽 약 60단어만 읽습니다. "no ~"는 오히려 그것을 불러옵니다. Shift+Enter는 줄바꿈.</div>
+  </div>
+</header>
+<main><div class="wrap" id="feed"><div class="empty" id="empty">아직 만든 이미지가 없습니다. 위에 문장을 적어 보세요.</div></div></main>
+<div class="toast" id="toast"></div>
+<div class="lightbox" id="lightbox"><img alt=""></div>
+<script>
+const RATIOS = ["1:1", "4:3", "3:2", "16:9", "21:9", "3:4", "9:16"];
+let ar = "1:1";
+const $ = (id) => document.getElementById(id);
+const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+
+for (const r of RATIOS) {
+  const b = el("button", "chip", r);
+  b.setAttribute("aria-pressed", r === ar);
+  b.onclick = () => { ar = r; for (const c of $("ars").children) c.setAttribute("aria-pressed", c.textContent === r); };
+  $("ars").appendChild(b);
+}
+
+function toast(msg) { const t = $("toast"); t.textContent = msg; t.style.display = "block"; clearTimeout(t._h); t._h = setTimeout(() => t.style.display = "none", 6000); }
+function lightbox(src) { const l = $("lightbox"); l.querySelector("img").src = src; l.style.display = "flex"; }
+$("lightbox").onclick = () => $("lightbox").style.display = "none";
+
+function renderJob(job, prepend) {
+  $("empty").style.display = "none";
+  const card = el("section", "job");
+  const head = el("div", "job-head");
+  const left = el("div");
+  left.appendChild(el("div", "job-prompt", job.prompt_text));
+  const seeds = job.images.map(i => i.seed).join(", ");
+  left.appendChild(el("div", "job-meta", `${job.ar} · ${job.width}×${job.height} · 시드 ${seeds} · ${job.created_at.replace("T", " ")}`));
+  for (const w of job.warnings || []) left.appendChild(el("div", "job-warn", "⚠ " + w));
+  const again = el("button", null, "다시 뽑기");
+  again.title = "같은 문장, 새 시드";
+  again.onclick = () => generate({ prompt: job.prompt_text, ar: job.ar, n: job.images.length, seed: "", crop: job.crop ? job.crop.join("x") : "" });
+  head.append(left, again);
+  card.appendChild(head);
+  const grid = el("div", "grid" + (job.width / job.height > 2 || job.images.length === 1 ? " wide" : ""));
+  for (const img of job.images) {
+    const cell = el("div", "cell");
+    if (img.url) {
+      const i = el("img"); i.src = img.url; i.alt = job.prompt_text; i.loading = "lazy";
+      i.onclick = () => lightbox(img.url);
+      cell.appendChild(i);
+      const over = el("div", "over");
+      over.appendChild(el("span", "seed", `seed ${img.seed} · ${img.runtime_s.toFixed(1)}s`));
+      const reuse = el("button", null, "이 시드로");
+      reuse.title = "구도를 유지하고 문장만 바꿔 보기";
+      reuse.onclick = () => { $("prompt").value = job.prompt_text; $("seed").value = img.seed; $("n").value = 1; $("prompt").focus(); window.scrollTo({ top: 0, behavior: "smooth" }); };
+      const big = el("button", null, "크게"); big.onclick = () => lightbox(img.url);
+      const save = el("a", null, "저장"); save.href = img.url; save.download = `atelier_${img.seed}.png`;
+      over.append(reuse, big, save);
+      cell.appendChild(over);
+    } else {
+      cell.appendChild(el("div", "fail", `실패 (seed ${img.seed}): ${img.error || img.status}`));
+    }
+    grid.appendChild(cell);
+  }
+  card.appendChild(grid);
+  const crops = job.images.filter(i => i.crop_url);
+  if (crops.length) {
+    const box = el("div", "slot");
+    box.appendChild(el("div", null, `자른 이미지 ${job.crop.join("×")}`));
+    for (const c of crops) { const i = el("img"); i.src = c.crop_url; i.alt = "crop"; i.style.marginBottom = "6px"; i.onclick = () => lightbox(c.crop_url); box.appendChild(i); }
+    card.appendChild(box);
+  }
+  const feed = $("feed");
+  prepend ? feed.insertBefore(card, feed.children[1] || null) : feed.appendChild(card);
+  return card;
+}
+
+async function generate(req) {
+  const body = req || { prompt: $("prompt").value.trim(), ar, n: Number($("n").value) || 4, seed: $("seed").value.trim(), crop: $("crop").value.trim() };
+  if (!body.prompt) { toast("문장을 먼저 적어 주세요."); return; }
+  $("go").disabled = true;
+  $("empty").style.display = "none";
+  const wait = el("section", "job");
+  const row = el("div", "loading"); row.append(el("div", "spin"), el("span", null, "만드는 중… 0초"));
+  wait.appendChild(row);
+  $("feed").insertBefore(wait, $("feed").children[1] || null);
+  const t0 = Date.now();
+  const timer = setInterval(() => row.lastChild.textContent = `만드는 중… ${Math.round((Date.now() - t0) / 1000)}초 (처음 한 번은 모델을 불러오느라 더 걸립니다)`, 500);
+  try {
+    const res = await fetch("/api/generate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || res.statusText);
+    wait.remove();
+    renderJob(data, true);
+    if (!req) $("seed").value = "";
+  } catch (e) {
+    wait.remove();
+    toast("만들지 못했습니다: " + e.message);
+  } finally {
+    clearInterval(timer);
+    $("go").disabled = false;
+  }
+}
+
+$("go").onclick = () => generate();
+$("prompt").addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey && !e.isComposing) { e.preventDefault(); generate(); } });
+$("prompt").addEventListener("input", (e) => { e.target.style.height = "auto"; e.target.style.height = e.target.scrollHeight + "px"; });
+
+fetch("/api/history").then(r => r.json()).then(jobs => { for (const j of jobs) renderJob(j, false); }).catch(() => {});
+</script>
+</body>
+</html>

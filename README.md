@@ -1,6 +1,6 @@
 # atelier: agent-orchestrated aesthetic image generation
 
-> **처음 쓰시나요? 코딩을 몰라도 됩니다 → [시작하기.md](시작하기.md)** (맥 설치 한 줄 + 바탕화면 아이콘)
+> **처음 쓰시나요? 코딩을 몰라도 됩니다 → [시작하기.md](시작하기.md)** (맥 설치 한 줄 + 바탕화면 아이콘 · 미드저니식 '이미지 스튜디오' · [PDF 설명서](docs/manual/이미지_스튜디오_설명서.pdf))
 
 A small, modular system that turns a philosophical/artistic intention into a **validated, engine-independent
 visual specification**, generates candidate images with a **pretrained** model behind an adapter, evaluates them,

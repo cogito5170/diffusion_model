@@ -55,3 +55,6 @@ class InstallerScriptTests(unittest.TestCase):
         text = (ROOT / "install_mac.sh").read_text()
         self.assertIn("easy.py", text)
         self.assertIn("download_sd_turbo.py", text)
+        self.assertIn("studio.py", text)
+        self.assertIn("pkgutil --check-signature", text, "the downloaded Python installer must be signature-checked")
+        self.assertNotIn("brew install", text, "must not depend on Homebrew")
