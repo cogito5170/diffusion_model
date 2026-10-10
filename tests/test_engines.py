@@ -257,3 +257,16 @@ class DiffusersAdapterTests(TempDirTest):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class EngineFactoryTests(unittest.TestCase):
+    def test_dtype_override_from_environment(self):
+        import os
+        from unittest import mock
+
+        from atelier.engines import create_engine
+
+        cfg = {"engine_id": "diffusers-local", "model_id": "stabilityai/sd-turbo", "options": {"dtype": "auto"}}
+        with mock.patch.dict(os.environ, {"ATELIER_DTYPE": "float32"}):
+            self.assertEqual(create_engine(cfg).dtype, "float32")
+        self.assertEqual(cfg["options"]["dtype"], "auto", "the config itself is not modified")

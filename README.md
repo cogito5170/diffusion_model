@@ -1,5 +1,7 @@
 # atelier: agent-orchestrated aesthetic image generation
 
+> **처음 쓰시나요? 코딩을 몰라도 됩니다 → [시작하기.md](시작하기.md)** (맥 설치 한 줄 + 바탕화면 아이콘)
+
 A small, modular system that turns a philosophical/artistic intention into a **validated, engine-independent
 visual specification**, generates candidate images with a **pretrained** model behind an adapter, evaluates them,
 and improves them through a **bounded** feedback loop. A **human approves** the final selection.
