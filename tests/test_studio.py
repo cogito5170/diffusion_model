@@ -182,3 +182,54 @@ class StudioFailureTests(unittest.TestCase):
         job = s.generate(long_prompt + " --n 1", {}, model="fast")
         self.assertTrue(job["truncated"])
         self.assertLess(len(job["prompt_sent"].split()), len(long_prompt.split()))
+
+
+class StudioProgressAndCancelTests(unittest.TestCase):
+    def test_progress_is_reported_and_stop_works(self):
+        import time
+
+        tmp = Path(tempfile.mkdtemp(prefix="studio-prog-"))
+        before = set(studio.RUNS.glob("run_studio-*")) if studio.RUNS.exists() else set()
+        cfg = config(engine={"engine_id": "mock", "model_id": "mock-slow",
+                             "options": {"isolate": True, "step_latency_s": 0.4}},
+                     engine_params={"num_inference_steps": 4})
+        (tmp / "slow.json").write_text(json.dumps(cfg))
+        server = studio.serve({"fast": str(tmp / "slow.json")}, port=0, open_browser=False)
+        base = f"http://127.0.0.1:{server.server_address[1]}"
+        threading.Thread(target=server.serve_forever, daemon=True).start()
+        result = {}
+
+        def post():
+            req = urllib.request.Request(base + "/api/generate", data=json.dumps({"prompt": "slow steel --n 4"}).encode(),
+                                         headers={"Content-Type": "application/json"})
+            with urllib.request.urlopen(req, timeout=120) as r:
+                result["job"] = json.loads(r.read())
+
+        worker = threading.Thread(target=post)
+        try:
+            worker.start()
+            seen = None
+            deadline = time.time() + 60
+            while time.time() < deadline:
+                with urllib.request.urlopen(base + "/api/progress", timeout=10) as r:
+                    p = json.loads(r.read())
+                if p.get("active") and p.get("stage") == "step" and p.get("step", 0) >= 2:
+                    seen = p
+                    break
+                time.sleep(0.2)
+            self.assertIsNotNone(seen, "progress should report steps while generating")
+            self.assertEqual((seen["images"], seen["steps"]), (4, 4))
+            self.assertIn("elapsed_s", seen)
+            with urllib.request.urlopen(urllib.request.Request(base + "/api/cancel", data=b"", method="POST"), timeout=10) as r:
+                self.assertTrue(json.loads(r.read())["cancelled"])
+            worker.join(90)
+            job = result["job"]
+            self.assertIn("멈췄습니다", job["error"])
+            self.assertLess(len([i for i in job["images"] if i["url"]]), 4)
+            with urllib.request.urlopen(base + "/api/progress", timeout=10) as r:
+                self.assertFalse(json.loads(r.read())["active"])
+        finally:
+            server.shutdown()
+            for d in set(studio.RUNS.glob("run_studio-*")) - before:
+                shutil.rmtree(d, ignore_errors=True)
+            shutil.rmtree(tmp, ignore_errors=True)

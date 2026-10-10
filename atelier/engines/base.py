@@ -116,6 +116,16 @@ class Availability:
 
 class ImageEngine(ABC):
     engine_id: str = "abstract"
+    # Optional hook set by the caller: progress_callback(stage, step, total) with stage "loading" or "step".
+    progress_callback = None
+
+    def _progress(self, stage: str, step: int = 0, total: int = 0) -> None:
+        cb = self.progress_callback
+        if cb is not None:
+            try:
+                cb(stage, step, total)
+            except Exception:  # noqa: BLE001 - progress reporting must never break generation
+                pass
 
     @abstractmethod
     def capabilities(self) -> EngineCapabilities:

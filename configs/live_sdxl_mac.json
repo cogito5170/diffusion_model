@@ -14,7 +14,7 @@
     }
   },
   "engine_params": {
-    "num_inference_steps": 25,
+    "num_inference_steps": 20,
     "guidance_scale": 6.0
   },
   "agent_backend": "claude_code",

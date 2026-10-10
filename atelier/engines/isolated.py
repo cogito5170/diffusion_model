@@ -30,10 +30,22 @@ def describe_exit(code: int | None) -> str:
     return _SIGNALS.get(code, f"exited with code {code}")
 
 
-def _worker(conn, engine_cfg: dict[str, Any]) -> None:  # pragma: no cover - runs in the child process
+class _EventToken(CancelToken):
+    """Cancellation shared across processes: the parent sets an Event, the child's pipeline sees it."""
+
+    def __init__(self, event):
+        super().__init__()
+        self._mp_event = event
+
+    def is_cancelled(self) -> bool:
+        return self._mp_event.is_set() or super().is_cancelled()
+
+
+def _worker(conn, engine_cfg: dict[str, Any], cancel_event) -> None:  # pragma: no cover - runs in the child process
     from atelier.engines import create_engine
 
     engine = create_engine(engine_cfg)
+    engine.progress_callback = lambda stage, step, total: conn.send(("progress", stage, step, total))
     while True:
         try:
             msg = conn.recv()
@@ -43,9 +55,11 @@ def _worker(conn, engine_cfg: dict[str, Any]) -> None:  # pragma: no cover - run
             return
         request, out_dir = msg
         try:
-            out = engine.generate(request, Path(out_dir), CancelToken())
+            out = engine.generate(request, Path(out_dir), _EventToken(cancel_event))
             conn.send(("ok", {"images": [str(p) for p in out.images], "model_id": out.model_id,
                               "seed_used": out.seed_used, "metadata": out.metadata}))
+        except Cancelled:
+            conn.send(("cancelled",))
         except EngineError as exc:
             conn.send(("engine_error", exc.code, str(exc), exc.retryable, exc.details))
         except Exception as exc:  # noqa: BLE001 - reported to the parent, which records it
@@ -53,6 +67,8 @@ def _worker(conn, engine_cfg: dict[str, Any]) -> None:  # pragma: no cover - run
 
 
 class IsolatedEngine(ImageEngine):
+    CANCEL_GRACE_S = 45.0  # time for the worker to stop at a step boundary (keeps the model loaded) before a kill
+
     def __init__(self, engine_cfg: dict[str, Any], start_method: str = "spawn"):
         from atelier.engines import create_engine
 
@@ -62,6 +78,7 @@ class IsolatedEngine(ImageEngine):
         self._ctx = mp.get_context(start_method)
         self._proc = None
         self._conn = None
+        self._cancel_event = None
 
     def capabilities(self) -> EngineCapabilities:
         return self._shadow.capabilities()
@@ -73,7 +90,9 @@ class IsolatedEngine(ImageEngine):
         if self._proc is not None and self._proc.is_alive():
             return
         parent, child = self._ctx.Pipe()
-        self._proc = self._ctx.Process(target=_worker, args=(child, self.cfg), daemon=True, name="atelier-engine")
+        self._cancel_event = self._ctx.Event()
+        self._proc = self._ctx.Process(target=_worker, args=(child, self.cfg, self._cancel_event), daemon=True,
+                                       name="atelier-engine")
         self._proc.start()
         child.close()
         self._conn = parent
@@ -88,22 +107,37 @@ class IsolatedEngine(ImageEngine):
         self._proc, self._conn = None, None
 
     def generate(self, request: dict[str, Any], out_dir: Path, cancel: CancelToken) -> EngineOutput:
+        import time
+
         cancel.raise_if_cancelled()
         self._ensure_worker()
+        self._cancel_event.clear()
+        cancel_sent_at = None
         try:
             self._conn.send((request, str(out_dir)))
-            while not self._conn.poll(0.2):
-                if cancel.is_cancelled():
-                    self._kill_worker()  # a real stop, unlike abandoning a thread
-                    raise Cancelled("generation stopped (cancelled or timed out); worker terminated")
-                if not self._proc.is_alive():
+            while True:
+                if self._conn.poll(0.2):
+                    reply = self._conn.recv()
+                    if reply[0] == "progress":
+                        self._progress(*reply[1:])
+                        continue
                     break
-            if self._proc.is_alive() or self._conn.poll(0):
-                reply = self._conn.recv()
-            else:
-                raise EOFError
+                if cancel.is_cancelled():
+                    if cancel_sent_at is None:
+                        self._cancel_event.set()  # ask the pipeline to stop at the next step, keeping the model
+                        cancel_sent_at = time.monotonic()
+                    elif time.monotonic() - cancel_sent_at > self.CANCEL_GRACE_S:
+                        self._kill_worker()  # did not stop in time: a real stop, unlike abandoning a thread
+                        raise Cancelled("generation stopped; the worker did not respond and was terminated")
+                if not self._proc.is_alive():
+                    if self._conn.poll(0):
+                        continue
+                    raise EOFError
         except (EOFError, BrokenPipeError, ConnectionResetError, OSError):
-            code = self._proc.exitcode if self._proc is not None else None
+            code = None
+            if self._proc is not None:
+                self._proc.join(5)  # the pipe can close before the OS has reaped the process
+                code = self._proc.exitcode
             self._proc, self._conn = None, None
             raise EngineError("engine_process_crashed", f"the image engine process {describe_exit(code)}",
                               retryable=False, details={"exit_code": code}) from None
@@ -112,6 +146,8 @@ class IsolatedEngine(ImageEngine):
             data = reply[1]
             return EngineOutput(images=[Path(p) for p in data["images"]], model_id=data["model_id"],
                                 seed_used=data["seed_used"], metadata=dict(data["metadata"], isolated_worker=True))
+        if kind == "cancelled":
+            raise Cancelled("generation stopped at a step boundary; the model stays loaded")
         if kind == "engine_error":
             _, code, message, retryable, details = reply
             raise EngineError(code, message, retryable=retryable, details=details)

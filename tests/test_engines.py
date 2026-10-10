@@ -277,7 +277,7 @@ class SDXLProfileTests(TempDirTest):
         c = DiffusersLocalEngine(model_id="stabilityai/stable-diffusion-xl-base-1.0").capabilities()
         self.assertEqual(c.native_side, 1024)
         self.assertTrue(c.negative_prompt_effective({"guidance_scale": c.params["guidance_scale"].default}))
-        self.assertEqual(c.params["num_inference_steps"].default, 25)
+        self.assertEqual(c.params["num_inference_steps"].default, 20)
 
     def test_attention_slicing_on_apple_gpu_and_close(self):
         import types

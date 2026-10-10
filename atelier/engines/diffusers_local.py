@@ -43,6 +43,7 @@ class ModelProfile:
     approx_download_gb: str
     license_note: str
     preferred_pixels: int = 0  # pixel count the model was trained around; 0 = native_side ** 2
+    scheduler: str | None = None  # "dpmpp_2m_karras": good quality at ~20 steps
 
 
 PROFILES: dict[str, ModelProfile] = {
@@ -69,10 +70,11 @@ PROFILES: dict[str, ModelProfile] = {
     "stabilityai/stable-diffusion-xl-base-1.0": ModelProfile(
         model_id="stabilityai/stable-diffusion-xl-base-1.0",
         native_side=1024, max_side=1536,
-        steps_default=25, steps_range=(10, 50),
+        steps_default=20, steps_range=(8, 50),
         guidance_default=6.0, guidance_range=(1.0, 12.0),
         negative_prompt_min_guidance=1.0,
         approx_download_gb="~7 GB (fp16 diffusers files only); approximate, unverified here",
+        scheduler="dpmpp_2m_karras",
         license_note="CreativeML Open RAIL++-M (use-based restrictions; commercial use allowed within them). "
                      "Verify on the model card.",
         preferred_pixels=1024 * 1024,
@@ -231,6 +233,14 @@ class DiffusersLocalEngine(ImageEngine):
         if device == "mps" and hasattr(pipe, "enable_attention_slicing"):
             pipe.enable_attention_slicing()  # lowers peak memory on Apple GPUs (diffusers' advice below 64 GB)
             self._resolved["attention_slicing"] = "on"
+        if self.profile.scheduler == "dpmpp_2m_karras" and self._pipeline_factory is None:
+            try:
+                from diffusers import DPMSolverMultistepScheduler  # type: ignore
+
+                pipe.scheduler = DPMSolverMultistepScheduler.from_config(pipe.scheduler.config, use_karras_sigmas=True)
+                self._resolved["scheduler"] = "DPMSolverMultistep (Karras)"
+            except Exception:  # noqa: BLE001 - keep the model's default scheduler
+                self._resolved["scheduler"] = "default (DPM++ unavailable)"
         if device == "mps":
             # The SDXL VAE upcasts to float32 to decode; tiling bounds that memory spike on 16 GB machines.
             vae = getattr(pipe, "vae", None)
@@ -261,13 +271,19 @@ class DiffusersLocalEngine(ImageEngine):
 
     def generate(self, request: dict[str, Any], out_dir: Path, cancel: CancelToken) -> EngineOutput:
         cancel.raise_if_cancelled()
+        if self._pipe is None:
+            self._progress("loading")
         pipe = self._load()
         torch = self._torch_mod()
         params = dict(request["engine_params"])
         seed = request["seed"]
         generator = torch.Generator(device="cpu").manual_seed(seed) if seed is not None else None
 
+        total_steps = int(params.get("num_inference_steps", self.profile.steps_default))
+        self._progress("step", 0, total_steps)
+
         def on_step_end(pipeline, step, timestep, callback_kwargs):
+            self._progress("step", step + 1, total_steps)
             if cancel.is_cancelled():
                 pipeline._interrupt = True  # supported by recent diffusers pipelines
             return callback_kwargs
@@ -305,6 +321,7 @@ class DiffusersLocalEngine(ImageEngine):
             "local_files_only": not self.allow_download,
             "attention_slicing": self._resolved.get("attention_slicing", "off"),
             "vae_tiling": self._resolved.get("vae_tiling", "off"),
+            "scheduler": self._resolved.get("scheduler", "default"),
         }
         for mod in ("torch", "diffusers"):
             try:

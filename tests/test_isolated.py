@@ -69,17 +69,46 @@ class IsolatedEngineTests(TempDirTest):
         finally:
             engine.close()
 
-    def test_timeout_really_stops_the_worker(self):
+    def test_timeout_stops_cooperatively_and_keeps_the_model_loaded(self):
         engine = create_engine(engine_cfg(failures={"0": ["timeout"]}))
         try:
             res = self.run_one(engine, slot=0, timeout_s=1.5)
             self.assertEqual(res["status"], "timeout")
             import time
 
-            deadline = time.time() + 10
+            time.sleep(1.0)  # the worker acknowledges the stop at its next step
+            pid = engine._proc.pid
+            again = self.run_one(engine, slot=1)
+            self.assertEqual(again["status"], "succeeded")
+            self.assertEqual(engine._proc.pid, pid, "same worker, model still loaded")
+        finally:
+            engine.close()
+
+    def test_unresponsive_worker_is_killed_after_grace(self):
+        engine = create_engine(engine_cfg(failures={"0": ["hang"]}))
+        engine.CANCEL_GRACE_S = 0.5
+        try:
+            res = self.run_one(engine, slot=0, timeout_s=1.0)
+            self.assertEqual(res["status"], "timeout")
+            import time
+
+            deadline = time.time() + 15
             while engine._proc is not None and time.time() < deadline:
                 time.sleep(0.1)
-            self.assertIsNone(engine._proc, "the hung worker was terminated, not abandoned")
+            self.assertIsNone(engine._proc, "a worker that ignores the stop request is terminated")
+        finally:
+            engine.close()
+
+    def test_progress_is_forwarded_from_the_worker(self):
+        engine = create_engine(engine_cfg())
+        events = []
+        engine.progress_callback = lambda stage, step, total: events.append((stage, step, total))
+        try:
+            req = self.req(engine)
+            req["engine_params"]["num_inference_steps"] = 3
+            res = execute_request(engine, req, self.store, self.budget, CancelToken())
+            self.assertEqual(res["status"], "succeeded")
+            self.assertEqual([e for e in events if e[0] == "step"][-1], ("step", 3, 3))
         finally:
             engine.close()
 

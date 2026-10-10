@@ -25,6 +25,7 @@ import re
 import secrets
 import sys
 import threading
+import time
 import webbrowser
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -129,6 +130,40 @@ class Studio:
         self.key: str | None = None
         self.cfg: dict | None = None
         self.engine = None
+        self.cancel_token: CancelToken | None = None
+        self.progress: dict = {"active": False}
+        self._step_times: list[float] = []
+        self._last_step: tuple[int, float] | None = None
+
+    # ---------------------------------------------------------------- progress / stop
+    def _on_progress(self, stage: str, step: int, total: int) -> None:
+        now = time.monotonic()
+        p = self.progress
+        p["stage"], p["step"], p["steps"] = stage, step, total
+        if stage == "step" and step > 0:
+            if self._last_step is not None and self._last_step[0] == p.get("image") and step > 1:
+                self._step_times = (self._step_times + [now - self._last_step[1]])[-12:]
+            self._last_step = (p.get("image"), now)
+
+    def progress_snapshot(self) -> dict:
+        p = dict(self.progress)
+        if not p.get("active"):
+            return {"active": False}
+        spp = sum(self._step_times) / len(self._step_times) if self._step_times else None
+        p["sec_per_step"] = round(spp, 2) if spp else None
+        steps, step = p.get("steps") or 0, p.get("step") or 0
+        if spp and steps:
+            remaining = (steps - step) + (p["images"] - p["image"]) * steps
+            p["eta_s"] = round(remaining * spp)
+        p["elapsed_s"] = round(time.monotonic() - p["started"])
+        p.pop("started", None)
+        return p
+
+    def cancel(self) -> bool:
+        if self.cancel_token is not None and self.progress.get("active"):
+            self.cancel_token.cancel()
+            return True
+        return False
 
     def _use(self, key: str):
         """Load the engine for ``key``, freeing the previous model first (16 GB Macs hold one at a time)."""
@@ -154,66 +189,81 @@ class Studio:
 
     def generate(self, raw_prompt: str, defaults: dict, model: str = "fast") -> dict:
         with self.lock:
-            engine = self._use(model)
-            caps, g = engine.capabilities(), self.cfg["generation"]
-            opts = parse_prompt(raw_prompt, defaults, caps.preferred_pixels or caps.native_side ** 2)
-            av = engine.availability()
-            if not av.ok:
-                hint = MODELS.get(model, {}).get("install_hint", "")
-                raise PromptError(f"{hint} ({av.reason})" if hint else f"engine unavailable: {av.reason}")
-            name = "studio-" + _dt.datetime.now().strftime("%Y%m%d-%H%M%S") + "-" + secrets.token_hex(2)
-            store = ArtifactStore(RUNS / f"run_{name}")
-            budget = Budget(dict(self.cfg["budget"], max_total_images=opts["n"]), Budget.empty_ledger())
-            job = {"name": name, "prompt": raw_prompt, "prompt_text": opts["prompt"], "negative": opts["negative"],
-                   "model": model, "model_label": MODELS.get(model, {}).get("label", model), "ar": opts["ar"],
-                   "width": None, "height": None, "first_seed": opts["seed"], "crop": opts["crop"],
-                   "created_at": _dt.datetime.now().isoformat(timespec="seconds"),
-                   "engine": f"{caps.engine_id}/{caps.model_id}", "warnings": [], "images": []}
-            for slot in range(opts["n"]):
-                try:
-                    req = compile_baseline_request(opts["prompt"], caps, run_id=f"run_{name}", slot=slot,
-                                                   width=opts["width"], height=opts["height"], base_seed=opts["seed"],
-                                                   engine_params=self.cfg["engine_params"], timeout_s=g["timeout_s"],
-                                                   max_retries=g["max_retries"], negative=opts["negative"])
-                except CompilationError as exc:
-                    raise PromptError(str(exc)) from None
-                if slot == 0:
-                    job["prompt_sent"] = req["prompt"]["positive"]
-                    job["negative_sent"] = req["prompt"]["negative"]
-                    job["width"], job["height"] = req["width"], req["height"]
-                    job["warnings"] = [w["message"] for w in req["compilation"]["warnings"]]
-                    job["truncated"] = any(w["code"] == "prompt_truncated" for w in req["compilation"]["warnings"])
-                store.put(req)
-                res = execute_request(engine, req, store, budget, CancelToken())
-                store.put(res)
-                item = {"seed": req["seed"], "status": res["status"], "runtime_s": res["runtime_s"],
-                        "url": None, "crop_url": None, "qa_passed": None,
-                        "error": "; ".join(e["message"] for e in res["errors"]) if res["status"] != "succeeded" else None}
-                if res["status"] == "succeeded":
-                    qa = run_qa(res, req, store, self.cfg["qa"])
-                    store.put(qa)
-                    img = store.abs(res["images"][0]["path"])
-                    item["qa_passed"] = qa["passed"]
-                    item["url"] = "/runs/" + img.relative_to(RUNS).as_posix()
-                    if opts["crop"]:
-                        item["crop_url"] = "/runs/" + crop_to_slot(img, *opts["crop"]).relative_to(RUNS).as_posix()
-                job["images"].append(item)
-                codes = {e["code"] for e in res["errors"]}
-                if res["status"] != "succeeded" and "engine_process_crashed" in codes:
-                    code = next((e.get("details", {}).get("exit_code") for e in res["errors"]
-                                 if e["code"] == "engine_process_crashed"), None)
-                    why = ("메모리가 부족했을 가능성이 큽니다" if code == -9 else
-                           "Apple GPU(MPS) 내부 오류일 가능성이 큽니다" if code == -6 else "원인은 터미널 창의 메시지를 확인해 주세요")
-                    job["error"] = (f"그림 엔진이 비정상 종료되어 나머지는 만들지 않았습니다 ({why}; 종료 코드 {code}). "
-                                    "스튜디오는 계속 쓸 수 있습니다. 다른 앱을 닫고 --n 1 로, 또는 비율을 1:1로 다시 시도해 보세요.")
-                    break
-                if res["status"] != "succeeded" and codes & {"model_files_incomplete", "model_load_failed", "engine_unavailable"}:
-                    fix = next((e.get("details", {}).get("fix") for e in res["errors"] if e.get("details", {}).get("fix")), None)
-                    job["error"] = ("모델을 불러오지 못해 나머지는 만들지 않았습니다. "
-                                    + (f"터미널에서 실행: cd ~/diffusion_model && .venv/bin/{fix}" if fix else item["error"]))
-                    break
-            (store.root / "job.json").write_text(json.dumps(job, indent=2, ensure_ascii=False), encoding="utf-8")
-            return job
+            try:
+                return self._generate(raw_prompt, defaults, model)
+            finally:
+                self.progress = {"active": False}
+
+    def _generate(self, raw_prompt: str, defaults: dict, model: str) -> dict:
+        engine = self._use(model)
+        caps, g = engine.capabilities(), self.cfg["generation"]
+        opts = parse_prompt(raw_prompt, defaults, caps.preferred_pixels or caps.native_side ** 2)
+        av = engine.availability()
+        if not av.ok:
+            hint = MODELS.get(model, {}).get("install_hint", "")
+            raise PromptError(f"{hint} ({av.reason})" if hint else f"engine unavailable: {av.reason}")
+        name = "studio-" + _dt.datetime.now().strftime("%Y%m%d-%H%M%S") + "-" + secrets.token_hex(2)
+        store = ArtifactStore(RUNS / f"run_{name}")
+        budget = Budget(dict(self.cfg["budget"], max_total_images=opts["n"]), Budget.empty_ledger())
+        self.cancel_token = CancelToken()
+        self._step_times, self._last_step = [], None
+        self.progress = {"active": True, "model": model, "images": opts["n"], "image": 0, "stage": "starting",
+                         "step": 0, "steps": 0, "started": time.monotonic()}
+        engine.progress_callback = self._on_progress
+        job = {"name": name, "prompt": raw_prompt, "prompt_text": opts["prompt"], "negative": opts["negative"],
+               "model": model, "model_label": MODELS.get(model, {}).get("label", model), "ar": opts["ar"],
+               "width": None, "height": None, "first_seed": opts["seed"], "crop": opts["crop"],
+               "created_at": _dt.datetime.now().isoformat(timespec="seconds"),
+               "engine": f"{caps.engine_id}/{caps.model_id}", "warnings": [], "images": []}
+        for slot in range(opts["n"]):
+            try:
+                req = compile_baseline_request(opts["prompt"], caps, run_id=f"run_{name}", slot=slot,
+                                               width=opts["width"], height=opts["height"], base_seed=opts["seed"],
+                                               engine_params=self.cfg["engine_params"], timeout_s=g["timeout_s"],
+                                               max_retries=g["max_retries"], negative=opts["negative"])
+            except CompilationError as exc:
+                raise PromptError(str(exc)) from None
+            if slot == 0:
+                job["prompt_sent"] = req["prompt"]["positive"]
+                job["negative_sent"] = req["prompt"]["negative"]
+                job["width"], job["height"] = req["width"], req["height"]
+                job["warnings"] = [w["message"] for w in req["compilation"]["warnings"]]
+                job["truncated"] = any(w["code"] == "prompt_truncated" for w in req["compilation"]["warnings"])
+            store.put(req)
+            self.progress.update(image=slot + 1, stage="starting", step=0)
+            res = execute_request(engine, req, store, budget, self.cancel_token)
+            store.put(res)
+            item = {"seed": req["seed"], "status": res["status"], "runtime_s": res["runtime_s"],
+                    "url": None, "crop_url": None, "qa_passed": None,
+                    "error": "; ".join(e["message"] for e in res["errors"]) if res["status"] != "succeeded" else None}
+            if res["status"] == "succeeded":
+                qa = run_qa(res, req, store, self.cfg["qa"])
+                store.put(qa)
+                img = store.abs(res["images"][0]["path"])
+                item["qa_passed"] = qa["passed"]
+                item["url"] = "/runs/" + img.relative_to(RUNS).as_posix()
+                if opts["crop"]:
+                    item["crop_url"] = "/runs/" + crop_to_slot(img, *opts["crop"]).relative_to(RUNS).as_posix()
+            job["images"].append(item)
+            codes = {e["code"] for e in res["errors"]}
+            if res["status"] == "cancelled" or self.cancel_token.is_cancelled():
+                job["error"] = "멈췄습니다. 그때까지 만든 그림만 남겼습니다."
+                break
+            if res["status"] != "succeeded" and "engine_process_crashed" in codes:
+                code = next((e.get("details", {}).get("exit_code") for e in res["errors"]
+                             if e["code"] == "engine_process_crashed"), None)
+                why = ("메모리가 부족했을 가능성이 큽니다" if code == -9 else
+                       "Apple GPU(MPS) 내부 오류일 가능성이 큽니다" if code == -6 else "원인은 터미널 창의 메시지를 확인해 주세요")
+                job["error"] = (f"그림 엔진이 비정상 종료되어 나머지는 만들지 않았습니다 ({why}; 종료 코드 {code}). "
+                                "스튜디오는 계속 쓸 수 있습니다. 다른 앱을 닫고 --n 1 로, 또는 비율을 1:1로 다시 시도해 보세요.")
+                break
+            if res["status"] != "succeeded" and codes & {"model_files_incomplete", "model_load_failed", "engine_unavailable"}:
+                fix = next((e.get("details", {}).get("fix") for e in res["errors"] if e.get("details", {}).get("fix")), None)
+                job["error"] = ("모델을 불러오지 못해 나머지는 만들지 않았습니다. "
+                                + (f"터미널에서 실행: cd ~/diffusion_model && .venv/bin/{fix}" if fix else item["error"]))
+                break
+        (store.root / "job.json").write_text(json.dumps(job, indent=2, ensure_ascii=False), encoding="utf-8")
+        return job
 
 
 def history(limit: int = 30) -> list[dict]:
@@ -251,6 +301,8 @@ def make_handler(studio: Studio):
                 return self._json(HTTPStatus.OK, history())
             if self.path == "/api/models":
                 return self._json(HTTPStatus.OK, studio.models())
+            if self.path == "/api/progress":
+                return self._json(HTTPStatus.OK, studio.progress_snapshot())
             if self.path.startswith("/runs/"):
                 rel = self.path[len("/runs/"):].split("?", 1)[0]
                 target = (RUNS / rel).resolve()
@@ -260,6 +312,8 @@ def make_handler(studio: Studio):
             return self._send(HTTPStatus.NOT_FOUND, b"not found", "text/plain")
 
         def do_POST(self):
+            if self.path == "/api/cancel":
+                return self._json(HTTPStatus.OK, {"cancelled": studio.cancel()})
             if self.path != "/api/generate":
                 return self._send(HTTPStatus.NOT_FOUND, b"not found", "text/plain")
             length = int(self.headers.get("Content-Length") or 0)

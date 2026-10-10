@@ -145,7 +145,7 @@ class MockEngine(ImageEngine):
 
     def __init__(self, model_id: str = "mock-procedural-v1", *, latency_s: float = 0.0,
                  failures: dict[str, list[str]] | None = None, profile: str = "stabilityai/sd-turbo",
-                 cost_usd_per_image: float = 0.0):
+                 cost_usd_per_image: float = 0.0, step_latency_s: float = 0.0):
         """``failures`` maps a slot ("0", "1", ... or "*") to per-attempt modes:
         ok | transient | error | timeout | malformed | not_an_object | blank | crash."""
         self.model_id = model_id
@@ -153,6 +153,7 @@ class MockEngine(ImageEngine):
         self.failures = failures or {}
         self.profile = PROFILES[profile]
         self.cost_usd_per_image = cost_usd_per_image
+        self.step_latency_s = step_latency_s
         self.calls: list[dict[str, Any]] = []
         self._attempts: dict[str, int] = {}
         self._lock = threading.Lock()
@@ -190,8 +191,17 @@ class MockEngine(ImageEngine):
             while not cancel.is_cancelled():
                 time.sleep(0.01)
             cancel.raise_if_cancelled()
+        if mode == "hang":  # ignores cancellation entirely, like a stuck native call
+            while True:
+                time.sleep(0.05)
         if mode == "not_an_object":
             return {"image": "not-a-real-response"}  # type: ignore[return-value]
+        steps = int(request["engine_params"].get("num_inference_steps", 1))
+        for i in range(steps):
+            if self.step_latency_s:
+                time.sleep(self.step_latency_s)
+            self._progress("step", i + 1, steps)
+            cancel.raise_if_cancelled()
         path = Path(out_dir) / "image_0.png"
         if mode == "malformed":
             path.write_bytes(b"this is not a png")
