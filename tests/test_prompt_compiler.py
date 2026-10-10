@@ -138,6 +138,40 @@ class CompilerTests(unittest.TestCase):
         ad3["composition"]["focal_hierarchy"] = ["floor seam"]  # used by critique, never by the compiler
         self.assertEqual(engine_input(compile_(ad)), engine_input(compile_(ad3)))
 
+    def test_subject_clause_cut_at_comma_not_mid_phrase(self):
+        from atelier.prompt_compiler import _short
+
+        text = ("one low bent brushed stainless steel arch sculpture alone on concrete under a luminous ceiling, "
+                "formed from a single continuous sheet folded once")
+        clause, shortened = _short(text, 16)
+        self.assertTrue(shortened)
+        self.assertEqual(clause, "one low bent brushed stainless steel arch sculpture alone on concrete under a luminous ceiling")
+
+    def test_lighting_outranks_surface_imperfections(self):
+        ad = art_direction()
+        ad["materials"][0]["imperfections"] = ["faint longitudinal grain variation along the whole sheet",
+                                               "slightly softer burnished patch on the crown of the fold"]
+        r = compile_(ad)
+        self.assertIn("key light", r["prompt"]["positive"])
+        fields = [d["field"] for d in r["compilation"]["dropped"]]
+        self.assertNotIn("lighting", fields)
+
+    def test_trimmed_segment_keeps_leading_parts_and_is_recorded(self):
+        ad = art_direction()
+        ad["lighting"]["key"]["direction"] = "directly overhead from the full ceiling plane, broad and even, " * 2
+        r = compile_(ad, c=caps(max_prompt_tokens=60))
+        self.assertLessEqual(estimate_tokens(r["prompt"]["positive"]), 60)
+        fields = [d["field"] for d in r["compilation"]["dropped"]]
+        self.assertTrue("lighting (tail)" in fields or "lighting" in fields)
+
+    def test_material_names_its_object(self):
+        from atelier.prompt_compiler import describe_material
+
+        m = dict(art_direction()["materials"][0], material_id="tool_head", type="brushed_steel", finish="dust-dulled")
+        self.assertTrue(describe_material(m).startswith("brushed steel tool head (dust-dulled)"))
+        m["material_id"] = "primary"
+        self.assertTrue(describe_material(m).startswith("brushed steel (dust-dulled)"))
+
     def test_baseline_request(self):
         r = compile_baseline_request(brief()["original_intent"]["text"], caps(), run_id="run_t", slot=1, width=512,
                                      height=640, base_seed=100, engine_params={}, timeout_s=10, max_retries=0)

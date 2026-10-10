@@ -21,7 +21,7 @@ from typing import Any
 from atelier.engines.base import CapabilityError, EngineCapabilities
 from atelier.util import sha256_file
 
-COMPILER_VERSION = "1.0.0"
+COMPILER_VERSION = "1.2.0"
 
 DEFAULT_NEGATIVE_TERMS = ("text", "watermark", "logo", "signature", "lowres", "jpeg artifacts")
 
@@ -37,6 +37,7 @@ MATERIAL_WORDS = {
     "gunmetal": "gunmetal",
     "other_metal": "metal",
 }
+_GENERIC_MATERIAL_IDS = {"primary", "secondary", "main", "base", "material", "metal"}
 CURVATURE_WORDS = {
     "flat": "flat planes",
     "gentle": "gently curved",
@@ -82,22 +83,32 @@ class _Segment:
 
 
 def _short(text: str, max_words: int) -> tuple[str, bool]:
+    """First sentence of ``text``; if longer than ``max_words``, cut at the last comma inside the budget
+    (or at the budget if there is none) so the clause never ends mid-phrase."""
     first = re.split(r"(?<=[.;])\s", text.strip(), maxsplit=1)[0].rstrip(".;")
     words = first.split()
     if len(words) > max_words:
-        return " ".join(words[:max_words]), True
+        head = " ".join(words[:max_words])
+        cut = head.rfind(",")
+        clause = head[:cut] if cut >= len(head) // 2 else head
+        return clause.rstrip(" ,"), True
     return first, first != text.strip().rstrip(".;")
 
 
-def describe_material(m: dict[str, Any]) -> str:
+def describe_material(m: dict[str, Any], with_imperfections: bool = True) -> str:
     refl = ("mirror-like reflections" if m["reflectivity"] >= 0.85 else "strong reflections" if m["reflectivity"] >= 0.6
             else "soft sheen" if m["reflectivity"] >= 0.3 else "dull surface")
     rough = ("razor-sharp highlights" if m["roughness"] <= 0.1 else "crisp highlights" if m["roughness"] <= 0.3
              else "diffused highlights" if m["roughness"] <= 0.6 else "matte finish")
-    parts = [f"{MATERIAL_WORDS[m['type']]} ({m['finish']})", CURVATURE_WORDS[m["curvature"]], refl, rough]
+    # Name the object the material belongs to ("brushed steel tool head"), so the engine does not apply the
+    # material to whatever subject happens to precede it in the prompt.
+    obj = m["material_id"].replace("_", " ").replace("-", " ").strip()
+    noun = "" if obj in _GENERIC_MATERIAL_IDS or re.fullmatch(r"m?\d+", obj) else f" {obj}"
+    parts = [f"{MATERIAL_WORDS[m['type']]}{noun} ({m['finish']})", CURVATURE_WORDS[m["curvature"]], refl, rough]
     if m["anisotropy"] >= 0.5:
         parts.append("directional brushed grain")
-    parts.extend(m["imperfections"][:2])
+    if with_imperfections:
+        parts.extend(m["imperfections"][:2])
     return ", ".join(parts)
 
 
@@ -118,7 +129,11 @@ def build_segments(ad: dict[str, Any]) -> tuple[list[_Segment], list[dict[str, s
         warnings.append({"code": "subject_shortened", "message": "subject description reduced to its first clause for the prompt"})
     segs = [_Segment("subject", f"fine-art editorial photograph, {subject}", 0, required=True)]
     for i, m in enumerate(ad["materials"]):
-        segs.append(_Segment(f"materials/{i}", describe_material(m), 1 if i == 0 else 7, required=(i == 0)))
+        segs.append(_Segment(f"materials/{i}", describe_material(m, with_imperfections=(i != 0)), 1 if i == 0 else 7,
+                             required=(i == 0)))
+        if i == 0 and m["imperfections"]:
+            # Surface detail ranks below lighting and palette: it refines the material, the light defines the image.
+            segs.append(_Segment("materials/0/imperfections", ", ".join(m["imperfections"][:2]), 4))
     lt = ad["lighting"]
     light = [f"{lt['key']['hardness']} key light {lt['key']['direction']}", _temperature_words(lt["key"]["color_temperature_k"])]
     light.append("no fill, deep shadows" if lt["fill"] == "none" else f"{lt['fill']} fill")
@@ -156,6 +171,16 @@ def _fit(segments: list[_Segment], budget: int | None) -> tuple[str, list[dict[s
         if budget is None or seg.required or used + cost <= budget:
             chosen.append(seg)
             used += cost
+            continue
+        # Keep the leading comma-separated parts that fit (the most important words come first), else drop.
+        parts = [p.strip() for p in seg.text.split(",")]
+        while len(parts) > 1 and used + estimate_tokens(", ".join(parts)) + 1 > budget:
+            parts.pop()
+        kept = ", ".join(parts)
+        if len(parts) < len(seg.text.split(",")) and used + estimate_tokens(kept) + 1 <= budget and estimate_tokens(kept) >= 3:
+            chosen.append(_Segment(seg.name, kept, seg.priority))
+            used += estimate_tokens(kept) + 1
+            dropped.append({"field": f"{seg.name} (tail)", "reason": f"trimmed to fit token budget {budget}"})
         else:
             dropped.append({"field": seg.name, "reason": f"token budget {budget} exceeded (estimate {used}+{cost})"})
     text = ", ".join(s.text for s in chosen)

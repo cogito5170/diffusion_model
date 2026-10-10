@@ -1,0 +1,98 @@
+{
+  "brief_id": "brief_steel-light-01",
+  "concept_set_id": "concepts_steel-light",
+  "concepts": [
+    {
+      "concept_id": "concept_one-sheet-folded",
+      "key_motifs": [
+        "single continuous bent sheet of brushed stainless steel",
+        "one smooth wide-radius fold",
+        "soft anisotropic sheen gradient across the curvature",
+        "fine linear grain following the bend",
+        "thin contact shadows on grey concrete",
+        "matte off-white walls with soft falloff",
+        "diffuse luminous ceiling as the only light",
+        "empty gallery-like room, wide 16:9 oblique view"
+      ],
+      "risks": [
+        "May still read as an oversized bench or design furniture (interior-portfolio shot) instead of sculpture; scale and isolation must carry it.",
+        "Small models may render the steel as liquid mirror chrome or smooth grey plastic, losing the brushed grain.",
+        "Curved metal can reflect the room; any reflected figure or silhouette violates the no-people constraint and must be excluded.",
+        "Without a scale cue the monument may look like a tabletop model; the room's floor seams or wall height must give scale.",
+        "Proximity to known curved-steel sculpture (e.g. Richard Serra arcs) is a cliche and imitation risk; keep it low, single-fold and quiet rather than towering or rusted.",
+        "Shadowless light can make the form float; contact shadows are essential."
+      ],
+      "tension": {
+        "description": "The reference stool is one bent sheet: the most economical gesture in the room. Enlarged to sculptural scale and placed alone on a grey concrete floor under a luminous ceiling, the same gesture still looks almost sittable, yet it is too large, too singular and too carefully isolated to serve anyone. The work stays in that hesitation. It is recognisably born from cafe furniture, but it is presented the way the white cube presents a relic, so the commerce is drained out and only the fold remains.",
+        "pole_a": "furniture made for use (seat, bench, cafe fitting)",
+        "pole_b": "autonomous sculptural object (proportion, curvature, silence)"
+      },
+      "thesis": "A single sheet of brushed stainless steel, bent once into a monumental low arch like the reference stool scaled up past any use, stops being furniture and becomes a sculpture whose only subject is how light travels around a bend in steel.",
+      "title": "One Sheet, Folded",
+      "visual_hypothesis": "If one continuous brushed-steel sheet is shown bent through a single smooth radius (a wide, low, inverted-U or C profile, roughly knee to waist height but several metres long), standing alone on a grey concrete floor in a matte white room lit only from a diffuse luminous ceiling, then the curvature will produce a continuous anisotropic sheen gradient (bright soft band along the top of the bend, cooler mid-grey on the vertical legs, fine linear grain following the fold), giving the strongest possible material read with one clear subject. Test: the critic should see brushed grain and a stretched soft highlight on the curve rather than mirror reflections or flat grey paint, a thin contact shadow where each leg meets the floor, and no element that reads as a cafe, shop or product shot."
+    },
+    {
+      "concept_id": "concept_ring-left-behind",
+      "key_motifs": [
+        "thick brushed-steel slab top seen low and close",
+        "faint dried circular cup ring",
+        "soft fingerprint smudges",
+        "blurred band of ceiling light reflected along the steel",
+        "bright edge line on the slab's front edge",
+        "empty matte white room beyond, softly out of focus",
+        "compressed high-key near-monochrome palette"
+      ],
+      "risks": [
+        "Small text-to-image models often fail to render subtle surface marks; the ring may vanish or become a stain, a coin or a printed circle.",
+        "The word 'cup' in a prompt tends to summon an actual cup, coffee or a cafe scene; the ring must be described as a mark, not an object.",
+        "A counter seen this way can easily read as a cafe or bar interior, which the orchestrator ruled out.",
+        "Close views of reflective steel may produce a reflected person, hand or camera; must be excluded.",
+        "Pushing the marks too hard turns controlled imperfection into grime and betrays the materiality.",
+        "Fingerprints rendered too sharply could look like a forensic or crime-scene image."
+      ],
+      "tension": {
+        "description": "Stainless steel is specified so that every surface looks identical and untouched, yet it is the material that most faithfully registers a palm or the wet base of a cup. Under shadowless light there are no shadows to imply a body, so the trace on the surface becomes the whole subject. The cup itself has been taken away; only its ring remains. The image is a portrait of absence made entirely of residue, a quiet counter-argument to the frictionless surface.",
+        "pole_a": "human presence as trace (touch, waiting, the ritual of a cup)",
+        "pole_b": "impersonal brushed steel chosen to show no hand"
+      },
+      "thesis": "A thick brushed-steel slab, emptied of everything, keeps the only evidence that anyone was there: a faint dried cup ring and a few soft fingerprints, so the person forbidden from the image survives as what the impersonal steel could not help recording.",
+      "title": "The Ring Left Behind",
+      "visual_hypothesis": "If the camera sits low and close to the top surface of a single thick brushed-steel slab on block plinths, looking along its length toward a matte white wall, so that the luminous ceiling reflects as a soft bright blurred band on the steel top, then a faint circular cup ring and two or three soft fingerprint smudges in the foreground will read as the only disturbance in an otherwise even, high-key field. Test: the critic should identify the ring and smudges without being told, see no cup, no ceramics, no people and no reflections of people, and read the slab as an object in an empty white room rather than a cafe counter."
+    },
+    {
+      "concept_id": "concept_mass-without-shadow",
+      "key_motifs": [
+        "single low solid brushed-steel block",
+        "hairline contact shadow on concrete",
+        "brightest plane is the steel top reflecting the ceiling",
+        "cooler mid-grey vertical faces with fine grain",
+        "grey troweled concrete floor with soft reflection",
+        "luminous ceiling plane as sole light",
+        "empty white room, frontal 16:9 composition"
+      ],
+      "risks": [
+        "Highest risk of the generic 'AI minimalism' render: plastic-grey CGI block, perfectly clean, floating.",
+        "A plain steel box invites comparison with Donald Judd's specific objects; must stay a single non-serial volume and avoid stack or progression arrangements.",
+        "Visually the least eventful concept; the result may feel empty rather than charged.",
+        "Small models may add dramatic directional shadows or dark grading, which betrays the materiality.",
+        "The block may read as a plinth waiting for an exhibit rather than the work itself."
+      ],
+      "tension": {
+        "description": "A luminous ceiling removes the cues that normally tell us an object is heavy: no long shadow, no dark side, no modelling. Steel under such light goes nearly grey and risks looking weightless or computer-generated. The concept takes that danger as its subject. The block is plain and frontal; the light is total. Mass has to be proved by the smallest evidence, a thin dark seam where steel meets concrete, the brighter top plane reflecting the ceiling and the cooler, darker vertical faces. It is a meditation on how the white cube's light flattens and sanctifies, and on what resists it.",
+        "pole_a": "shadowless, evenly lit sanctity of the luminous room",
+        "pole_b": "weight, gravity and density of solid steel"
+      },
+      "thesis": "A single heavy brushed-steel block rests on a concrete floor in light that erases every cast shadow, and the work stakes its meaning on whether a hairline contact shadow and one bright edge are enough to keep tonnage from dissolving into glow.",
+      "title": "Mass Without Shadow",
+      "visual_hypothesis": "If one low, horizontally proportioned solid brushed-steel block (wider than it is tall, unadorned, no visible joints or handles) is placed slightly off-centre on a grey troweled concrete floor in an otherwise empty matte white room, seen from a calm eye-level frontal or slightly oblique view, with a diffuse luminous ceiling as the sole light, then the top plane will be the brightest steel surface, the vertical faces a cooler mid-grey with soft vertical grain sheen, and a hairline contact shadow will anchor it. Test: the critic should judge whether the block reads as heavy and grounded rather than floating or CGI, and whether the overall value range stays high-key with no deep shadows."
+    }
+  ],
+  "distinctness_rationale": "The three concepts are built on different ideas, not variations of one image. 'One Sheet, Folded' is about transformation: a piece of cafe furniture (the bent-sheet stool) enlarged into autonomous sculpture, so the image argues about use versus art. 'The Ring Left Behind' is about absence: a person known only through the residue the steel records, so the image argues about touch versus impersonality. 'Mass Without Shadow' is about perception: whether weight survives shadowless light, so the image argues about sanctity versus gravity. They also differ in subject (a curve, a surface detail, a solid volume) and in viewpoint (oblique sculptural view, low close-up, frontal room view). I recommend 'One Sheet, Folded' for this single artwork. It gives a small text-to-image model one clear, simple subject. Its curvature is the best showcase for brushed steel's anisotropic sheen under a diffuse source, which gives the strongest material read. It is drawn directly from the reference's most distinctive object, yet scale and isolation pull it out of the cafe and into the fine-art installation register. It also avoids the two biggest failure modes of the others: subtle marks that small models drop ('The Ring Left Behind') and the inert, CGI-prone plain box ('Mass Without Shadow'). If the art director wants a human dimension, one restrained trace, such as a faint soft burnish on the crown of the fold, could be added without changing the concept, within the orchestrator's working assumption that traces are allowed and figures, body parts and reflections of people are not.",
+  "produced_by": {
+    "kind": "agent",
+    "name": "concept-generator"
+  },
+  "recommended_concept_id": "concept_one-sheet-folded",
+  "research_id": "research_steel-light",
+  "schema_version": "atelier.concept_set.v1"
+}

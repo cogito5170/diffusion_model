@@ -1,0 +1,240 @@
+{
+  "art_direction_id": "ad_foam-vitrine-v1",
+  "avoidance_constraints": [
+    {
+      "reason": "brief must_avoid",
+      "term": "people"
+    },
+    {
+      "reason": "brief must_avoid",
+      "term": "text"
+    },
+    {
+      "reason": "brief must_avoid",
+      "term": "watermark"
+    },
+    {
+      "reason": "brief must_avoid",
+      "term": "logo"
+    },
+    {
+      "reason": "empty chair is the concept; also brief must_avoid people",
+      "term": "person sitting in the chair"
+    },
+    {
+      "reason": "brief must_avoid people, including reflections",
+      "term": "human silhouette or reflection in glass"
+    },
+    {
+      "reason": "foam must not read as stone; loses the cheap-copy irony",
+      "term": "marble"
+    },
+    {
+      "reason": "common misread of white granular matter",
+      "term": "snow"
+    },
+    {
+      "reason": "chair must read as milled foam, not a finished product",
+      "term": "glossy porcelain or white plastic chair"
+    },
+    {
+      "reason": "metal belongs only to frame and tool head",
+      "term": "chrome or polished metal on the foam"
+    },
+    {
+      "reason": "dust must stay dry chips on the floor",
+      "term": "fog, smoke or glowing dust particles"
+    },
+    {
+      "reason": "sci-fi robot cliche",
+      "term": "sparks, lasers, glowing LEDs"
+    },
+    {
+      "reason": "sci-fi cliche; machine is an industrial tool head only",
+      "term": "humanoid robot"
+    },
+    {
+      "reason": "do not replicate the reference installation",
+      "term": "central glass room enclosure"
+    },
+    {
+      "reason": "do not replicate the reference installation",
+      "term": "symmetrical rows of plinths"
+    },
+    {
+      "reason": "reference work's subject; do not replicate",
+      "term": "guardian lion statues"
+    },
+    {
+      "reason": "reference work's camera position",
+      "term": "frontal symmetrical wide gallery view"
+    },
+    {
+      "reason": "keep the chair plain; avoid Quayola-like classical non finito",
+      "term": "classical statue or ornate carving"
+    },
+    {
+      "reason": "generic tech-ad aesthetic",
+      "term": "teal-and-orange grading, lens flare, neon"
+    },
+    {
+      "reason": "brief must_avoid logo",
+      "term": "manufacturer livery on robot"
+    }
+  ],
+  "brief_id": "brief_foam-vitrine-01",
+  "composition": {
+    "camera_angle": "low three-quarter view, just below seat height, clearly off axis (not frontal)",
+    "focal_hierarchy": [
+      "boundary where the finished chair leaves the raw block",
+      "terraced roughing steps against the smooth ridged seat",
+      "chair's single reflection and chip scatter on the dark floor",
+      "out-of-focus robot tool head behind the glass panel at right edge"
+    ],
+    "framing": "medium",
+    "layout": "chair and block on left third; long floor reflection below; cropped soft glass panel and tool head at right edge; dark space between",
+    "lens_mm": 50,
+    "negative_space": "generous"
+  },
+  "concept_id": "concept_seat-for-no-one",
+  "concept_thesis": "A full-size chair half-released from a raw white foam block is milled to fit a human body it can never hold: it invites a sitter, but the soft foam would crush under one. Human identity survives only as the chair's ergonomics; authorship survives only as the toolpath. The image holds the pause mid-process, between offer and refusal.",
+  "lighting": {
+    "contrast_ratio": "8:1",
+    "environment": "dark empty gallery, near-black walls, dark polished concrete floor, no windows, no bright fixtures",
+    "fill": "low",
+    "key": {
+      "color_temperature_k": 4300,
+      "direction": "low raking light from left grazing the terraced foam steps, nearly parallel to the block faces, flagged off the background",
+      "hardness": "medium"
+    },
+    "rim": false,
+    "setup": "single flagged raking side key in a dark gallery, low fill, no rim"
+  },
+  "materials": [
+    {
+      "anisotropy": 0.35,
+      "curvature": "gentle",
+      "finish": "dust-dulled brushed steel",
+      "imperfections": [
+        "white foam powder film",
+        "clinging foam beads on the ball-end mill"
+      ],
+      "material_id": "tool_head",
+      "reflectivity": 0.3,
+      "role": "machine presence, secondary, out of focus at right edge",
+      "roughness": 0.6,
+      "type": "brushed_steel"
+    },
+    {
+      "anisotropy": 0.0,
+      "curvature": "flat",
+      "finish": "matte blackened steel",
+      "imperfections": [
+        "faint white dust film on frame edges"
+      ],
+      "material_id": "vitrine_frame",
+      "reflectivity": 0.12,
+      "role": "slim black frame of the cropped glass panel",
+      "roughness": 0.75,
+      "type": "other_metal"
+    }
+  ],
+  "mood": [
+    "quiet",
+    "austere",
+    "withheld invitation",
+    "suspended mid-process",
+    "documentary restraint"
+  ],
+  "output": {
+    "aspect_ratio": "16:9",
+    "height": 576,
+    "width": 1024
+  },
+  "palette": {
+    "colors": [
+      {
+        "hex": "#121315",
+        "name": "gallery black",
+        "role": "dominant"
+      },
+      {
+        "hex": "#E6E4DF",
+        "name": "matte foam white",
+        "role": "secondary"
+      },
+      {
+        "hex": "#3A3C40",
+        "name": "graphite steel",
+        "role": "accent"
+      },
+      {
+        "hex": "#050506",
+        "name": "deep black",
+        "role": "shadow"
+      },
+      {
+        "hex": "#F3F2EE",
+        "name": "chalk highlight",
+        "role": "highlight"
+      }
+    ],
+    "saturation": "monochrome"
+  },
+  "parent_id": null,
+  "provenance": {
+    "derived_from_plan_id": null,
+    "draft_id": "draft_foam-vitrine",
+    "material_spec_id": "matspec_foam-vitrine"
+  },
+  "schema_version": "atelier.art_direction.v1",
+  "semantic_constraints": [
+    {
+      "constraint": "no people anywhere: no seated figure, body parts, silhouettes or reflections",
+      "priority": "must"
+    },
+    {
+      "constraint": "no text, wall labels, watermark or logo; robot arm unbranded",
+      "priority": "must"
+    },
+    {
+      "constraint": "chair visibly emerges from a raw rectangular block; backrest still fused to the uncut block",
+      "priority": "must"
+    },
+    {
+      "constraint": "foam reads matte, dry and granular, with no specular highlights",
+      "priority": "must"
+    },
+    {
+      "constraint": "dark polished gallery floor carrying one clean reflection of the chair",
+      "priority": "must"
+    },
+    {
+      "constraint": "the chair is empty",
+      "priority": "must"
+    },
+    {
+      "constraint": "coarse terraced roughing steps on the uncut block, fine ridges on the finished seat",
+      "priority": "should"
+    },
+    {
+      "constraint": "robot tool head present but cropped and out of focus at the right edge, behind one glass panel",
+      "priority": "should"
+    },
+    {
+      "constraint": "thin scatter of white chips and beads around the base, not a dune or fog",
+      "priority": "should"
+    },
+    {
+      "constraint": "chair placed on the left third, viewed from a low asymmetric three-quarter angle",
+      "priority": "should"
+    }
+  ],
+  "subject": {
+    "description": "half-carved plain chair emerging from raw matte white foam block on dark reflective gallery floor. The seat and front legs are finished with fine toolpath ridges; the backrest is still fused into the uncut rectangular block, which shows coarse terraced roughing steps. Dry, granular, beaded foam surfaces with no gloss. A thin scatter of white chips and beads on the floor around the base. At the right frame edge, cropped and out of focus, a black-framed glass panel with a faint powder film and a dust-coated white robot tool head behind it. The chair is empty.",
+    "human_presence": "implied",
+    "human_treatment": "only through the chair's human scale and seat shape; no person, body part, silhouette or reflection anywhere"
+  },
+  "version": 1,
+  "visual_hypothesis": "If one plain, archetypal four-legged chair visibly emerges from a matte white foam block (finished seat and front legs, backrest still fused into a rough rectangular block cut in coarse terraced steps), standing directly on a dark polished gallery floor with no plinth, shot from a low asymmetric three-quarter angle with the chair on the left third, then a small model will read 'carved from a block' from the block-to-chair transition, and will read foam rather than marble from the terraced steps and dry granular faces. A thin scatter of white chips around the base implies the process; one cropped, out-of-focus black-framed glass panel with a dust-coated robot tool head behind it at the right edge keeps the machine present but secondary. The dark floor gives the chair one long, clean reflection with nothing else in it."
+}

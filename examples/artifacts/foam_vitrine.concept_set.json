@@ -1,0 +1,93 @@
+{
+  "brief_id": "brief_foam-vitrine-01",
+  "concept_set_id": "concepts_foam-vitrine",
+  "concepts": [
+    {
+      "concept_id": "concept_seat-for-no-one",
+      "key_motifs": [
+        "plain archetypal chair half-emerging from a raw foam block",
+        "terraced roughing steps on the uncut block, fine scallop ridges on the finished seat",
+        "beaded matte EPS cut faces with no specular glints",
+        "low scatter of white chips and beads on a dark reflective floor",
+        "single raking side light, deep surrounding darkness",
+        "cropped, out-of-focus black-framed glass panel and dust-coated robot tool head at the frame edge"
+      ],
+      "risks": [
+        "The chair may render as a finished white plastic or porcelain chair with no carving read. The block-to-chair transition and terraced steps must dominate the prompt.",
+        "Foam may drift to glossy marble. Prompts need matte, granular, beaded, no specular highlights, and negatives for marble and polish.",
+        "An empty chair is a well-worn symbol of absence and could feel sentimental if the lighting is too theatrical.",
+        "The background glass panel may reflect a person-like shape, or the model may seat a figure in the chair. A strong negative for people, silhouettes and reflections is needed.",
+        "Without the robot clearly present, the image may read as hand-carved studio work. The cropped tool head has to stay legible despite the blur."
+      ],
+      "tension": {
+        "description": "A chair is the most familiar portrait of an absent person. Its height, seat depth and backrest angle describe a body without showing one. Milled from foam, the chair keeps that portrait but cancels its function, and its finished surface is the toolpath's work, not a joiner's. The front legs and seat are finished, smooth with fine scallop ridges. The backrest is still fused into the rough rectangular block, which carries coarse terraced roughing steps. The image hangs between offer and refusal: a place made for someone, in a material that cannot accept them.",
+        "pole_a": "human presence and identity (a seat shaped to a body, ergonomics, invitation)",
+        "pole_b": "the cheapness and fragility of foam (inert, crushable, cannot bear weight)"
+      },
+      "thesis": "A full-size chair half-released from a raw white foam block is milled to fit a human body it can never hold: it invites a sitter, but the soft foam would crush under one.",
+      "title": "Seat for No One",
+      "visual_hypothesis": "If one plain, archetypal four-legged chair (no ornament, no classical reference) emerges from a matte white foam block in a single raking side light, sitting directly on a dark polished gallery floor with no plinth, and is shot from a low, asymmetric three-quarter angle with the chair on the left third, then a small model will read 'carved from a block' from the obvious block-to-chair transition. Visible terraced steps on the uncut part and beaded granular cut faces will make it read as milled foam, not marble or white plastic. A thin scatter of white chips on the floor around the base will imply the process. At the right edge, out of focus and cropped, one black-framed glass panel with a faint powder film stands with the dust-coated white tool head of a robot arm behind it, so the machine is present but secondary. The dark floor gives the chair one long, clean reflection with nothing else in it."
+    },
+    {
+      "concept_id": "concept_crumple-transcribed",
+      "key_motifs": [
+        "oversized crumpled-paper form milled in matte white foam",
+        "transition from crisp crease facets to stepped roughing terraces on one block",
+        "white robot spindle head with ball-end mill, cropped, entering from above",
+        "thin black steel frame plinth",
+        "chips and powder settled on the plinth top and dark floor",
+        "hard single-source side light on faceted planes"
+      ],
+      "risks": [
+        "The crumpled form may read as real paper, a rock, meringue or a crumpled ice formation. Scale cues (plinth, spindle) and visible toolpath ridges on the facets are essential.",
+        "Faceted white planes under hard light can turn glossy or porcelain-like. The material must stay matte and chalky.",
+        "A close-up with a robot tool head may slide toward a factory or product-demo look. It needs gallery context: plinth, dark museum space, restrained documentary framing.",
+        "Small models struggle to render two distinct surface languages on one object. The crease/terrace boundary may blur into generic texture.",
+        "The concept relies on the viewer knowing it is an enlarged crumple. If the scale reads wrong, the irony is lost."
+      ],
+      "tension": {
+        "description": "Crumpling paper takes a second and cannot be done the same way twice. Here a scan of that crumple becomes a machining file, and the machine spends hours reproducing every fold at large scale. The upper part of the block is finished into sharp faceted creases. The lower part is still a rectilinear block cut into stepped roughing terraces, so the frame shows the hand's chaos and the machine's order on one object. Unlike classical non finito, nothing heroic is being released, only a discarded gesture promoted to a monument. That avoids the classical-figure territory of Quayola's Captives.",
+        "pole_a": "human authorship (one careless, unrepeatable squeeze of a hand)",
+        "pole_b": "machine toolpath surface (patient, regular scallop ridges and terraced passes)"
+      },
+      "thesis": "A robot spends hours faithfully enlarging a crumpled sheet of paper, the most offhand gesture a human hand can make, into a monumental foam block, so the copy preserves a gesture whose maker never meant to keep it.",
+      "title": "Crumple, Transcribed",
+      "visual_hypothesis": "If a waist-high white foam block on a thin black steel frame plinth is shown close-up from a three-quarter angle slightly above plinth height, with its top transformed into a large crumpled-paper form with sharp creases and its base still a rectangular block with clear horizontal terraced steps, and the white spindle head of a robot arm enters from the upper edge with its ball-end mill touching a crease, then the subject reads in one glance as 'machine carving a crumpled form from a block'. A thin layer of chips on the plinth top and on the dark floor below supplies the dust. Hard directional light from one side, against a near-black gallery background, makes the facets and ridges the main visual event, which survives a small model better than subtle textures. There is no vitrine in the main view. At most, a dark glass reflection sits in the background, out of focus."
+    },
+    {
+      "concept_id": "concept_spoil-reliquary",
+      "key_motifs": [
+        "low black-framed glass display case seen from above at an oblique angle",
+        "sharp conical heap of coarse white foam chips and beads",
+        "rectangular offcut slabs with toolpath ridges",
+        "clean empty rectangular footprint in a layer of dust",
+        "powder film and static-clung beads on the inside of the glass",
+        "parked, dust-coated white robot arm, out of focus in the background",
+        "dark polished floor and a single overhead museum spotlight"
+      ],
+      "risks": [
+        "Highest material misread risk: the heap may render as snow, salt, sugar or flour. Chip size, curled offcuts and ridged slabs must be specified, with negatives for snow and sparkle.",
+        "Powder on glass may become fog, condensation or frosted glass. Keep it to a light film at the edges, not a haze.",
+        "The empty footprint is a subtle cue that small models may drop, which leaves just a pile of white stuff in a box and loses the concept.",
+        "A glass case plus a robot arm edges toward the reference's vocabulary. The low single case, overhead viewpoint and parked arm must stay clearly different from the reference's central gridded room.",
+        "The weakest single subject of the three, since a heap has no strong silhouette, so composition and light must carry it."
+      ],
+      "tension": {
+        "description": "Any copy can be milled again, but its waste cannot. This concept takes the decision the research flags as key and treats the residue as the artwork. A low, black-framed museum display case, the kind used for relics or specimens, holds a sharp-edged conical spoil heap of white foam chips and curled offcuts with toolpath ridges. Beside it is a crisp empty rectangle in the dust layer where the finished object once stood. The case shifts from showcase to reliquary, a lineage running through Beuys' vitrines, and the absence of the copy makes it a copy without an original twice over.",
+        "pole_a": "the reproducible replica (absent, remakeable from the same file)",
+        "pole_b": "the unrepeatable residue (this heap, this footprint, this film of powder)"
+      },
+      "thesis": "The milled sculpture has already left; the low glass vitrine now holds only the heap of chips it shed and the clean rectangular footprint where it stood, so the unrepeatable waste is exhibited as the only original.",
+      "title": "Spoil Reliquary",
+      "visual_hypothesis": "If the camera looks down at a steep oblique angle into a single low, waist-height glass display case with a slim black steel frame, standing slightly off-center on a dark reflective floor, and the case contains only a defined conical heap of coarse white foam chips, a few rectangular offcut slabs with ridged faces, and a sharply bordered clean rectangle in an otherwise dusted base, then 'something was here and has been taken away' reads clearly. A cool museum spotlight from above, with deep surrounding dark, keeps the scene a quiet installation document. Granular texture comes from coarse chips and slabs rather than fine powder, which the model would turn into fog. Beyond the case, unfocused, a dust-coated white robot arm stands parked and folded, half lost in shadow, as a witness rather than the subject."
+    }
+  ],
+  "distinctness_rationale": "The three concepts differ in idea, moment and the role of each material, not in styling. 'Seat for No One' is about the absent body: identity carried by an archetypal object's ergonomics, against foam's inability to bear weight. Its moment is a pause in mid-process, and the robot and glass are a cropped background presence. 'Crumple, Transcribed' is about authorship: a careless, unrepeatable hand gesture transcribed by the patient regularity of a toolpath. Its moment is the active cut, and the robot is the protagonist at the tool head, with no vitrine. 'Spoil Reliquary' is about the copy versus the residue: the object is gone and only the waste is exhibited. Its moment is the aftermath, the vitrine is the main frame, and the robot is parked. All three use different camera positions from the reference's wide, frontal, symmetrical view (low asymmetric three-quarter, close three-quarter at plinth height, steep overhead oblique). None uses a central glass room, plinth rows, guardian lions or a human figure, and the white matter stays matte foam, with metal only in the steel frames, plinths and robot arm. I recommend 'Seat for No One' because it best fits a small text-to-image model. A chair is a subject the model knows well, with a strong silhouette, and the block-to-chair transition gives an unambiguous 'carved from a block' read even if fine texture is lost. Foam, not marble, can be enforced through terraced steps and matte beaded faces. Dust appears only as a thin chip scatter on a dark floor, which cannot collapse into fog. It also carries the brief's central theme, human identity as trace rather than figure, more directly than the other two. 'Crumple, Transcribed' is the strongest alternative if the critic prioritises originality, and 'Spoil Reliquary' carries the highest material-misread risk.",
+  "produced_by": {
+    "kind": "agent",
+    "name": "concept-generator"
+  },
+  "recommended_concept_id": "concept_seat-for-no-one",
+  "research_id": "research_foam-vitrine",
+  "schema_version": "atelier.concept_set.v1"
+}

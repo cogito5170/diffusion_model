@@ -1,0 +1,219 @@
+{
+  "art_direction_id": "ad_steel-light-v1",
+  "avoidance_constraints": [
+    {
+      "reason": "brief must_avoid",
+      "term": "people"
+    },
+    {
+      "reason": "brief must_avoid",
+      "term": "text"
+    },
+    {
+      "reason": "brief must_avoid; reference carries a watermark",
+      "term": "watermark"
+    },
+    {
+      "reason": "brief must_avoid",
+      "term": "logo"
+    },
+    {
+      "reason": "curved steel can mirror a person; working assumption forbids reflections of people",
+      "term": "reflected figure or silhouette"
+    },
+    {
+      "reason": "traces allowed, bodies not",
+      "term": "hands or body parts"
+    },
+    {
+      "reason": "material must read as brushed, not polished",
+      "term": "mirror chrome"
+    },
+    {
+      "reason": "generic render failure mode",
+      "term": "grey plastic"
+    },
+    {
+      "reason": "do not reproduce the reference scene",
+      "term": "cafe interior"
+    },
+    {
+      "reason": "reference objects that pull toward commerce",
+      "term": "espresso machine, cups, clothing rack"
+    },
+    {
+      "reason": "interior-design advertising cliche",
+      "term": "furniture showroom"
+    },
+    {
+      "reason": "extends the text and logo ban",
+      "term": "signage"
+    },
+    {
+      "reason": "betrays the shadowless luminous-ceiling materiality",
+      "term": "dramatic hard shadows"
+    },
+    {
+      "reason": "value range must stay high-key",
+      "term": "dark moody grading"
+    },
+    {
+      "reason": "sci-fi cliche",
+      "term": "neon glow"
+    },
+    {
+      "reason": "cliche reading of steel plus white light",
+      "term": "sci-fi laboratory"
+    },
+    {
+      "reason": "keeps away from towering weathered-steel arc sculpture",
+      "term": "rust"
+    },
+    {
+      "reason": "mass must be grounded by contact shadows",
+      "term": "floating object"
+    },
+    {
+      "reason": "real-estate portfolio cliche",
+      "term": "wide-angle distortion"
+    }
+  ],
+  "brief_id": "brief_steel-light-01",
+  "composition": {
+    "camera_angle": "eye level slightly below standing height, about 30 degrees oblique to the arch's long axis so the curve and one open end both read",
+    "focal_hierarchy": [
+      "soft bright sheen band along the crown of the fold",
+      "gradient into cooler grey legs with grain following the bend",
+      "thin contact shadows where the legs meet the concrete",
+      "luminous ceiling plane and quiet white walls"
+    ],
+    "framing": "wide",
+    "layout": "arch spans the central two-thirds just below the horizontal midline; glowing ceiling band across the top edge; concrete floor plane fills the lower third",
+    "lens_mm": 50,
+    "negative_space": "generous"
+  },
+  "concept_id": "concept_one-sheet-folded",
+  "concept_thesis": "The most economical gesture in the reference room, a single sheet of brushed stainless steel bent once into a seat, is enlarged past any use and isolated under shadowless light. It still looks almost sittable, but it is too long, too singular and too carefully placed to serve anyone, so commerce drains out and only the fold remains: a sculpture whose subject is how diffuse light travels around one bend in steel.",
+  "lighting": {
+    "contrast_ratio": "2:1",
+    "environment": "empty room under a backlit frosted ceiling grid glowing as one even plane, matte warm off-white walls with soft falloff to the floor, troweled grey concrete floor with a faint soft reflection; reflections blurred, never legible",
+    "fill": "high",
+    "key": {
+      "color_temperature_k": 6000,
+      "direction": "directly overhead from the full ceiling plane, broad and even",
+      "hardness": "soft"
+    },
+    "rim": false,
+    "setup": "sourceless luminous ceiling: backlit diffuser grid acting as one large even overhead softbox, high-key"
+  },
+  "materials": [
+    {
+      "anisotropy": 0.7,
+      "curvature": "gentle",
+      "finish": "linear brushed satin stainless, grain following the bend",
+      "imperfections": [
+        "faint longitudinal grain variation along the sheet",
+        "slightly softer burnished patch on the crown"
+      ],
+      "material_id": "folded_sheet",
+      "reflectivity": 0.6,
+      "role": "the single bent-sheet arch sculpture, 8 to 15 mm thick, with fine bright lines on the cut edges",
+      "roughness": 0.42,
+      "type": "brushed_steel"
+    }
+  ],
+  "mood": [
+    "contemplative",
+    "silent",
+    "luminous and austere",
+    "suspended between use and reverence"
+  ],
+  "output": {
+    "aspect_ratio": "16:9",
+    "height": 576,
+    "width": 1024
+  },
+  "palette": {
+    "colors": [
+      {
+        "hex": "#E6E4E0",
+        "name": "Matte warm off-white wall",
+        "role": "dominant"
+      },
+      {
+        "hex": "#F5F7F9",
+        "name": "Cool ceiling glow",
+        "role": "highlight"
+      },
+      {
+        "hex": "#A9ADB2",
+        "name": "Brushed steel mid-grey",
+        "role": "secondary"
+      },
+      {
+        "hex": "#9D9B97",
+        "name": "Troweled concrete grey",
+        "role": "secondary"
+      },
+      {
+        "hex": "#D8DEE4",
+        "name": "Cool steel sheen",
+        "role": "accent"
+      },
+      {
+        "hex": "#4A4B4D",
+        "name": "Contact shadow graphite",
+        "role": "shadow"
+      }
+    ],
+    "saturation": "muted"
+  },
+  "parent_id": null,
+  "provenance": {
+    "derived_from_plan_id": null,
+    "draft_id": "draft_steel-light",
+    "material_spec_id": "matspec_steel-light"
+  },
+  "schema_version": "atelier.art_direction.v1",
+  "semantic_constraints": [
+    {
+      "constraint": "no people, figures, body parts or reflections of people",
+      "priority": "must"
+    },
+    {
+      "constraint": "exactly one steel object, a single continuous bent sheet",
+      "priority": "must"
+    },
+    {
+      "constraint": "empty matte white room with grey concrete floor",
+      "priority": "must"
+    },
+    {
+      "constraint": "thin contact shadows ground the arch on the floor",
+      "priority": "must"
+    },
+    {
+      "constraint": "no text, logos, signage or watermark",
+      "priority": "must"
+    },
+    {
+      "constraint": "high-key compressed value range with no deep shadows",
+      "priority": "should"
+    },
+    {
+      "constraint": "reads as sculpture, not furniture: no other furniture, props or products",
+      "priority": "should"
+    },
+    {
+      "constraint": "floor seams or wall height give a clear metre scale",
+      "priority": "should"
+    }
+  ],
+  "subject": {
+    "description": "one low bent brushed stainless steel arch sculpture alone on concrete under a luminous ceiling, formed from a single continuous sheet folded once through a wide smooth radius into a long low inverted-U several metres long and roughly knee to waist high, centred in an otherwise empty matte white room",
+    "human_presence": "none",
+    "human_treatment": null
+  },
+  "version": 1,
+  "visual_hypothesis": "If one continuous brushed-steel sheet bent through a single wide radius (a low inverted-U, roughly knee to waist height and several metres long) stands alone on grey concrete in an empty matte white room lit only by a luminous ceiling, then the curvature will carry an unbroken sheen gradient from a soft bright band on the crown to cooler mid-grey legs, with grain following the bend. That gradient is the image. Test: the critic sees brushed grain and a stretched soft highlight rather than mirror reflections or flat paint, a thin contact shadow under each leg, a high-key compressed value range, and nothing that reads as a cafe, shop, product shot or person."
+}

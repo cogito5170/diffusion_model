@@ -1,0 +1,59 @@
+{
+  "draft_id": "draft_foam-vitrine",
+  "lighting": {
+    "contrast_ratio": "8:1",
+    "environment": "dark empty gallery, near-black walls, dark polished concrete floor, no windows, no bright fixtures",
+    "fill": "low",
+    "key": {
+      "color_temperature_k": 4300,
+      "direction": "low raking light from left grazing the terraced foam steps, nearly parallel to the block faces, flagged off the background",
+      "hardness": "medium"
+    },
+    "rim": false,
+    "setup": "single flagged raking side key in a dark gallery, low fill, no rim"
+  },
+  "material_spec_id": "matspec_foam-vitrine",
+  "materials": [
+    {
+      "anisotropy": 0.35,
+      "curvature": "gentle",
+      "finish": "dust-dulled brushed steel",
+      "imperfections": [
+        "white foam powder film",
+        "clinging foam beads on the ball-end mill"
+      ],
+      "material_id": "tool_head",
+      "reflectivity": 0.3,
+      "role": "machine presence, secondary, out of focus at right edge",
+      "roughness": 0.6,
+      "type": "brushed_steel"
+    },
+    {
+      "anisotropy": 0.0,
+      "curvature": "flat",
+      "finish": "matte blackened steel",
+      "imperfections": [
+        "faint white dust film on frame edges"
+      ],
+      "material_id": "vitrine_frame",
+      "reflectivity": 0.12,
+      "role": "slim black frame of the cropped glass panel",
+      "roughness": 0.75,
+      "type": "other_metal"
+    }
+  ],
+  "plausibility_notes": [
+    "clean brushed steel would sit near 0.5 reflectivity; 0.3 with roughness 0.6 accounts for the foam powder film, and pushing it lower would read as painted rather than metal",
+    "anisotropy 0.35 meets the brushed-metal rule; dust mutes the grain, so higher values would give implausibly clean streak highlights",
+    "the out-of-focus tool head will show mostly as soft dull grey forms; its imperfections are low priority and need not resolve",
+    "blackened steel frame at 0.12 reflectivity avoids specular lines that could resolve into figures in the glass",
+    "the floor's single chair reflection comes from the polished concrete in the environment and subject text, not from a metal material",
+    "a raking key nearly parallel to the block faces maximises shadow relief on the terraces; a frontal key would flatten the foam toward plastic or marble"
+  ],
+  "produced_by": {
+    "kind": "agent",
+    "name": "material-specialist"
+  },
+  "rationale": "Only real metal is parameterised; the foam's matte, dry, granular look is carried by the subject description, so no metal vocabulary can leak onto the chair. The tool head is materials[0] because it is the element most at risk of vanishing, and without it the chair reads as hand-carved. It is brushed steel, but its reflectivity is pulled well below clean brushed steel and its roughness raised to model a powder film: it should read as a working machine coated in the material it removes, not as a polished product. Anisotropy is kept at 0.35, just above the brushed-metal threshold, so the grain shows faintly through the dust without turning into streaked highlights. The vitrine frame is blackened steel, close to non-reflective, so it outlines the glass without adding glints. No chrome or mirror finish appears anywhere: nothing should compete with the foam as a light-bearing surface. The key is a low raking side light from the left that grazes the terraced roughing steps, so form comes from the light/shadow cadence across the steps and not from surface sheen. Matte foam has no specular lobe, so medium hardness gives crisp step shadows without glints. A softer key would flatten the terraces, while a harder one would make the chip scatter look like gravel. At 4300K the light is a neutral-to-slightly-warm gallery tone that keeps the foam chalk-white rather than bluish (snow) or creamy (stone). Low fill at about 8:1 keeps the shadow sides of the chair readable while leaving the gallery near-black. Rim light is off: a rim on white foam reads as a glow, and on glass it would draw bright edge lines.",
+  "schema_version": "atelier.material_spec.v1"
+}

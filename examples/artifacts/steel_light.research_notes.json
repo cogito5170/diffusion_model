@@ -1,0 +1,189 @@
+{
+  "brief_id": "brief_steel-light-01",
+  "cautions": [
+    "WebFetch failed with DNS errors (getaddrinfo ENOTFOUND) for every URL attempted in this session. Web sources are known only from WebSearch result snippets and model knowledge, so every external source is verified=false. Only the local reference image was actually opened.",
+    "Do not reproduce the person in the reference, or any figure, silhouette, reflection of a person or mannequin (brief must_avoid: people).",
+    "Do not reproduce the 'deeparchive / Feel the space' watermark or any text, logo, waveform graphic, brand mark or signage (must_avoid: text, watermark, logo).",
+    "Do not copy the reference cafe's specific layout (counter plus stool row plus clothing rack plus espresso machine) as a scene. Use it as material evidence, not as a design to replicate.",
+    "Avoid recognisable branded objects: espresso machine badges, the CCTV camera, labelled garments.",
+    "Cliche risk: sci-fi spaceship or laboratory interior, futuristic robots, chrome 'cyber' styling, glowing neon accents.",
+    "Cliche risk: hospital, morgue or operating-room reading of steel plus white light, unless chosen deliberately.",
+    "Cliche risk: interior-design or architecture-portfolio advertising shot (lifestyle staging, product props, real-estate wide-angle distortion).",
+    "Cliche risk: generic 'AI minimalism' render: plastic-grey CGI steel, perfectly clean surfaces, impossible reflections, floating volumes without contact shadows.",
+    "Material-plausibility risk: brushed steel rendered as mirror chrome or as flat grey paint. It must show grain and soft anisotropic sheen.",
+    "Imitation risk: do not emulate living artists' signature works (James Turrell skyspaces or Ganzfeld rooms, Anish Kapoor mirror forms, Jeff Koons polished steel, Doug Wheeler infinity environments).",
+    "Imitation risk: do not recreate Donald Judd's specific box or stack compositions (estate-controlled oeuvre), or Dan Flavin's fluorescent arrangements.",
+    "Imitation risk: do not copy identifiable interiors by living studios (e.g. Creative Studio Unravel's Monoha, Schemata Architects' Blue Bottle Seongsu).",
+    "Keep the value range high-key and compressed; dramatic hard shadows or dark moody grading would betray this materiality."
+  ],
+  "context_notes": [
+    {
+      "note": "Brushing creates anisotropic reflection: highlights are stretched into soft streaks perpendicular to the grain, and reflections of the room are blurred rather than mirrored. Under a very large diffuse source (a luminous ceiling) brushed steel goes nearly grey and low in contrast; it is described mainly by the bright line on its top edges, a cooler soft gradient on vertical faces, and faint smudges or fingerprints. In the reference the top surface is the brightest steel plane (it reflects the ceiling), verticals are mid-grey, and the stool tops carry a soft sheen where the sheet is bent.",
+      "topic": "how brushed stainless reads optically"
+    },
+    {
+      "note": "A backlit opal panel grid or stretched-membrane ceiling turns the light source into a plane. The result is near-shadowless light: only thin contact shadows under objects and a gentle falloff down the walls. It is the light of the gallery, the lab, the clean room and the high-end store. As a cultural form it descends from the modernist ideal of evenly lit, rational space and from Light and Space art, but here in service of display.",
+      "topic": "the luminous ceiling as architecture"
+    },
+    {
+      "note": "O'Doherty's argument that the white, evenly lit gallery removes objects from time and sacralises them applies to minimal retail. A cup, a jug or a folded garment on a steel slab under sourceless light is presented as a relic. Retail and cafe design borrows the gallery's authority; the space becomes the brand.",
+      "topic": "the white cube and retail sacralisation"
+    },
+    {
+      "note": "Judd's fabricated steel volumes removed the hand and made proportion, edge, interval and surface the content. The reference counter (thick slab on spaced block plinths) and the stools (one bent sheet) inherit this vocabulary as furniture. An artwork can turn this back toward sculpture: the slab as a monolith, its plinths as an interval rhythm, rather than a service counter.",
+      "topic": "minimalist sculpture and the monolith"
+    },
+    {
+      "note": "Search snippets indicate that stainless steel interiors have become a recognisable Seoul cafe and retail idiom (Seongsu, Itaewon, Haebangchon), often in former industrial buildings and combined with raw concrete. Snippets cite a cost advantage of stainless in Korea and designers describing an 'aesthetics of absence'. This is context for why the user may find the materiality resonant; it is not something to depict literally.",
+      "topic": "Seoul stainless cafe vernacular"
+    },
+    {
+      "note": "Han reads the smooth, flawless surface as the aesthetic of consumer capitalism: pleasing, frictionless and without negativity. Tanizaki, from the other side, praises shadow, patina and tarnish. Brushed steel sits between the two. It is industrial and cool, but its grain is a record of abrasion and it marks easily with touch. That ambivalence is the most promising artistic lever.",
+      "topic": "smoothness and its critique"
+    },
+    {
+      "note": "The reference is almost monochrome: cool white ceiling glow (brightest), warm-grey off-white walls, steel in a mid-grey band with cool highlights, concrete floor slightly darker and warmer, and small black or white accents. Contrast is compressed and there are no deep blacks apart from small accents. Fidelity to this materiality means keeping a narrow, high-key value range.",
+      "topic": "colour and value structure of the reference"
+    }
+  ],
+  "interpretation": {
+    "open_questions": [
+      "Should the artwork keep an architectural interior (room, ceiling, floor) or isolate a single steel volume against the luminous field?",
+      "How much human trace is acceptable under must_avoid 'people': are fingerprints, a used cup or a displaced stool in scope?",
+      "Should the luminous ceiling grid appear as a visible structure or only as a light condition reflected in the steel?",
+      "Is the intended mood contemplative (gallery or chapel) or critical (sterile commerce)?",
+      "Does the pairing with materiality B call for deliberate contrast or kinship between the two works?"
+    ],
+    "summary": "The user's intent (original text preserved in the brief) announces that two artworks will be made, one from each of two materialities; this brief covers materiality A only. My reading: the task is to turn the reference's material system (brushed stainless steel volumes, a sourceless luminous ceiling, matte white walls and a grey concrete floor) into one autonomous fine-art image, not a reproduction of that cafe. The materiality carries a strong cultural charge. It is the white cube's sacralising light applied to commerce, minimalist sculpture domesticated as furniture, and a current Seoul retail-cafe idiom. The richest artistic territory is the ambivalence of brushed steel under shadowless light. It looks impersonal and frictionless, yet the grain is made by abrasion and the surface records touch. Because people are forbidden, any human dimension must come through traces (smudges, wear, a cup ring, the height and spacing of seats, emptiness after use) or through scale and proportion, never through figures.",
+    "tensions": [
+      {
+        "description": "Stainless steel is chosen precisely to look untouched and identical, yet it registers every fingerprint and its grain is literally made by repeated abrasion. The person removed from the reference survives only as what the steel retains: a smudge, a cup ring, the polish worn into a stool top. The image must make that absence felt without showing anyone.",
+        "pole_a": "human identity as trace (touch, use, waiting, ritual of coffee)",
+        "pole_b": "impersonal brushed-steel surface that shows no hand"
+      },
+      {
+        "description": "Diffuse ceiling light removes cast shadows and so removes the usual cues of mass. Heavy steel blocks risk floating as if weightless or reading as CGI. The work has to hold both the immaterial glow and the tonnage of the monolith, mainly through contact shadows, edge highlights and the floor plane.",
+        "pole_a": "shadowless, evenly lit sanctity (white cube, Light and Space)",
+        "pole_b": "material weight and gravity of the steel volumes"
+      },
+      {
+        "description": "The same vocabulary serves both. Without care the image collapses into an interior-design advertisement. The artwork should pull the material toward sculptural autonomy: no products, no branding, no lifestyle staging.",
+        "pole_a": "minimalist art object (autonomy, proportion, silence)",
+        "pole_b": "retail and cafe display (commerce, brand, lifestyle image)"
+      },
+      {
+        "description": "Brushed steel sits between mirror polish and patina. Leaning too far toward the smooth gives a sterile render; leaning too far toward grime betrays the materiality. The productive zone is controlled imperfection: grain, faint marks, a soft gradient.",
+        "pole_a": "the smooth and frictionless (Han's critique)",
+        "pole_b": "patina, shadow and imperfection (Tanizaki)"
+      }
+    ],
+    "themes": [
+      "sourceless light and the erasure of shadow",
+      "the monolith as furniture and furniture as monolith",
+      "the white cube as sacralising container",
+      "brushed grain as a record of abrasion",
+      "absence after use: trace instead of presence",
+      "commercial minimalism as a cultural form",
+      "near-monochrome, high-key value field"
+    ]
+  },
+  "produced_by": {
+    "kind": "agent",
+    "name": "concept-researcher"
+  },
+  "research_id": "research_steel-light",
+  "research_mode": "web_and_knowledge",
+  "schema_version": "atelier.research_notes.v1",
+  "sources": [
+    {
+      "kind": "artwork",
+      "locator": "examples/references/steel_bar_luminous_ceiling.png",
+      "relevance": "Opened and inspected in this session as material evidence. Shows: a long brushed-stainless counter (thick slab top on boxy plinths) with soft, low-contrast anisotropic sheen; bent-sheet stainless stools; a freestanding stainless column; a backlit opal ceiling grid that floods the room with near-shadowless light; matte off-white walls; grey polished/troweled concrete floor; white ceramics and steel jugs as the only small objects. It also contains a person, clothing on a rack, an espresso machine, a CCTV camera and a 'deeparchive / Feel the space' watermark, none of which may be carried into an artwork.",
+      "title": "Reference image: examples/references/steel_bar_luminous_ceiling.png (brief material reference)",
+      "verified": true
+    },
+    {
+      "kind": "publication",
+      "locator": "https://garagemca.org/en/publishing/brian-o-doherty-inside-the-white-cube-the-ideology-of-the-gallery-space",
+      "relevance": "The white, evenly lit room is not neutral: it sacralises whatever it contains and in late modernism 'context becomes content'. Directly frames the shadowless white room of the reference as an ideological, quasi-sacred container. URL came from a web search result; the page could not be opened (WebFetch DNS failure), so only the search snippet and model knowledge were used.",
+      "title": "Brian O'Doherty, Inside the White Cube: The Ideology of the Gallery Space (Artforum essays 1976; book 1986/1999)",
+      "verified": false
+    },
+    {
+      "kind": "publication",
+      "locator": null,
+      "relevance": "Critique of the frictionless, polished surface (Koons, the iPhone) as the aesthetic of consumer capitalism: the smooth 'does not injure' and offers no resistance. Gives a critical counter-pole to the seductive steel-and-light finish of minimal retail. Known from search snippets of publisher blurbs and model knowledge; book text not opened.",
+      "title": "Byung-Chul Han, Saving Beauty (Polity, 2017; chapters 'The Smooth', 'The Aesthetics of the Smooth')",
+      "verified": false
+    },
+    {
+      "kind": "artwork",
+      "locator": null,
+      "relevance": "Precedent for the steel box/monolith as an object without the trace of the hand, defined by proportion, edge and material alone. The reference counter's slab-on-plinth massing reads as a domesticated Judd volume. Search results (Phillips, Detroit Institute of Arts listings) mention fabrication by Bernstein Brothers; no page was opened.",
+      "title": "Donald Judd, stainless steel 'specific objects' and stacks, industrially fabricated (e.g. by Bernstein Brothers), 1960s-1990s",
+      "verified": false
+    },
+    {
+      "kind": "exhibition",
+      "locator": null,
+      "relevance": "Art in which light and the perception of an enclosed room are the medium (scrims, diffuse fields, edgeless 'infinity' rooms). The luminous ceiling of the reference is a commercial descendant of this ambient, sourceless light. From search snippets and model knowledge only.",
+      "title": "Light and Space movement (Southern California, late 1950s-1970s): Robert Irwin, James Turrell, Doug Wheeler and others",
+      "verified": false
+    },
+    {
+      "kind": "artwork",
+      "locator": null,
+      "relevance": "Off-the-shelf fluorescent fixtures used as art; the industrial light fitting as a found readymade. Contrasts with the reference, where the fixture disappears into a uniform glowing plane. Model knowledge only.",
+      "title": "Dan Flavin, fluorescent-light works (1963 onward)",
+      "verified": false
+    },
+    {
+      "kind": "publication",
+      "locator": null,
+      "relevance": "Classic defence of shadow, patina and dimness against modern electric brightness and gleaming metal. Provides the philosophical opposite of a shadowless steel room and a vocabulary for what this materiality excludes. Model knowledge only.",
+      "title": "Jun'ichiro Tanizaki, In Praise of Shadows (1933)",
+      "verified": false
+    },
+    {
+      "kind": "publication",
+      "locator": null,
+      "relevance": "Spaces of transit and consumption that do not hold identity, relation or history. The interchangeable minimal cafe/retail interior can be read as a curated non-place. Model knowledge only.",
+      "title": "Marc Augé, Non-Places: Introduction to an Anthropology of Supermodernity (1992)",
+      "verified": false
+    },
+    {
+      "kind": "web",
+      "locator": "https://www.dezeen.com/?p=1392283",
+      "relevance": "Search snippet: stainless steel on counter sides, stairs, handrails and doors, noted as cheaper in Korea than Japan, in a former factory district. Evidence that stainless steel interiors are a specific, recent Seoul cafe vernacular. Page not opened (DNS failure).",
+      "title": "Blue Bottle Coffee Seongsu, Seoul, by Schemata Architects (Dezeen coverage)",
+      "verified": false
+    },
+    {
+      "kind": "web",
+      "locator": "https://www.ignant.com/?p=335818",
+      "relevance": "Search snippet: polished stainless cabinetry and tables, pale stone floor, long display benches, framed by the designers as an 'aesthetics of absence'. Closest cultural match to the reference's retail-cafe hybrid. Page not opened. A living studio's signature interior: context only, not a model to copy.",
+      "title": "Monoha, Seoul, by Creative Studio Unravel (Ignant coverage)",
+      "verified": false
+    }
+  ],
+  "visual_vocabulary": [
+    "brushed stainless steel with fine linear grain",
+    "anisotropic streaked highlight across the grain",
+    "thick steel slab on spaced block plinths",
+    "bent single-sheet steel stool",
+    "freestanding steel column or monolith",
+    "backlit opal ceiling grid / luminous plane",
+    "shadowless diffuse top light",
+    "thin contact shadows only",
+    "bright edge line on steel top surfaces",
+    "matte off-white walls with soft gradient falloff",
+    "grey troweled or polished concrete floor with soft reflection",
+    "compressed high-key near-monochrome palette",
+    "cool steel versus warm-grey wall and floor",
+    "faint fingerprints and smudges on steel",
+    "white ceramic cup as a scale and absence marker",
+    "wide 16:9 frontal or slightly oblique architectural view",
+    "rhythm and interval of repeated volumes",
+    "quiet, emptied room after use"
+  ]
+}

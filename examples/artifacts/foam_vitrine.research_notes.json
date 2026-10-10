@@ -1,0 +1,258 @@
+{
+  "brief_id": "brief_foam-vitrine-01",
+  "cautions": [
+    "Do not replicate the reference installation. Avoid its central composition (a robot in a gridded glass room flanked by symmetrical rows of plinths), its guardian-lion / shishi / haetae subject, and its camera position. Use only the materiality.",
+    "The reference work's artist and title could not be identified. Do not attribute it, and do not imitate it as a style.",
+    "Imitation risk with living artists: Quayola's robot-milled 'Captives' (unfinished classical figures in foam) and Sun Yuan & Peng Yu's caged robot 'Can't Help Myself'. Do not reproduce their signature images or concepts.",
+    "Sci-fi robot clichés: humanoid robots, glowing eyes or LEDs, blue holograms, sparks, laser beams, a 'robot as tender artist' narrative, a robot hand reaching toward a human hand (Creation of Adam pastiche).",
+    "Generic 'AI art' or tech-ad aesthetics: teal-and-orange grading, lens flares, neon, glossy product-render look, futuristic lab clichés.",
+    "Material misreads common in diffusion models: foam rendered as glossy marble, snow, sugar, cotton or porcelain; dust rendered as fog, smoke or glowing particles. Keep it matte, granular and dry.",
+    "Do not apply chrome or polished metal to the white matter, despite the 'metallic_fine_art_editorial' domain. Metal belongs only to frames, plinths and machine parts.",
+    "Brief must_avoid: no people (incl. reflections, silhouettes, body parts); no text (incl. gallery wall labels as in the reference); no watermark; no logo (keep the robot arm unbranded, no manufacturer livery).",
+    "Avoid ruin-romanticism or 'museum of the future' dystopia clichés (cracked statues, overgrown galleries) unless a concept explicitly argues for them.",
+    "Do not mill a recognisable cultural-heritage or sacred sculpture one-to-one as the subject without a deliberate concept decision.",
+    "Source reliability: web searches ran, but every WebFetch failed (DNS ENOTFOUND). All web sources are verified=false, with locators taken from search results. Others are model knowledge. Only the local reference image was opened."
+  ],
+  "context_notes": [
+    {
+      "note": "The reference appears to document an existing installation in which a robot arm mills guardian-lion-like figures from white blocks inside a glass room. Searches in English, Korean and Chinese did not identify the artist, title or venue, so nothing here attributes it. Treat it strictly as evidence of materiality, not as a composition to reproduce.",
+      "topic": "identification of the reference work"
+    },
+    {
+      "note": "Milling makes a form by removing everything that is not the form. The finished object is decided in advance by a digital file. The machine's real 'gesture' is the toolpath: raster or contour passes that leave scallop ridges, terraced steps from roughing passes, and smooth zones where finishing passes ran. A still image can show authorship as the meeting line between finished and unfinished areas on one block.",
+      "topic": "subtractive fabrication as authorship"
+    },
+    {
+      "note": "Expanded polystyrene (EPS) shows a beaded, granular texture at the cut and sheds static-charged beads that cling to glass and drift into corners. High-density polyurethane tooling foam cuts to a finer, chalky, matte surface and fine powder. Plaster is denser, colder white with sharper edges. All three are very matte and scatter light softly with no specular highlights. That separates them visually from marble (translucent, glinting) and snow (sparkle, blue shadow).",
+      "topic": "material behaviour of the white matter"
+    },
+    {
+      "note": "The milling waste (heaped chips, a powder film on glass, drifts around the machine's base) is the only unrepeatable product of the process: the replica can be milled again, the exact dust cannot. In the reference the enclosure floor is a white dune field. Residue lets the image imply duration and labour without showing a person or motion blur.",
+      "topic": "dust and residue"
+    },
+    {
+      "note": "Industrial robots legally require a guarded cell. In a gallery that safety enclosure becomes a vitrine, a showcase that protects the viewer from the object rather than the object from the viewer. Its associations run from natural-history cabinets, reliquaries and specimen cases to quarantine, clean rooms and zoo enclosures. Glass also shows dust film and reflections, so the vitrine itself records the process.",
+      "topic": "the vitrine: display case, cage, safety cell"
+    },
+    {
+      "note": "Two opposed positions frame the work. Benjamin: reproduction erodes aura. Latour and Lowe: aura migrates through good facsimiles. A third reading suits a still image: the original is absent (only implied by the copy), and the copies are unfinished, so the image is about a copy that has not yet become a copy.",
+      "topic": "copy versus original"
+    },
+    {
+      "note": "Uniform white matter reads as 'classical' and 'museum' (whitewashed antiquity, plaster casts) even though ancient statuary was polychrome. Milled white foam borrows that authority cheaply, which is a usable irony but also an easy cliché.",
+      "topic": "white as a cultural code"
+    },
+    {
+      "note": "In the reference the black, thin steel frame plinths, black vitrine mullions and dark reflective (epoxy or polished concrete) floor make an almost monochrome stage where white matter is the only light-bearing substance. The palette is essentially achromatic: off-white, graphite, black, with a faint warm or cool cast from gallery spots.",
+      "topic": "display apparatus"
+    },
+    {
+      "note": "The brief forbids people, so human identity must be carried by material. Possible carriers: the hand-carved original the scan was taken from (implied), the human iconography being copied, the scale and ergonomics of plinths and doors, the toolpath as an abstraction of a carver's strokes, or disturbances in the dust. Each needs a concept decision. None should become a literal human figure.",
+      "topic": "human identity under a no-people constraint"
+    },
+    {
+      "note": "The reference is a durational installation: the machine keeps working through the exhibition. A single frame must choose a moment: before the first cut, mid-process, a pause, or the aftermath. That choice largely sets the meaning (promise, labour, interruption, ruin).",
+      "topic": "time in a still image"
+    },
+    {
+      "note": "The brief's domain field is 'metallic_fine_art_editorial', but this materiality is non-metallic (matte white foam/plaster, glass, black steel). The only metallic elements are the vitrine frame, plinths and possibly the robot's housing. Downstream agents should not push chrome or polished metal onto the white matter.",
+      "topic": "brief domain mismatch"
+    }
+  ],
+  "interpretation": {
+    "open_questions": [
+      "What form or subject is being milled in the new work? It must differ from the reference's guardian-lion figures. Is it a human-made object or icon that carries identity?",
+      "Is the robot shown, partly shown (e.g. cropped tool head), or only implied by toolpaths and dust?",
+      "Which moment: an untouched block, mid-milling, an interrupted pause, or the aftermath with only residue?",
+      "Is the viewpoint inside the vitrine, outside looking through glass and reflections, or at the glass surface itself (dust film)?",
+      "Should materiality B's artwork relate visually or conceptually to the materiality A artwork (pair, counterpoint), or stand fully alone?",
+      "Is the hand-carved original present anywhere in the image, or is the copy all there is?"
+    ],
+    "summary": "The original intent (Korean, kept verbatim in the brief) announces that two materialities will each become one artwork. This brief covers only the second, materiality B. In my reading, materiality B is not just 'white foam' but a whole system of mechanical copying: soft white matter carved away by an industrial arm, the dust that process leaves, the glass enclosure that both displays and quarantines it, and the black museum apparatus (plinths, frames, reflective floor) that turns cheap, provisional copies into objects of contemplation. The new artwork should take this vocabulary somewhere else: a different subject, composition and moment from the reference installation. It should be one still 16:9 image without people, text or logos, in which human identity survives only as what the machine is copying and what the material keeps.",
+    "tensions": [
+      {
+        "description": "Whatever is being copied once carried a human hand. The milled surface reproduces the form but replaces the hand's marks with the regular ridges of a toolpath. The image should let both read at once: recognisably human-made iconography, unmistakably machine-made skin.",
+        "pole_a": "human authorship (a hand-carved original, a carver's gesture)",
+        "pole_b": "machine toolpath surface (scallop ridges, terraced roughing passes)"
+      },
+      {
+        "description": "People are forbidden, so identity can live only in material: what form the machine is releasing, the human scale of the plinth, disturbances in the dust. The figure must be strong enough to be felt as absent, never shown.",
+        "pole_a": "human presence and identity",
+        "pole_b": "inert white matter that only records traces"
+      },
+      {
+        "description": "The milled object can be produced again from the same file. The dust drift, the film on the glass and the exact pile of chips cannot. Which of the two the image treats as 'the artwork' is a key concept decision.",
+        "pole_a": "the reproducible replica",
+        "pole_b": "the unrepeatable residue"
+      },
+      {
+        "description": "The glass enclosure both presents the process and protects viewers from it. Lighting and framing decide whether it reads as reverent showcase or as captivity.",
+        "pole_a": "display (vitrine, plinth, museum light)",
+        "pole_b": "containment (safety cell, quarantine, cage)"
+      },
+      {
+        "description": "White matter borrows classical authority, but foam is light, cheap, crushable and short-lived. The material must read honestly as foam or plaster, not as marble, or this irony is lost.",
+        "pole_a": "permanence coded by white sculpture (marble, plaster casts)",
+        "pole_b": "the cheapness and fragility of foam"
+      }
+    ],
+    "themes": [
+      "subtractive making: form as what remains after removal",
+      "the copy without its original",
+      "residue and dust as the only unique output",
+      "the vitrine as both showcase and cage",
+      "the unfinished (non finito) carried out by a machine",
+      "white as borrowed museum authority",
+      "duration and labour implied in a still frame",
+      "human identity as trace, not figure"
+    ]
+  },
+  "produced_by": {
+    "kind": "agent",
+    "name": "concept-researcher"
+  },
+  "research_id": "research_foam-vitrine",
+  "research_mode": "web_and_knowledge",
+  "schema_version": "atelier.research_notes.v1",
+  "sources": [
+    {
+      "kind": "artwork",
+      "locator": "examples/references/robot_vitrine_carved_foam.png",
+      "relevance": "Opened and inspected locally in this session with Read (not a web source). It shows a white six-axis industrial robot arm inside a black-framed, gridded glass room (3x3 panes per face) in a dark gallery with exposed ceiling ducts. Two upright white blocks stand inside, and the floor of the enclosure is drifted with white dust and chips. Outside, symmetrical rows of white rectangular blocks sit on thin black steel frame plinths. Each block is partially milled into an ornate, curly-maned, guardian-lion-like figure (resembling East Asian shishi/haetae statuary) that emerges from the uncut block. A polished dark floor gives long reflections. Web searches (English, Korean, Chinese) could not identify the artist or title.",
+      "title": "Reference image: examples/references/robot_vitrine_carved_foam.png (existing installation, artist and title unidentified)",
+      "verified": true
+    },
+    {
+      "kind": "artwork",
+      "locator": "https://web.sas.upenn.edu/venicebiennale/sun-yuan-and-peng-yu",
+      "relevance": "The best-known precedent for an industrial robot arm performing endlessly inside a transparent enclosure in a museum. The enclosure reads as both display case and cage, and the robot's labour as compulsive and Sisyphean. The locator came from a web search result. Fetching it failed (DNS error), so details are from search snippets and model knowledge. Living artists: precedent only, not a template.",
+      "title": "Sun Yuan & Peng Yu, Can't Help Myself (2016), industrial robot in a glass/acrylic enclosure, Guggenheim 'Tales of Our Time'",
+      "verified": false
+    },
+    {
+      "kind": "artwork",
+      "locator": "https://www.engadget.com/2015-02-09-robochop.html",
+      "relevance": "Precedent for robot-milled foam presented as the artwork itself, with the robot cell displayed as an installation. The cut foam stands for authorship handed over to a toolpath. The locator came from a web search result. Fetching it failed (DNS error).",
+      "title": "Kram/Weisshaar, Robochop (2015), remotely directed robot arms carving polystyrene/foam cubes",
+      "verified": false
+    },
+    {
+      "kind": "artwork",
+      "locator": "https://uapcompany.com/projects/infinity",
+      "relevance": "According to the search snippet, the artist's hand-made stone sketches were digitised and enlarged by robotic carving: a translation from human gesture to machine toolpath. The locator came from a web search result. Fetching it failed (DNS error), so the details are unconfirmed.",
+      "title": "Yang Zhenzhong (name spelling unconfirmed), Infinity (2022), robotically carved interlocking rings, Shanghai Library East",
+      "verified": false
+    },
+    {
+      "kind": "web",
+      "locator": "https://encycam.com/powered-by-ency/robotic-milling-of-detailed-foam-sculptures-in-the-arts-sector/",
+      "relevance": "Industry documentation of six-axis robots with spindles roughing and finishing EPS and rigid PU foam blocks. Useful for credible process vocabulary (roughing passes, slender ball-end mills, finishing passes, coating afterwards). The locator came from a web search result. Fetching it failed (DNS error).",
+      "title": "ENCY Robot case study: Robotic Milling of Detailed Foam Sculptures in the Arts Sector",
+      "verified": false
+    },
+    {
+      "kind": "artwork",
+      "locator": null,
+      "relevance": "From model knowledge. This is the closest conceptual precedent: industrial robots mill classical figures from blocks and deliberately stop at an 'unfinished' state, leaving the toolpath terracing visible. Quayola is a living artist with a strong signature in exactly this territory. This is a high imitation risk.",
+      "title": "Quayola, Captives / Sculpture Factory series (robot-milled foam and stone after Michelangelo's unfinished Prigioni, c. 2013 onward)",
+      "verified": false
+    },
+    {
+      "kind": "artwork",
+      "locator": null,
+      "relevance": "From model knowledge. The canonical image of a figure half-released from a rectangular block (non finito). The reference's fragments, figures emerging from rectilinear foam blocks, stand on this tradition, now carried out by a machine instead of a hand.",
+      "title": "Michelangelo, the unfinished Prisoners/Slaves (c. 1520-1534), Galleria dell'Accademia, Florence",
+      "verified": false
+    },
+    {
+      "kind": "publication",
+      "locator": null,
+      "relevance": "From model knowledge. Aura is tied to an artwork's unique presence in time and space, and mechanical reproduction withers it. A milled replica is a reproduction that is nevertheless a physical, unique object, and its dust is unrepeatable.",
+      "title": "Walter Benjamin, The Work of Art in the Age of Mechanical Reproduction (1935/1936)",
+      "verified": false
+    },
+    {
+      "kind": "publication",
+      "locator": null,
+      "relevance": "From model knowledge. Argues that a high-fidelity facsimile can carry the aura onward rather than drain it, and that originality is a property of a work's whole trajectory of copies. This is a counterweight to Benjamin and fits machine-milled replicas made from scans.",
+      "title": "Bruno Latour & Adam Lowe, 'The Migration of the Aura, or How to Explore the Original through Its Facsimiles' (c. 2010-2011)",
+      "verified": false
+    },
+    {
+      "kind": "artwork",
+      "locator": null,
+      "relevance": "From model knowledge. A well-known case of a digitally produced facsimile returned to the original site, which reopened the copy-versus-original question in practice.",
+      "title": "Factum Arte, facsimile of Veronese's Wedding at Cana for San Giorgio Maggiore, Venice (2007)",
+      "verified": false
+    },
+    {
+      "kind": "exhibition",
+      "locator": null,
+      "relevance": "From model knowledge. White plaster replicas of monuments and fragments were once displayed as legitimate museum objects. The white copy on a plinth has a long institutional history, and the white surface codes 'museum' and 'classical' regardless of the original's material or colour.",
+      "title": "Plaster cast courts of the 19th-century museum (e.g. V&A Cast Courts, London)",
+      "verified": false
+    },
+    {
+      "kind": "model_knowledge",
+      "locator": null,
+      "relevance": "From model knowledge. Mechanical copying in sculpture predates CNC. Studio assistants transferred measured points from a plaster original to a block, so the 'author's hand' was already mediated. CNC milling is the automated descendant of the pointing machine.",
+      "title": "Pointing machine and the studio practice of enlarging plaster models into marble (19th century, e.g. Rodin's workshop)",
+      "verified": false
+    },
+    {
+      "kind": "artwork",
+      "locator": null,
+      "relevance": "From model knowledge. White cast matter as a record of absent human occupation. This is relevant to rendering human identity only as trace, since the brief forbids people.",
+      "title": "Rachel Whiteread, House (1993) and plaster/resin casts of negative space",
+      "verified": false
+    },
+    {
+      "kind": "artwork",
+      "locator": null,
+      "relevance": "From model knowledge. A sealed transparent cube whose content is a physical process (condensation) that keeps changing with its surroundings. A precedent for the vitrine as a container for a process rather than a fixed object, much as the reference vitrine holds milling and dust.",
+      "title": "Hans Haacke, Condensation Cube (1963-1965)",
+      "verified": false
+    },
+    {
+      "kind": "artwork",
+      "locator": null,
+      "relevance": "From model knowledge. Vitrines holding residues, tools and remnants of actions. They frame leftovers as relics, which bears on treating the milling dust and offcuts as the true unique output.",
+      "title": "Joseph Beuys, vitrine works (1970s-1980s)",
+      "verified": false
+    },
+    {
+      "kind": "publication",
+      "locator": null,
+      "relevance": "From model knowledge. The gallery space itself is an ideological frame. The reference inverts it into a 'black cube' (dark gallery, black plinths and frames), where white matter is the only light-bearing substance.",
+      "title": "Brian O'Doherty, Inside the White Cube (essays 1976, book 1986)",
+      "verified": false
+    },
+    {
+      "kind": "publication",
+      "locator": null,
+      "relevance": "From model knowledge. A copy without an original, the simulacrum, comes before the real. This applies when the milled form comes from a scan or a digital model that may never have existed as a carved object.",
+      "title": "Jean Baudrillard, Simulacra and Simulation (1981)",
+      "verified": false
+    }
+  ],
+  "visual_vocabulary": [
+    "matte white expanded polystyrene with beaded granular cut faces",
+    "chalky high-density foam or plaster, fine powder",
+    "toolpath scallop ridges and terraced roughing steps",
+    "boundary between raw rectangular block and finished carved surface",
+    "drifts and dunes of white milling dust",
+    "static-clung foam beads and powder film on glass",
+    "black-framed gridded glass enclosure, slim steel mullions",
+    "reflections layered on glass panes",
+    "thin black steel frame plinths",
+    "dark polished floor with long vertical reflections",
+    "white six-axis industrial arm, unbranded, dust-coated",
+    "ball-end mill / spindle head",
+    "dark gallery, exposed ceiling ducts, single spotlights",
+    "near-monochrome palette: off-white, graphite, black",
+    "soft diffuse light on matte white, no specular glints",
+    "isolated pools of museum light in surrounding darkness",
+    "non finito: form emerging from an uncut block",
+    "restrained documentary installation-photography framing"
+  ]
+}

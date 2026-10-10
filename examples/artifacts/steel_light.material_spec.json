@@ -1,0 +1,47 @@
+{
+  "draft_id": "draft_steel-light",
+  "lighting": {
+    "contrast_ratio": "2:1",
+    "environment": "empty room under a backlit frosted ceiling grid glowing as one even plane, matte warm off-white walls with soft falloff to the floor, troweled grey concrete floor with a faint soft reflection; reflections blurred, never legible",
+    "fill": "high",
+    "key": {
+      "color_temperature_k": 6000,
+      "direction": "directly overhead from the full ceiling plane, broad and even",
+      "hardness": "soft"
+    },
+    "rim": false,
+    "setup": "sourceless luminous ceiling: backlit diffuser grid acting as one large even overhead softbox, high-key"
+  },
+  "material_spec_id": "matspec_steel-light",
+  "materials": [
+    {
+      "anisotropy": 0.7,
+      "curvature": "gentle",
+      "finish": "linear brushed satin stainless, grain following the bend",
+      "imperfections": [
+        "faint longitudinal grain variation along the sheet",
+        "slightly softer burnished patch on the crown"
+      ],
+      "material_id": "folded_sheet",
+      "reflectivity": 0.6,
+      "role": "the single bent-sheet arch sculpture, 8 to 15 mm thick, with fine bright lines on the cut edges",
+      "roughness": 0.42,
+      "type": "brushed_steel"
+    }
+  ],
+  "plausibility_notes": [
+    "Brushed stainless under a large diffuse source shows no specular hotspot. It shows a broad streaked sheen that runs across the grain direction, so the crown reads brightest and the vertical legs fall to cooler mid-grey",
+    "Roughness below about 0.3 would start to mirror the ceiling grid and walls and read as polished chrome. Above about 0.55 it would read as grey paint or plastic. 0.42 sits in the satin range between them",
+    "Anisotropy at or above 0.3 is needed for the grain to read. 0.7 is strong enough to stretch the highlight without turning into visible streaked grooves",
+    "Thin dark contact shadows are physically consistent with a fully diffuse ceiling: they come from ambient occlusion at the leg-to-floor junction, not from a directional key, so they stay narrow and soft-edged",
+    "The 2:1 ratio and high fill keep the value range compressed. The darkest values should appear only in the contact-shadow lines (about graphite #4A4B4D), never as large shadow areas",
+    "Cut edges of 8 to 15 mm sheet catch the overhead light as fine bright lines because the edge faces upward and outward toward the luminous ceiling",
+    "The concrete floor and white walls are dielectric, not metal. They are described only in the environment and should show at most a faint, low-contrast reflection of the arch"
+  ],
+  "produced_by": {
+    "kind": "agent",
+    "name": "material-specialist"
+  },
+  "rationale": "The draft calls for one metal only, so the spec has a single material. That keeps the compiler's detailed first-material slot on the brushed stainless sheet and avoids a second metal pulling the image toward chrome. Reflectivity 0.6 keeps the sheet clearly metallic and lets it pick up the bright ceiling. Roughness 0.42 sits above the mirror-chrome band: the room's reflections smear into a soft gradient instead of a legible image, which matters both for the 'mirror chrome' avoidance and for the rule against reflected figures. Anisotropy 0.7 makes the grain dominate the highlight, stretching it along the sheet and around the bend into the soft band the visual hypothesis depends on. Curvature is 'gentle' because the object is one wide-radius fold, not a free sculptural form. There are two imperfections, in priority order. Grain variation is first because it keeps the surface from looking like a flat render. The burnished crown patch is second as the only trace of use the brief allows. No fingerprints, grime or oxidation, since the draft rules them out. The lighting matches the reference's sourceless luminous ceiling: one soft overhead key covering the whole ceiling, high fill from the bounce off the white walls and floor, no rim light, and a compressed 2:1 key-to-fill ratio for a high-key, near-shadowless room. 6000 K reads as bright cool-neutral daylight-white, and the matte walls stay warm off-white through their own pigment, not through the light. The trade-off is that sourceless light removes the cast-shadow cues to mass. Weight therefore has to come from the occlusion contact shadow where each leg meets the concrete, plus the edge highlights on the cut ends.",
+  "schema_version": "atelier.material_spec.v1"
+}
